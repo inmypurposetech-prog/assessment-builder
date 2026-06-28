@@ -1,0 +1,102 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+
+export default function SignupPage() {
+  const router = useRouter();
+  const [fullName, setFullName] = useState("");
+  const [school, setSchool] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function onSubmit(event: FormEvent) {
+    event.preventDefault();
+    setError(null);
+    setLoading(true);
+    const supabase = createClient();
+    const { error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+          school: school || null,
+        },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    setLoading(false);
+    if (signUpError) {
+      setError("We could not create your account. Try a different email or stronger password.");
+      return;
+    }
+    router.push("/dashboard");
+    router.refresh();
+  }
+
+  return (
+    <div className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center px-4 py-12">
+      <Card>
+        <CardTitle>Sign up</CardTitle>
+        <CardDescription>
+          Free for educators. Tell us your name so we can greet you on your dashboard.
+        </CardDescription>
+        <form className="mt-8 flex flex-col gap-6" onSubmit={onSubmit}>
+          <Input
+            label="Full name"
+            autoComplete="name"
+            required
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+          <Input
+            label="School (optional)"
+            hint="Helps us tailor examples later."
+            value={school}
+            onChange={(e) => setSchool(e.target.value)}
+          />
+          <Input
+            label="Email"
+            type="email"
+            autoComplete="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            label="Password"
+            type="password"
+            autoComplete="new-password"
+            required
+            minLength={8}
+            hint="At least 8 characters."
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {error ? (
+            <p className="text-base text-red-700" role="alert">
+              {error}
+            </p>
+          ) : null}
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? "Creating account…" : "Create account"}
+          </Button>
+        </form>
+        <p className="mt-6 text-lg">
+          Already registered?{" "}
+          <Link href="/auth/login" className="font-semibold underline-offset-4 hover:underline">
+            Log in
+          </Link>
+        </p>
+      </Card>
+    </div>
+  );
+}
