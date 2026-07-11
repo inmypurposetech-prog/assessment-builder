@@ -88,6 +88,7 @@ npm run test:coverage
 | 2026-07-11 | Prod wizard “This page couldn't load” | Root cause: unstable localStorage snapshot in useSyncExternalStore → tab crash when draft exists; fix shipping | Tanielle + Cursor |
 | 2026-07-11 | Phase 0 smoke (wizard complete) | Pass for create flow; UX gaps logged (back link, login busy gap, step scroll, dependent options) → standards in UX doc | Tanielle |
 | 2026-07-11 | UX polish: back link, auth busy, step focus, curriculum matrix | Implemented + lint/build green | Cursor |
+| 2026-07-11 | Phase 0 exit | Marked complete; branch-first standard (ADR-010); next = Phase 1A on `cursor/phase-1a-content-templates` | Tanielle + Cursor |
 
 ---
 

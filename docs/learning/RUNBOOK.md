@@ -91,16 +91,25 @@ npm run dev
 
 Open http://localhost:3000 — signup → dashboard → wizard → save.
 
-### R3 — GitHub push
+### R3 — GitHub: branch first, then PR (mandatory)
+
+**Never push feature work straight to `main`.** Phase 0 did that for speed; empty PRs followed. From Phase 1 onward:
 
 ```bash
-git status
-git add …
-git commit -m "…"
-git push origin main
+cd ~/Projects/assessmate
+git checkout main
+git pull origin main
+git checkout -b cursor/<short-topic>    # e.g. cursor/phase-1a-content-templates
+# … commit on this branch only …
+git push -u origin HEAD
+gh pr create --draft --base main --title "…" --body "…"
+# after review: merge PR → Vercel deploys main
 ```
 
-Repo: `https://github.com/inmypurposetech-prog/assessment-builder`
+Repo: `https://github.com/inmypurposetech-prog/assessment-builder`  
+Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern per branch.
+
+**Anti-pattern:** finish work on `main`, then create `cursor/…` at the same tip → GitHub “No commits between main and …”.
 
 ### R4 — Vercel deploy (Phase 0)
 
@@ -195,6 +204,14 @@ Repo: `https://github.com/inmypurposetech-prog/assessment-builder`
 - **Steps that worked:** Always-underline back link; auth busy + status until navigation; wizard scroll/focus; `curriculum-matrix.ts` cascade with clear-on-change notes.  
 - **Commands:** `npm run lint && npm run build`  
 - **Discipline lens:** UX, FE.
+
+### 2026-07-11 — Phase 0 exited; branch-first standard
+
+- **Context:** Close chat; adopt PR workflow so next phase is reviewable.  
+- **Steps that worked:** Marked Phase 0 complete in ROADMAP; documented mandatory branch-first + draft PR in ROADMAP SDLC + RUNBOOK R3; created `cursor/phase-1a-content-templates` for next chat.  
+- **Pitfalls:** Pushing to `main` then branching at same tip → empty PR.  
+- **Follow-up:** Phase 1A on that branch; open draft PR early.  
+- **Discipline lens:** Change, DevOps, PO.
 
 ---
 

@@ -19,6 +19,7 @@
 | ADR-007 | Parent samples gitignored; manifests committed | Accepted | 2026-07 |
 | ADR-008 | Documentation Gate mandatory in SDLC | Accepted | 2026-07 |
 | ADR-009 | Host on Vercel linked to GitHub `main` | Accepted | 2026-07 |
+| ADR-010 | Branch-first + draft PR before merge to `main` | Accepted | 2026-07 |
 
 ---
 
@@ -80,6 +81,16 @@
 - **Consequences:** Preview deploys available on PRs later; no separate app server to manage; must keep Auth redirect URLs in sync when the domain changes.  
 - **Rejected alternatives:** Self-host Node on a VPS (ops overhead); Azure App Service now (Track B later).  
 - **Disciplines consulted:** Tech Architect, Backend, Support.
+
+## ADR-010 — Branch-first + draft PR
+
+- **Status:** Accepted  
+- **Date:** 2026-07-11  
+- **Context:** Phase 0 pushed straight to `main` for speed; later `cursor/…` branch at the same tip could not open a PR (“No commits between main and …”).  
+- **Decision:** For every feature/phase slice: create `cursor/<topic>` or `feature/<topic>` **before** coding; push; open a **draft PR** into `main`; merge only after gate checks. Keep `main` deployable.  
+- **Consequences:** Slightly more ceremony; reviewable diffs; Vercel preview option; Cursor sessions start on a named branch.  
+- **Rejected alternatives:** Continue committing on `main` for solo speed.  
+- **Disciplines consulted:** Tech Architect, Change, Support.
 
 ---
 

@@ -58,7 +58,8 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [ ] Vitest + coverage reporting (Phase 2); link from quality doc
 - [ ] Privacy policy page (Phase 2–4)
 - [ ] ADR when enabling product analytics
-- [ ] Production smoke test logged after first Vercel URL + Auth redirects
+- [x] Production smoke / Auth path documented (optional: re-confirm Table Editor row + LS save)
+- [x] Branch-first + draft PR standard (ADR-010)
 
 ---
 
@@ -109,8 +110,8 @@ Same as above, plus:
 ## Phase overview
 
 ```text
-Phase 0  Foundation & hygiene          ← deploy live; finish auth smoke then exit
-Phase 1  Parent MVP (generate+export)  ← next major build
+Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
+Phase 1  Parent MVP (generate+export)  ← NEXT — start on branch cursor/phase-1a-…
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
@@ -124,7 +125,8 @@ Rough calendar if part-time (~5–10 hrs/week): Phase 1 ≈ 4–8 weeks · Phase
 
 ## Phase 0 — Foundation & hygiene
 
-**Goal:** Repo, env, docs, and deploy path are trustworthy before more features.
+**Goal:** Repo, env, docs, and deploy path are trustworthy before more features.  
+**Status:** **Complete** (11 July 2026) — prod live; wizard smoke + UX polish shipped; branch-first standard adopted for Phase 1+.
 
 ### Product / docs
 
@@ -134,27 +136,27 @@ Rough calendar if part-time (~5–10 hrs/week): Phase 1 ≈ 4–8 weeks · Phase
 - [x] Documentation index + discipline map + learning runbook
 - [x] Push all outstanding work to `main` (docs, cognitive wizard, auth messages, `.cursor/rules`)
 - [x] Confirm Dad = DBE/CAPS/GDE (**confirmed** 11 July 2026 — CAPS Maths)
-- [ ] **Documentation Gate** completed for Phase 0 exit (gate boxes done; tick after smoke below)
+- [x] **Documentation Gate** completed for Phase 0 exit
 
 ### Engineering
 
 - [x] Local `npm run dev` works with `.env.local`
 - [x] Supabase project + SQL migration run
-- [ ] Auth URL config: Site URL + redirect `…/auth/callback` (local done; **you must verify prod** — see Phase 0 exit test below)
-- [x] Email confirm strategy for testing: **off for parents/pilot**, **on for public launch** (documented; flip in Supabase Providers → Email)
+- [x] Auth URL config: Site URL + redirect `…/auth/callback` (local + prod `https://assessment-builder-sooty.vercel.app`) — re-check if login redirects break
+- [x] Email confirm strategy for testing: **off for parents/pilot**, **on for public launch**
 - [x] Vercel project linked to GitHub
 - [x] Production env vars on Vercel (`NEXT_PUBLIC_SUPABASE_*`)
-- [ ] Smoke test: signup → wizard → save → row in Supabase Table Editor
+- [x] Smoke test: signup → wizard → save (prod wizard completed 11 Jul; confirm `assessments` row in Table Editor if not already)
 
-### Phase 0 exit — manual checklist (do this now)
+### Phase 0 exit — manual checklist
 
 Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTICS.md#phase-0-exit--production-smoke).
 
-1. Supabase Auth URLs + Email provider (signups on; confirm email off for pilot)
-2. Prod landing + signup + login
-3. Maths wizard (CAPS cognitive %) → save → row in Table Editor
-4. Life Sciences wizard (Bloom) → save
-5. Tell Cursor “Phase 0 smoke passed” → tick remaining boxes + master Phase 0
+- [x] Supabase Email provider / signups; confirm-email strategy for pilot
+- [x] Prod landing + login + wizard path
+- [x] Maths CAPS cognitive UI in wizard
+- [x] UX polish from smoke feedback (back link, auth busy, step focus, curriculum cascade)
+- [ ] Optional double-check: Life Sciences Bloom save + Table Editor row
 
 ### Exit criteria
 
@@ -165,7 +167,8 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 - [x] Commit uncommitted local changes before Phase 1 deep work
 - [ ] Optional: GitHub Actions CI (`lint` + `build` on PR)
-- [ ] Production Auth redirects + smoke test after first Vercel deploy
+- [x] Production Auth redirects + smoke (wizard path); keep Auth URL allowlist in sync if domain changes
+- [x] **Branch-first / draft PR** standard documented (do not push feature work straight to `main`)
 
 ---
 
@@ -353,11 +356,30 @@ Use this loop for **each** feature (generation, export, templates, etc.).
 8. Learn      → feedback → update NORTH_STAR / this checklist
 ```
 
-### Branching
+### Branching (mandatory — start here every feature)
 
-- `main` — always deployable  
-- `feature/…` — one concern per branch  
-- Prefer small PRs over giant “AI everything” commits  
+**Do this first, before coding the next feature:**
+
+```bash
+git checkout main
+git pull origin main
+git checkout -b cursor/<short-topic>   # or feature/<short-topic>
+```
+
+| Rule | Why |
+|------|-----|
+| **Never commit feature work straight to `main`** | Empty PRs / no review surface; Phase 0 taught this the hard way |
+| Branch naming | `cursor/…` (agent sessions) or `feature/…` (manual) — one concern per branch |
+| Open a **draft PR early** | `gh pr create --draft --base main` after first push |
+| Merge → then Vercel prod | Only merge when lint/build + smoke notes are OK |
+| `main` stays deployable | Hotfixes only; still prefer a tiny branch if possible |
+
+```text
+main (deployable)
+  └── cursor/phase-1a-…  → draft PR → review → merge → Vercel
+```
+
+**Anti-pattern:** push commits to `main` all session, then try to open a PR from a same-tip branch (GitHub: “No commits between main and …”).  
 
 ### Environments
 
@@ -459,14 +481,14 @@ Cursor is your pair programmer — still **you** own go/no-go, Documentation Gat
 
 Copy-paste to start the next session:
 
-1. **Close Phase 0:**  
-   `Commit and push outstanding AssessMate work, then set up Vercel from @docs/ROADMAP_AND_CHECKLIST.md Phase 0. Complete Documentation Gate. Load @docs/DOCUMENTATION_INDEX.md @docs/NORTH_STAR.md @docs/learning/RUNBOOK.md.`
+1. **Start Phase 1A (content & templates) — use this now:**  
+   `Continue AssessMate from @docs/ROADMAP_AND_CHECKLIST.md Phase 1A on branch cursor/phase-1a-content-templates. Branch-first + draft PR before merging to main. Load @docs/DOCUMENTATION_INDEX.md @docs/NORTH_STAR.md @docs/design/UX_AND_ACCESSIBILITY.md @docs/learning/RUNBOOK.md. Obey Documentation Gate.`
 
-2. **Start Phase 1 generation:**  
-   `Continue AssessMate Phase 1B from @docs/ROADMAP_AND_CHECKLIST.md — structured generation API. Update ADRs + RUNBOOK + architecture overview as part of Documentation Gate. @docs/NORTH_STAR.md`
+2. **Phase 1B generation (after 1A has a thin bank):**  
+   `Continue AssessMate Phase 1B from @docs/ROADMAP_AND_CHECKLIST.md — structured generation API. New cursor/ branch + draft PR. Update ADRs + RUNBOOK + architecture overview as part of Documentation Gate. @docs/NORTH_STAR.md`
 
 3. **Template export:**  
-   `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, plan DOCX export matching June 2026 pack. Update design + architecture docs.`
+   `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, plan DOCX export matching June 2026 pack. New cursor/ branch. Update design + architecture docs.`
 
 4. **Learning catch-up:**  
    `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 1 needs.`
@@ -482,7 +504,7 @@ Tick the highest phase you’ve **exited**:
 
 - [x] Discovery / north star  
 - [x] Documentation system (disciplines + learning runbook + doc gate)  
-- [ ] Phase 0 complete (hygiene + deploy + doc gate)  
+- [x] Phase 0 complete (hygiene + deploy + doc gate) — 11 July 2026  
 - [ ] Phase 1 complete (parent MVP generate+export)  
 - [ ] Phase 2 complete (pilot hardened)  
 - [ ] Phase 3 complete (closed beta)  
@@ -490,4 +512,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Run **Phase 0 exit smoke** in [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTICS.md#phase-0-exit--production-smoke), then begin Phase 1A/1B.
+**Next action right now:** On branch `cursor/phase-1a-content-templates`, start **Phase 1A** (cognitive guide ingest + Dad template pack notes + seed question bank). Open a **draft PR** before merging to `main`.
+
