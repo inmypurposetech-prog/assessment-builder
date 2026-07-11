@@ -2,7 +2,7 @@
 
 > **Purpose:** Your personal engineering & product journey log — processes you’ve done, what you learned, mistakes, and **follow-up courses/resources**. Use it as a runbook when repeating a task or onboarding your future self.  
 > **Update:** After every non-trivial setup or debugging session (Documentation Gate).  
-> **Last updated:** 11 July 2026
+> **Last updated:** 11 July 2026 (Phase 1A content ingest)
 
 ---
 
@@ -138,6 +138,14 @@ Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern 
 2. If decision changed stack/process → ADR in `architecture/DECISIONS.md`.  
 3. If user-facing → UX or SUPPORT note.
 
+### R7 — Phase 1A content ingest (repeatable)
+
+1. Keep binaries under `docs/parent-samples/` (gitignored).  
+2. Distil **definitions / targets / layout** into `src/lib/constants/` or `src/lib/content/` — never paste copyrighted question text into git.  
+3. Add/adjust seed items in `src/lib/content/question-bank/` with subject-aware metadata (Maths `cognitiveLevel` vs LS `bloomLevel` + `aim`).  
+4. If schema changes → numbered migration under `supabase/migrations/` + OVERVIEW data model.  
+5. Tick ROADMAP 1A; ADR if approach changes; log in this RUNBOOK.
+
 ---
 
 ## Learning log
@@ -212,6 +220,24 @@ Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern 
 - **Pitfalls:** Pushing to `main` then branching at same tip → empty PR.  
 - **Follow-up:** Phase 1A on that branch; open draft PR early.  
 - **Discipline lens:** Change, DevOps, PO.
+
+---
+
+### 2026-07-11 — Phase 1A content & templates
+
+- **Context:** Ingest Dad’s cognitive guide + June pack structure + Mom’s analysis-grid Bloom/AIM pattern; seed an original question bank without committing past-paper text.  
+- **Steps that worked:**  
+  1. Extract PDF text locally (temp venv + `pypdf`) from cognitive guide and IEB analysis grids; DOCX via unzip/`document.xml` for layout notes only.  
+  2. Distil into typed modules under `src/lib/constants/` + `src/lib/content/` (ADR-011).  
+  3. Enrich wizard Advanced step copy; add `isValidMathsCognitiveDistribution` + `role="alert"` on invalid totals.  
+  4. Migration `002_question_bank_phase1a.sql` for `cognitive_level` / `aim` / `strand` / `visibility`.  
+- **Pitfalls:**  
+  - Do not commit parent binaries or verbatim past-paper questions (ADR-007 / copyright).  
+  - Dad’s June memo tags K/R/C heavily; still reserve P for problem solving in exports.  
+  - Optional OCR of full Mom papers deferred — taxonomy from grids is enough for 1A.  
+- **Commands / links:** Branch `cursor/phase-1a-content-templates`; run `002_…sql` in Supabase when cloud bank needed.  
+- **Follow-up learning:** Structured JSON generation; DOCX templating for GDE memo.  
+- **Discipline lens:** BA, Tech Architect, DBA, UX, Quant.
 
 ---
 

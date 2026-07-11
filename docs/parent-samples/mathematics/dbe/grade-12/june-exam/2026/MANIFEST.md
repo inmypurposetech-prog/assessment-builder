@@ -17,3 +17,13 @@ Source: Dad (July 2026). These are **papers he set himself** using the departmen
 2. **Answer book** — export pack is paper + memo + answer book (not paper alone).
 3. **Cognitive guide** — authoritative copy of Maths levels (not Bloom’s); drive validators and educator UI copy from this PDF.
 4. **Department sharing** — interview said whole Maths department uses his template → supports **school-shared templates** later.
+
+## Ingested into app (Phase 1A — 11 July 2026)
+
+| Concern | App module |
+|---------|------------|
+| CAPS level definitions + 20/35/30/15 validators | `src/lib/constants/cognitive-levels.ts` |
+| Template pack v1 (layout notes, memo codes K/R/C/P, answer-book rules) | `src/lib/content/template-packs/maths-gde-june-p2.ts` |
+| Wizard Advanced copy | `src/components/wizard/wizard-shell.tsx` |
+
+Binaries remain local only (ADR-007). Do not copy question wording from this pack into the seed bank.

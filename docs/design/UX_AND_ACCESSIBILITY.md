@@ -2,7 +2,7 @@
 
 > **Disciplines:** UX/UI Designer · Design System · Frontend · Change (adoption)  
 > **Status:** Active — **follow this file on every UI change** (industry baseline for 50s+ educators)  
-> **Last updated:** 11 July 2026  
+> **Last updated:** 11 July 2026 (Phase 1A Advanced step copy)  
 > **Bar:** WCAG 2.2 Level **AA** where practical; GOV.UK / NHS-style clarity over SaaS density
 
 ---
@@ -128,15 +128,16 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 |---------|------------|------------|
 | Signup | Clear fields → success or “confirm email” message (`getSignupSuccessMessage`) | Mapped via `getSignupErrorMessage` |
 | Login | Busy until dashboard; then dashboard | Mapped via `getAuthErrorMessage` |
-| Create assessment | 5-step wizard → save → list on dashboard | Disable Continue until valid; Maths % must total 100; step 5 branches Maths CAPS % vs LS Bloom |
+| Create assessment | 5-step wizard → save → list on dashboard | Disable Continue until valid; Maths % must be valid integers summing to 100; step 5 branches Maths CAPS % (guide bullets) vs LS Bloom focus (analysis-grid pattern) |
 | Generate (Phase 1) | Progress steps → review | Retry; never silent fail |
 | Export (Phase 1) | Download DOCX/PDF | Explain if template missing |
 
 ### UX notes
 
 - Auth copy: `src/lib/auth/messages.ts`.  
-- Wizard Advanced: subject-aware (Maths CAPS % vs LS Bloom).  
+- Wizard Advanced: subject-aware (Maths CAPS % with guide bullets vs LS Bloom focus from IEB grid pattern).  
 - Local draft: stable `useSyncExternalStore` snapshot (avoid tab crash).  
+- Phase 1A (11 Jul 2026): invalid Maths totals use `role="alert"`; Bloom radios from `BLOOM_FOCUS_OPTIONS`.  
 - **Parent smoke 11 July 2026:** wizard usable end-to-end; raised link visibility, post-login loading gap, step scroll, dependent options — captured as standards above.
 
 ---

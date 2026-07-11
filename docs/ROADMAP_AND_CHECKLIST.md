@@ -38,14 +38,14 @@
 
 A feature or phase is **not done** until applicable boxes are checked:
 
-- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated
-- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-009 Vercel
-- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — signup/login error copy
-- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + prod signup notes
-- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — N/A for Phase 0 deploy
-- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — R4 Vercel + signup support rows
-- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — README deploy steps
-- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — N/A (no product scope change)
+- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated — Phase 1A content (ADR-011)
+- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-011
+- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — wizard Advanced copy from guide/grids
+- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + seed counts
+- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — N/A (no generation yet)
+- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — PDF/DOCX distill for content
+- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — N/A (no new support path)
+- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — N/A
 
 **Phase exit also:**
 
@@ -60,6 +60,8 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [ ] ADR when enabling product analytics
 - [x] Production smoke / Auth path documented (optional: re-confirm Table Editor row + LS save)
 - [x] Branch-first + draft PR standard (ADR-010)
+- [ ] Run `002_question_bank_phase1a.sql` in Supabase when ready for cloud bank rows
+- [ ] Optional OCR of Mom’s 2023 question papers (not required for 1B seed path)
 
 ---
 
@@ -111,7 +113,7 @@ Same as above, plus:
 
 ```text
 Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
-Phase 1  Parent MVP (generate+export)  ← NEXT — start on branch cursor/phase-1a-…
+Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — 1A content on cursor/phase-1a-…
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
@@ -178,11 +180,11 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 ### 1A — Content & templates (platform first)
 
-- [ ] Admin/script: ingest Dad’s cognitive guide into app copy + validators (already partially in wizard)
-- [ ] Parse/structure Dad’s June pack as **template pack v1** (paper + memo + answer book layout notes)
-- [ ] Ingest Mom’s **analysis grids** as Bloom/taxonomy pattern for Life Sciences
-- [ ] Seed a small **question bank** (start manual: 20–50 Maths + 20–50 LS questions with metadata)
-- [ ] Optional: PDF text extract for Mom’s 2023 papers (OCR if needed)
+- [x] Admin/script: ingest Dad’s cognitive guide into app copy + validators (already partially in wizard)
+- [x] Parse/structure Dad’s June pack as **template pack v1** (paper + memo + answer book layout notes)
+- [x] Ingest Mom’s **analysis grids** as Bloom/taxonomy pattern for Life Sciences
+- [x] Seed a small **question bank** (start manual: 20–50 Maths + 20–50 LS questions with metadata)
+- [ ] Optional: PDF text extract for Mom’s 2023 papers (OCR if needed) — deferred; grids extracted for taxonomy only (ADR-011)
 
 ### 1B — Generation pipeline
 
@@ -481,19 +483,16 @@ Cursor is your pair programmer — still **you** own go/no-go, Documentation Gat
 
 Copy-paste to start the next session:
 
-1. **Start Phase 1A (content & templates) — use this now:**  
-   `Continue AssessMate from @docs/ROADMAP_AND_CHECKLIST.md Phase 1A on branch cursor/phase-1a-content-templates. Branch-first + draft PR before merging to main. Load @docs/DOCUMENTATION_INDEX.md @docs/NORTH_STAR.md @docs/design/UX_AND_ACCESSIBILITY.md @docs/learning/RUNBOOK.md. Obey Documentation Gate.`
-
-2. **Phase 1B generation (after 1A has a thin bank):**  
+1. **Start Phase 1B (after 1A merged):**  
    `Continue AssessMate Phase 1B from @docs/ROADMAP_AND_CHECKLIST.md — structured generation API. New cursor/ branch + draft PR. Update ADRs + RUNBOOK + architecture overview as part of Documentation Gate. @docs/NORTH_STAR.md`
 
-3. **Template export:**  
+2. **Template export:**  
    `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, plan DOCX export matching June 2026 pack. New cursor/ branch. Update design + architecture docs.`
 
-4. **Learning catch-up:**  
+3. **Learning catch-up:**  
    `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 1 needs.`
 
-5. **Parent pilot:**  
+4. **Parent pilot:**  
    `Draft Phase 2 parent pilot script from @docs/ROADMAP_AND_CHECKLIST.md (Change Manager + QA lenses).`
 
 ---
@@ -512,5 +511,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** On branch `cursor/phase-1a-content-templates`, start **Phase 1A** (cognitive guide ingest + Dad template pack notes + seed question bank). Open a **draft PR** before merging to `main`.
+**Next action right now:** Merge Phase 1A draft PR when green → start **Phase 1B** (structured generation API) on a new `cursor/phase-1b-…` branch + draft PR.
 

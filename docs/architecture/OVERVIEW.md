@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical/Systems Architect · Frontend · Backend · Database Architect  
 > **Status:** Active (MVP Track A)  
-> **Last updated:** 11 July 2026
+> **Last updated:** 11 July 2026 (Phase 1A content layer)
 
 ---
 
@@ -50,11 +50,22 @@ src/components/ui/       # Design-system primitives
 src/components/wizard/   # Assessment wizard
 src/lib/supabase/        # Browser + server + session helpers
 src/lib/actions/         # Server actions
-src/lib/constants/       # Subjects, cognitive levels, export defaults
+src/lib/constants/       # Subjects, cognitive levels, Bloom, export defaults
+src/lib/content/         # Template packs, taxonomy patterns, seed question bank
 src/lib/types/           # Domain types
 src/proxy.ts             # Auth refresh + route protection
 supabase/migrations/     # Source of truth for schema
 ```
+
+### Content layer (Phase 1A)
+
+| Module | Role |
+|--------|------|
+| `constants/cognitive-levels.ts` | CAPS Maths levels, 20/35/30/15, validators, memo codes K/R/C/P |
+| `constants/bloom-levels.ts` | LS Bloom + IEB AIM targets from analysis grids |
+| `content/template-packs/maths-gde-june-p2.ts` | Dad June P2 pack layout notes (paper / memo / answer book) |
+| `content/taxonomy/ieb-ls-analysis-grid.ts` | Mom IEB grid column model + target % |
+| `content/question-bank/` | Original seed items (25 Maths + 24 LS) for assembly |
 
 ---
 
@@ -64,9 +75,12 @@ supabase/migrations/     # Source of truth for schema
 |-------|---------|-----|
 | `profiles` | Educator profile (name, school) | Own row |
 | `assessments` | Wizard drafts + status + `wizard_data` JSON | Own rows |
-| `questions` | Question bank (Phase 1 populate) | Authenticated read |
+| `questions` | Question bank (`cognitive_level`, `bloom_level`, `aim`, `strand`, `visibility`) | Authenticated read |
 
-Triggers: create profile on signup; `updated_at` on profiles/assessments.
+Triggers: create profile on signup; `updated_at` on profiles/assessments.  
+Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`.
+
+**App seed vs DB:** Phase 1A bank is typed in `src/lib/content/question-bank/` (ADR-011). Load into Supabase when generation needs shared cloud rows.
 
 **Planned tables (document when added):** `templates`, `assessment_versions`, `usage_credits`, `schools`, `school_memberships`, analytics events.
 
@@ -80,9 +94,9 @@ Triggers: create profile on signup; `updated_at` on profiles/assessments.
 | **Build** | `npm run build` | CI on PR |
 | **Deploy** | Vercel auto-deploy from GitHub `main` (ADR-009) | Preview deploys on PR (optional) |
 | **Migrate** | Paste SQL in Supabase Editor | CLI optional later |
-| **Generate (AI)** | Not built | API route → RAG/bank → JSON → validate → save |
-| **Export** | Not built | JSON → DOCX/PDF via templates |
-| **Ingest** | Manual file filing in `parent-samples/` | Scripts + embeddings |
+| **Generate (AI)** | Not built | API route → seed/bank → JSON → validate → save |
+| **Export** | Not built | JSON → DOCX/PDF via template pack notes |
+| **Ingest** | Guide/grid distilled into typed content; binaries stay local | Optional OCR + embeddings later |
 
 ---
 

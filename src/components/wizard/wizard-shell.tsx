@@ -21,11 +21,13 @@ import {
   type ScopeMode,
   type Subject,
 } from "@/lib/types/assessment";
+import { BLOOM_FOCUS_OPTIONS } from "@/lib/constants/bloom-levels";
 import {
   DEFAULT_MATHS_COGNITIVE,
   MATHS_COGNITIVE_LABELS,
+  MATHS_COGNITIVE_LEVEL_ORDER,
+  isValidMathsCognitiveDistribution,
   mathsCognitiveTotal,
-  type MathsCognitiveLevel,
   usesBloomTaxonomy,
   usesMathsCognitiveLevels,
 } from "@/lib/constants/cognitive-levels";
@@ -338,7 +340,7 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
 
   const mathsTotalValid =
     !usesMathsCognitiveLevels(data.subject) ||
-    mathsCognitiveTotal(data.mathsCognitive) === 100;
+    isValidMathsCognitiveDistribution(data.mathsCognitive);
 
   const toggleTopic = (topic: string) => {
     update({
@@ -599,53 +601,63 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
                 <p className="text-lg font-medium">Cognitive levels (Mathematics)</p>
                 <p className="mt-1 text-base text-muted-foreground">
                   CAPS uses Knowledge, Routine procedure, Complex procedure and Problem
-                  solving — not Bloom&apos;s taxonomy. Percentages must add up to 100%.
+                  solving — not Bloom&apos;s taxonomy. Copy follows the department cognitive
+                  guide. Percentages must add up to 100%.
                 </p>
                 <div className="mt-4 flex flex-col gap-4">
-                  {(Object.keys(MATHS_COGNITIVE_LABELS) as MathsCognitiveLevel[]).map(
-                    (level) => (
-                      <div key={level} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
-                        <div className="sm:w-48">
-                          <span className="text-lg font-medium">
-                            {MATHS_COGNITIVE_LABELS[level].label}
-                          </span>
-                          <span className="mt-0.5 block text-sm text-muted-foreground">
-                            {MATHS_COGNITIVE_LABELS[level].description}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="number"
-                            min={0}
-                            max={100}
-                            value={data.mathsCognitive[level]}
-                            onChange={(e) =>
-                              update({
-                                mathsCognitive: {
-                                  ...data.mathsCognitive,
-                                  [level]: Number(e.target.value) || 0,
-                                },
-                              })
-                            }
-                            className="min-h-12 w-24 rounded-lg border-2 border-border px-3 text-lg"
-                            aria-label={`${MATHS_COGNITIVE_LABELS[level].label} percentage`}
-                          />
-                          <span className="text-lg">%</span>
-                        </div>
+                  {MATHS_COGNITIVE_LEVEL_ORDER.map((level) => (
+                    <div
+                      key={level}
+                      className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-4"
+                    >
+                      <div className="sm:w-64">
+                        <span className="text-lg font-medium">
+                          {MATHS_COGNITIVE_LABELS[level].label}
+                        </span>
+                        <span className="mt-0.5 block text-sm text-muted-foreground">
+                          {MATHS_COGNITIVE_LABELS[level].description}
+                        </span>
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+                          {MATHS_COGNITIVE_LABELS[level].guideBullets.slice(0, 2).map((bullet) => (
+                            <li key={bullet}>{bullet}</li>
+                          ))}
+                        </ul>
                       </div>
-                    ),
-                  )}
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          min={0}
+                          max={100}
+                          value={data.mathsCognitive[level]}
+                          onChange={(e) =>
+                            update({
+                              mathsCognitive: {
+                                ...data.mathsCognitive,
+                                [level]: Number(e.target.value) || 0,
+                              },
+                            })
+                          }
+                          className="min-h-12 w-24 rounded-lg border-2 border-border px-3 text-lg"
+                          aria-label={`${MATHS_COGNITIVE_LABELS[level].label} percentage`}
+                        />
+                        <span className="text-lg">%</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
                 <p
                   className={`mt-3 text-base ${
-                    mathsCognitiveTotal(data.mathsCognitive) === 100
+                    isValidMathsCognitiveDistribution(data.mathsCognitive)
                       ? "text-primary"
                       : "text-red-700"
                   }`}
+                  role={
+                    isValidMathsCognitiveDistribution(data.mathsCognitive) ? undefined : "alert"
+                  }
                 >
                   Total: {mathsCognitiveTotal(data.mathsCognitive)}%
-                  {mathsCognitiveTotal(data.mathsCognitive) !== 100
-                    ? " — must equal 100%"
+                  {!isValidMathsCognitiveDistribution(data.mathsCognitive)
+                    ? " — must equal 100% (whole numbers only)"
                     : ""}
                 </p>
                 <Button
@@ -665,17 +677,11 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
               <div>
                 <p className="text-lg font-medium">Bloom&apos;s taxonomy focus (Life Sciences)</p>
                 <p className="mt-1 text-base text-muted-foreground">
-                  For IEB, we can align to SAGS and your past-paper Bloom examples later.
+                  Pattern matches IEB analysis grids (Knowledge through Evaluation, plus AIM
+                  columns). Choose a focus for this paper; detailed Bloom reports come at export.
                 </p>
                 <div className="mt-3 flex flex-col gap-3">
-                  {(
-                    [
-                      { value: "balanced", label: "Balanced", description: "Mix of recall and reasoning" },
-                      { value: "knowledge", label: "Knowledge", description: "More recall questions" },
-                      { value: "application", label: "Application", description: "Use concepts in context" },
-                      { value: "higher_order", label: "Higher order", description: "Analyse and evaluate" },
-                    ] as const
-                  ).map((opt) => (
+                  {BLOOM_FOCUS_OPTIONS.map((opt) => (
                     <RadioOption
                       key={opt.value}
                       name="bloomFocus"

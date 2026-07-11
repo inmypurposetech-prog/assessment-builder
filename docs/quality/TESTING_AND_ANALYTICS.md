@@ -2,7 +2,7 @@
 
 > **Disciplines:** Quality/Testing Engineer · Data & Insights · Quant · Support  
 > **Status:** Seeded (manual testing today; automation Phase 2+)  
-> **Last updated:** 11 July 2026
+> **Last updated:** 11 July 2026 (Phase 1A seed bank)
 
 ---
 
@@ -31,9 +31,11 @@
 
 ### Unit (start Phase 1–2)
 
-- [ ] `mathsCognitiveTotal` === 100 validator  
+- [ ] `mathsCognitiveTotal` / `isValidMathsCognitiveDistribution`  
+- [ ] `mathsCognitiveDrift`  
 - [ ] `buildAssessmentTitle`  
 - [ ] `getAuthErrorMessage` / signup outcomes  
+- [ ] `getSeedQuestionBankStats` counts (25 Maths + 24 LS)  
 - [ ] Future: mark sum === totalMarks; Bloom distribution helpers  
 
 ### Integration
@@ -89,6 +91,7 @@ npm run test:coverage
 | 2026-07-11 | Phase 0 smoke (wizard complete) | Pass for create flow; UX gaps logged (back link, login busy gap, step scroll, dependent options) → standards in UX doc | Tanielle |
 | 2026-07-11 | UX polish: back link, auth busy, step focus, curriculum matrix | Implemented + lint/build green | Cursor |
 | 2026-07-11 | Phase 0 exit | Marked complete; branch-first standard (ADR-010); next = Phase 1A on `cursor/phase-1a-content-templates` | Tanielle + Cursor |
+| 2026-07-11 | Phase 1A content: cognitive validators, template pack v1, Bloom grid pattern, seed bank (25+24) | `npm run lint` + `npm run build`; seed stats via `getSeedQuestionBankStats` | Cursor |
 
 ---
 

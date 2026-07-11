@@ -2,7 +2,7 @@
 
 > **Purpose:** Map of all project docs, which workplace **discipline** owns each concern, and the **Documentation Gate** so docs never become an afterthought.  
 > **Audience:** You (solo) now; future collaborators or readers later.  
-> **Last updated:** 11 July 2026
+> **Last updated:** 11 July 2026 (Phase 1A)
 
 ---
 
@@ -61,7 +61,7 @@ You are currently **all of these**. Docs must stay complete enough that a specia
 | **Design System Team** | Tokens, components (Button/Input/Card), consistency | design/UX_AND_ACCESSIBILITY + `src/components/ui` | Seeded |
 | **Frontend Engineer** | Next.js App Router, wizard, dashboard | architecture/OVERVIEW, README | Active |
 | **Backend Engineer** | Server actions, API routes, auth session (`proxy.ts`) | architecture/OVERVIEW | Active |
-| **Database Analyst / Architect** | Postgres schema, RLS, migrations | architecture/OVERVIEW, `supabase/migrations/` | Active |
+| **Database Analyst / Architect** | Postgres schema, RLS, migrations | architecture/OVERVIEW, `supabase/migrations/` | Active — `002_question_bank_phase1a` |
 | **Quant** | Cognitive % validators; generation cost unit economics | NORTH_STAR pricing; quality/TESTING (metrics); learning RUNBOOK | Seeded |
 | **Quality / Testing Engineer** | Test strategy, coverage goals, UAT with parents | quality/TESTING_AND_ANALYTICS | Seeded |
 | **Data & Insights Engineer** | Usage analytics, funnels, AI cost logs | quality/TESTING_AND_ANALYTICS | Planned |
