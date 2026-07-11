@@ -83,7 +83,8 @@ npm run test:coverage
 | 2026-06/07 | Signup/login/wizard/save | Works when email confirm handled | Tanielle |
 | 2026-07-11 | `npm run lint` + `npm run build` | Pass (wizard localStorage hydrate fixed for React hooks lint) | Cursor + Tanielle |
 | 2026-07-11 | Auth message helpers + Maths cognitive wizard fields | Code review; unit tests deferred to Phase 2 | Cursor |
-| 2026-07-11 | Production smoke (signup → wizard → save) | Pending after Vercel URL + Supabase Auth redirects | — |
+| 2026-07-11 | Production smoke (signup → wizard → save) | Signup 400 on prod; likely existing email — clearer signup errors shipping | Tanielle |
+| 2026-07-11 | Signup error copy (`getSignupErrorMessage`) | Maps already-registered / weak password / invalid email | Cursor |
 
 ---
 

@@ -65,17 +65,17 @@ Target mindset: **WCAG 2.2 Level AA** where practical for MVP.
 
 | Journey | Happy path | Failure UX |
 |---------|------------|------------|
-| Signup | Clear fields → success or “confirm email” message (`getSignupSuccessMessage`) | Plain error, no stack traces |
+| Signup | Clear fields → success or “confirm email” message (`getSignupSuccessMessage`) | Mapped via `getSignupErrorMessage` — already registered, weak password, invalid email, rate limit, redirect allowlist; unknown errors show Supabase’s short message |
 | Login | Dashboard | Mapped via `getAuthErrorMessage` — wrong password vs unconfirmed email |
 | Create assessment | 5-step wizard → save → list on dashboard | Disable Continue until valid; Maths % must total 100; step 5 branches Maths CAPS % vs LS Bloom |
+| Generate (Phase 1) | Progress steps → review | Retry; never silent fail |
+| Export (Phase 1) | Download DOCX/PDF | Explain if template missing |
 
 ### UX notes (2026-07-11)
 
-- Auth copy lives in `src/lib/auth/messages.ts` so parents see actionable next steps (confirm email) instead of a generic failure.  
+- Auth copy lives in `src/lib/auth/messages.ts` so parents see actionable next steps (confirm email, already registered, weak password) instead of a generic failure.  
 - Wizard Advanced step is **subject-aware** (Maths cognitive % vs Life Sciences Bloom) — never show the wrong taxonomy.  
 - Local draft hydrate uses `useSyncExternalStore` (no flash/effect anti-pattern) so autosave remains reliable for 50s+ users.
-| Generate (Phase 1) | Progress steps → review | Retry; never silent fail |
-| Export (Phase 1) | Download DOCX/PDF | Explain if template missing |
 
 ---
 

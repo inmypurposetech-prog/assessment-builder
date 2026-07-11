@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { getSignupSuccessMessage } from "@/lib/auth/messages";
+import {
+  getSignupDuplicateEmailMessage,
+  getSignupErrorMessage,
+  getSignupSuccessMessage,
+} from "@/lib/auth/messages";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -42,7 +46,7 @@ export default function SignupPage() {
 
     if (signUpError) {
       setError(
-        "We could not create your account. Try a different email or stronger password.",
+        getSignupErrorMessage(signUpError.message, signUpError.code),
       );
       return;
     }
@@ -65,7 +69,7 @@ export default function SignupPage() {
       return;
     }
 
-    setError("We could not create your account. Please try again.");
+    setError(getSignupDuplicateEmailMessage());
   }
 
   return (
