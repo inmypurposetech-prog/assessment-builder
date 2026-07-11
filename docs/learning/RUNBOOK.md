@@ -159,18 +159,26 @@ Repo: `https://github.com/inmypurposetech-prog/assessment-builder`
   1. Fix ESLint `set-state-in-effect` on wizard draft hydrate → `useSyncExternalStore` + override state.  
   2. Commit docs system, auth messages, subject-aware cognitive wizard, parent-sample manifests (binaries gitignored).  
   3. Push `main` → GitHub `assessment-builder`.  
-  4. Link Vercel to repo; set `NEXT_PUBLIC_SUPABASE_*`; deploy.  
-  5. Add production URL to Supabase Auth Site URL + Redirect URLs (`https://<domain>/auth/callback`).  
+  4. Link Vercel to repo; set `NEXT_PUBLIC_SUPABASE_*`; deploy → https://assessment-builder-sooty.vercel.app/  
+  5. Add production URL to Supabase Auth redirect allowlist (`https://…/auth/callback`).  
 - **Pitfalls:**  
   - Parent PDFs/DOCX must stay gitignored (ADR-007) — only manifests/structure commit.  
-  - Production login fails until Auth redirect allowlist includes the Vercel domain.  
-  - `vercel` CLI may require interactive login (`npx vercel login`) the first time.  
+  - Production login fails until Auth redirect URLs include the Vercel domain.  
+  - `vercel` CLI may require interactive login; dashboard Import is fine.  
+  - “Email signups are disabled” → Supabase Providers → Email → enable signups.  
 - **Commands / links:**  
   - `npm run lint && npm run build`  
-  - `npx vercel` / `npx vercel --prod`  
+  - Prod: https://assessment-builder-sooty.vercel.app/  
   - Repo: https://github.com/inmypurposetech-prog/assessment-builder  
 - **Follow-up learning:** Vercel env + Supabase Auth URL config; optional GitHub Actions CI in Phase 2.  
 - **Discipline lens:** DevOps, Backend, Support, Tech Architect.
+
+### 2026-07-11 — Dad confirmed CAPS; Phase 0 exit UAT written
+
+- **Context:** Close Phase 0 product assumption + give solo founder a smoke script.  
+- **Steps that worked:** NORTH_STAR artifact row updated; Phase 0 exit checklist in quality doc.  
+- **Follow-up:** Run smoke on prod; then tick Phase 0 complete.  
+- **Discipline lens:** PO, QA, Change.
 
 ---
 
@@ -201,7 +209,7 @@ Update quarterly.
 |---------|--------------|-----|
 | Can’t log in after signup | Email not confirmed | Confirm in Supabase Users or disable confirm for test |
 | Signup says “already registered” / 400 | Email used before (local or prod) | Log in instead; or delete user in Supabase Auth → Users for a clean retest |
-| Vague signup failure | Old generic copy | Fixed: `getSignupErrorMessage` — deploy latest `main` |
+| Confirm Dad = CAPS / email-signups-disabled | Auth provider or body assumption | Dad confirmed CAPS; enable Email signups in Supabase Providers |
 | Redirect loop / can’t reach dashboard | Auth URLs wrong | Fix Site URL + redirect allowlist (localhost **and** Vercel domain) |
 | Save assessment fails | Migration not run / RLS | Re-run SQL; check user logged in |
 | Env errors | Missing `.env.local` | Copy from `.env.example` |

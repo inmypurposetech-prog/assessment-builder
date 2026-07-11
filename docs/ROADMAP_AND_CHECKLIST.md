@@ -38,19 +38,19 @@
 
 A feature or phase is **not done** until applicable boxes are checked:
 
-- [ ] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated
-- [ ] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed)
-- [ ] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A)
-- [ ] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated)
-- [ ] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A)
-- [ ] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant)
-- [ ] **Support/Change:** User-facing or rollout change → README / pilot / support notes
-- [ ] **NORTH_STAR:** Only if users/scope/pricing/principles changed
+- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated
+- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-009 Vercel
+- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — signup/login error copy
+- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + prod signup notes
+- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — N/A for Phase 0 deploy
+- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — R4 Vercel + signup support rows
+- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — README deploy steps
+- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — N/A (no product scope change)
 
 **Phase exit also:**
 
-- [ ] `DOCUMENTATION_INDEX.md` discipline table still accurate
-- [ ] Open documentation debt listed (below) is honest
+- [x] `DOCUMENTATION_INDEX.md` discipline table still accurate
+- [x] Open documentation debt listed (below) is honest
 
 ### Open documentation debt
 
@@ -75,11 +75,12 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Parent samples: Mom IEB LS 2023 finals; Dad Maths June 2026 P2 + cognitive guide + template exemplars
 - [x] Documentation system (index, architecture, ADRs, UX/a11y, quality/analytics, learning runbook)
 - [x] Workplace disciplines mapped (PO → Support) in DOCUMENTATION_INDEX
+- [x] Vercel production deploy: https://assessment-builder-sooty.vercel.app/
 
 ### Not done yet (blocks “in parents’ hands” for generation)
 
 - [x] Commit/push outstanding local docs + auth/wizard improvements
-- [ ] Vercel deploy + production Supabase env
+- [x] Vercel deploy + production Supabase env
 - [ ] Question bank / extraction
 - [ ] AI generate + review + export into Dad/Mom templates
 - [ ] Parent pilot protocol + feedback loop
@@ -108,7 +109,7 @@ Same as above, plus:
 ## Phase overview
 
 ```text
-Phase 0  Foundation & hygiene          ← mostly done; close the loop
+Phase 0  Foundation & hygiene          ← deploy live; finish auth smoke then exit
 Phase 1  Parent MVP (generate+export)  ← next major build
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
@@ -132,23 +133,33 @@ Rough calendar if part-time (~5–10 hrs/week): Phase 1 ≈ 4–8 weeks · Phase
 - [x] Parent samples filed (structured folders)
 - [x] Documentation index + discipline map + learning runbook
 - [x] Push all outstanding work to `main` (docs, cognitive wizard, auth messages, `.cursor/rules`)
-- [ ] Confirm Dad = DBE/CAPS/GDE (assumed correct — soft; confirm when convenient)
-- [ ] **Documentation Gate** completed for Phase 0 exit (pending production smoke)
+- [x] Confirm Dad = DBE/CAPS/GDE (**confirmed** 11 July 2026 — CAPS Maths)
+- [ ] **Documentation Gate** completed for Phase 0 exit (gate boxes done; tick after smoke below)
 
 ### Engineering
 
 - [x] Local `npm run dev` works with `.env.local`
 - [x] Supabase project + SQL migration run
-- [ ] Auth URL config: Site URL + redirect `…/auth/callback` (local done; add production after Vercel URL)
-- [ ] Email confirm strategy for testing (off for parents, on for public)
-- [ ] Vercel project linked to GitHub
-- [ ] Production env vars on Vercel (`NEXT_PUBLIC_SUPABASE_*`)
+- [ ] Auth URL config: Site URL + redirect `…/auth/callback` (local done; **you must verify prod** — see Phase 0 exit test below)
+- [x] Email confirm strategy for testing: **off for parents/pilot**, **on for public launch** (documented; flip in Supabase Providers → Email)
+- [x] Vercel project linked to GitHub
+- [x] Production env vars on Vercel (`NEXT_PUBLIC_SUPABASE_*`)
 - [ ] Smoke test: signup → wizard → save → row in Supabase Table Editor
+
+### Phase 0 exit — manual checklist (do this now)
+
+Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTICS.md#phase-0-exit--production-smoke).
+
+1. Supabase Auth URLs + Email provider (signups on; confirm email off for pilot)
+2. Prod landing + signup + login
+3. Maths wizard (CAPS cognitive %) → save → row in Table Editor
+4. Life Sciences wizard (Bloom) → save
+5. Tell Cursor “Phase 0 smoke passed” → tick remaining boxes + master Phase 0
 
 ### Exit criteria
 
-- [ ] Clean `git status` on `main` (or known open issues listed below)
-- [ ] Staging/production URL loads landing + login
+- [x] Clean `git status` on `main` (or known open issues listed below)
+- [x] Staging/production URL loads landing + login — https://assessment-builder-sooty.vercel.app/
 
 **Open issues / debt to track**
 
@@ -370,24 +381,24 @@ Use this loop for **each** feature (generation, export, templates, etc.).
 
 ### Repo & quality
 
-- [ ] ESLint passes (`npm run lint`)
-- [ ] Production build passes (`npm run build`)
+- [x] ESLint passes (`npm run lint`)
+- [x] Production build passes (`npm run build`)
 - [ ] TypeScript strict — no ignore-spam
-- [ ] `.env*` gitignored; `.env.example` documented
-- [ ] Parent PDFs/DOCX gitignored under `docs/parent-samples/**`
+- [x] `.env*` gitignored; `.env.example` documented
+- [x] Parent PDFs/DOCX gitignored under `docs/parent-samples/**`
 
 ### CI/CD (add in Phase 2)
 
 - [ ] GitHub Action: install → lint → build on pull request
-- [ ] Vercel auto-deploy `main`
+- [x] Vercel auto-deploy `main`
 - [ ] Protect `main` (optional): require CI green
 
 ### Data & migrations
 
-- [ ] All schema changes as numbered files in `supabase/migrations/`
-- [ ] Run in Supabase SQL Editor (or CLI later)
+- [x] All schema changes as numbered files in `supabase/migrations/`
+- [x] Run in Supabase SQL Editor (or CLI later)
 - [ ] Never hand-edit prod schema without a migration file
-- [ ] RLS policies reviewed when new tables added
+- [x] RLS policies reviewed when new tables added
 
 ### Auth & security
 
@@ -477,4 +488,4 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Finish Phase 0 (commit/push + Vercel + Documentation Gate), then begin Phase 1A/1B.
+**Next action right now:** Run **Phase 0 exit smoke** in [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTICS.md#phase-0-exit--production-smoke), then begin Phase 1A/1B.

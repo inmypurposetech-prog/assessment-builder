@@ -196,7 +196,7 @@ Upload separately anytime; then update this table.
 | Extra Bloom layout example (if different from analysis grids) | Mom | Optional — analysis grids may cover this |
 | More years / grades | Either | Ongoing |
 | Confirm grades taught most | Both | Pending |
-| Confirm Dad’s school is DBE/GDE vs IEB | Dad | Soft assumption: **DBE/CAPS/GDE** — confirm when convenient |
+| Confirm Dad’s school is DBE/GDE vs IEB | Dad | **Confirmed:** DBE / **CAPS** (+ GDE-style memo template) — 11 July 2026 |
 
 **Last updated:** 11 July 2026
 

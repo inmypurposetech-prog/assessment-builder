@@ -85,6 +85,61 @@ npm run test:coverage
 | 2026-07-11 | Auth message helpers + Maths cognitive wizard fields | Code review; unit tests deferred to Phase 2 | Cursor |
 | 2026-07-11 | Production smoke (signup → wizard → save) | Signup 400 on prod; likely existing email — clearer signup errors shipping | Tanielle |
 | 2026-07-11 | Signup error copy (`getSignupErrorMessage`) | Maps already-registered / weak password / invalid email | Cursor |
+| 2026-07-11 | Dad curriculum body | **Confirmed CAPS (DBE)** | Tanielle |
+
+---
+
+## Phase 0 exit — production smoke
+
+**Prod URL:** https://assessment-builder-sooty.vercel.app/  
+**Goal:** Prove parents can reach the app and save a draft without you beside them.  
+**Pass rule:** Every step gets ✅. If anything fails, note the exact screen + error text before changing settings.
+
+### A. Supabase setup (once)
+
+| # | Action | Pass when |
+|---|--------|-----------|
+| A1 | **Authentication → Providers → Email** — Email provider **on**; **Enable sign ups** **on** | Signup no longer says “Email signups are disabled” |
+| A2 | Same page: **Confirm email** = **off** for parent pilot (turn **on** before public launch) | New signup can log in immediately without inbox |
+| A3 | **Authentication → URL configuration** | |
+| | Site URL = `https://assessment-builder-sooty.vercel.app` | Saved |
+| | Redirect URLs include both: `https://assessment-builder-sooty.vercel.app/auth/callback` **and** `http://localhost:3000/auth/callback` | Saved |
+
+### B. Landing & auth (Chrome or Edge on laptop)
+
+| # | Action | Pass when |
+|---|--------|-----------|
+| B1 | Open prod URL | Landing loads (no blank/error page) |
+| B2 | Open **Sign up** | Form shows large text; name, school, email, password |
+| B3 | Sign up with a **new** test email (not one already in Auth → Users) | Either dashboard **or** clear “confirm email” message — not a vague red error |
+| B4 | If already registered: use **Log in** instead | Dashboard loads |
+| B5 | Wrong password once | Message says incorrect email/password (not a blank fail) |
+| B6 | Log out if UI allows, or clear site data, then log in again | Dashboard again |
+
+### C. Maths happy path (Dad / CAPS)
+
+| # | Action | Pass when |
+|---|--------|-----------|
+| C1 | Dashboard → create / new assessment | Wizard step 1 |
+| C2 | Type → Curriculum: prefer **DBE**, subject **Mathematics**, grade 12, a term | Continue enabled |
+| C3 | Scope: pick topics or whole term | Continue |
+| C4 | Settings: marks + duration | Continue |
+| C5 | Advanced: see **CAPS cognitive %** (Knowledge / Routine / Complex / Problem solving), **not** Bloom | Totals make sense; Continue / Save works when % = 100 |
+| C6 | **Save and finish for now** | Returns to dashboard; assessment listed |
+| C7 | Supabase → **Table Editor → `assessments`** | New row for your user; `wizard_data` JSON present |
+
+### D. Life Sciences spot-check (Mom / Bloom)
+
+| # | Action | Pass when |
+|---|--------|-----------|
+| D1 | New assessment → subject **Life Sciences** | Wizard accepts IEB or DBE as you choose |
+| D2 | Advanced step shows **Bloom** focus (not Maths %) | Correct taxonomy |
+| D3 | Save | Listed on dashboard + row in `assessments` |
+
+### E. Done — report back
+
+Reply in Cursor with: **“Phase 0 smoke passed”** (or list which step failed).  
+Then we tick: Auth URL ✅, smoke ✅, Documentation Gate Phase 0 exit ✅, master **Phase 0 complete**.
 
 ---
 
