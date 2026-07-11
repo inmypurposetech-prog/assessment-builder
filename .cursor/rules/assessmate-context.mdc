@@ -1,0 +1,40 @@
+---
+description: AssessMate product north star — always load for SA educator assessment app context
+alwaysApply: true
+---
+
+# AssessMate context (always apply)
+
+Before planning or coding, load:
+
+1. **`docs/NORTH_STAR.md`** — product source of truth  
+2. **`docs/ROADMAP_AND_CHECKLIST.md`** — phases / SDLC / checklists  
+3. **`docs/DOCUMENTATION_INDEX.md`** — discipline map + **Documentation Gate** (mandatory)
+
+Also use when relevant: `docs/architecture/OVERVIEW.md`, `docs/architecture/DECISIONS.md`, `docs/design/UX_AND_ACCESSIBILITY.md`, `docs/quality/TESTING_AND_ANALYTICS.md`, `docs/learning/RUNBOOK.md`.
+
+## Documentation Gate (do not skip)
+
+After any non-trivial change, update the appropriate docs (ADR, UX/a11y, test log, learning runbook, ROADMAP ticks). A feature is not done until the Documentation Gate in ROADMAP/INDEX is satisfied.
+
+## Non-negotiables
+
+- Product: assessment papers + memos + cognitive/taxonomy reports for SA FET educators (Maths + Life Sciences).
+- Primary users: Tanielle’s parents (50s+) — large text, plain language, wizard UX, teacher stays in control of AI output.
+- **Mathematics ≠ Bloom’s.** Use CAPS cognitive levels: Knowledge 20%, Routine 35%, Complex 30%, Problem solving 15%. Dad’s GDE memo template is the Maths export gold standard.
+- **Life Sciences** uses Bloom’s (+ IEB SAGS). Mom’s pain is diagrams + formatting (Arial 12, 1.5 spacing, PDF, lined paper).
+- Stack: Next.js 16 App Router + TypeScript + Tailwind + **Supabase** (cloud Postgres). Do not require local PostgreSQL for MVP. Session file is `src/proxy.ts` (not deprecated middleware).
+- Repo: `inmypurposetech-prog/assessment-builder`. Local: `~/Projects/assessmate`.
+- Philosophy: question bank + workflow first; AI second. Budget-conscious (cheap models, RAG, free tiers).
+- Template fidelity: educators upload packs (paper/memo/answer book/cognitive rules); visibility Private → School → later Public. Monetise template *slots/library* inside tiers — never archive-revival or storage-guilt fees.
+- Dad Maths exemplar: `docs/parent-samples/mathematics/dbe/grade-12/` (June 2026 P2 + cognitive guide). Mom LS exemplar: `docs/parent-samples/life-sciences/ieb/grade-12/final-exam/2023/`.
+- Solo founder wears all workplace disciplines (PO → Support) — see DOCUMENTATION_INDEX.
+- Out of MVP: SATAP Paper 2 packs, full PAT, SA-SAMS, B2G tenders, payments until parents validate.
+
+## When parent docs arrive
+
+Store under `docs/parent-samples/` (do not commit secrets). Update `docs/NORTH_STAR.md` Artifacts table and interview notes.
+
+## Next.js note
+
+This Next.js version may differ from training data — check `node_modules/next/dist/docs/` and heed deprecations (see `AGENTS.md`).

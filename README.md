@@ -12,6 +12,10 @@ Built for readable, step-by-step workflows (large text, plain language).
 
 ## Getting started
 
+For the full build plan (parents → users → iteration, SDLC, checklists), see **[docs/ROADMAP_AND_CHECKLIST.md](docs/ROADMAP_AND_CHECKLIST.md)**.  
+For product context, see **[docs/NORTH_STAR.md](docs/NORTH_STAR.md)**.  
+For architecture, disciplines, learning runbook, and the Documentation Gate, see **[docs/DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md)**.
+
 ### 1. Install dependencies
 
 ```bash
@@ -34,7 +38,24 @@ In the Supabase dashboard, open **SQL Editor** and run the contents of:
 
 `supabase/migrations/001_initial_schema.sql`
 
-### 4. Start the dev server
+### 4. Configure authentication (important)
+
+In Supabase **Authentication → URL configuration**:
+
+| Setting | Value (local dev) |
+|---------|-------------------|
+| **Site URL** | `http://localhost:3000` |
+| **Redirect URLs** | `http://localhost:3000/auth/callback` |
+
+For easier testing with your parents, you can temporarily disable email confirmation:
+
+**Authentication → Providers → Email** → turn off **Confirm email**
+
+Turn it back on before a public launch.
+
+If login fails after signup, the account may need email confirmation — check your inbox or confirm the user manually under **Authentication → Users**.
+
+### 5. Start the dev server
 
 ```bash
 npm run dev
@@ -73,6 +94,14 @@ docs/               # Workflow map and interview guide
 
 ## Deploy (Vercel)
 
-1. Push to GitHub
-2. Import repo on [vercel.com](https://vercel.com)
-3. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` as environment variables
+1. Push to GitHub (`main` → `inmypurposetech-prog/assessment-builder`)
+2. Import the repo on [vercel.com](https://vercel.com) (or `npx vercel` / `npx vercel --prod`)
+3. Add environment variables (Production + Preview):
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+4. After the first deploy, copy the production URL and update **Supabase → Authentication → URL configuration**:
+   - **Site URL:** `https://<your-vercel-domain>`
+   - **Redirect URLs:** include `https://<your-vercel-domain>/auth/callback` (keep localhost entries for local dev)
+5. Smoke-test: signup → login → wizard → save → confirm row in Supabase Table Editor
+
+See `docs/learning/RUNBOOK.md` procedure **R4** and ADR-009.

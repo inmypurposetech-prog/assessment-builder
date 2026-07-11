@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { saveAssessmentWizard } from "@/lib/actions/assessments";
 import {
   defaultWizardData,
@@ -15,6 +21,14 @@ import {
   type ScopeMode,
   type Subject,
 } from "@/lib/types/assessment";
+import {
+  DEFAULT_MATHS_COGNITIVE,
+  MATHS_COGNITIVE_LABELS,
+  mathsCognitiveTotal,
+  type MathsCognitiveLevel,
+  usesBloomTaxonomy,
+  usesMathsCognitiveLevels,
+} from "@/lib/constants/cognitive-levels";
 import {
   EXAM_BODY_OPTIONS,
   GRADE_OPTIONS,
@@ -101,7 +115,6 @@ const SCOPE_OPTIONS: { value: ScopeMode; label: string; description: string }[] 
   ];
 
 function loadDraft(): AssessmentWizardData {
-  if (typeof window === "undefined") return defaultWizardData;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultWizardData;
@@ -109,6 +122,11 @@ function loadDraft(): AssessmentWizardData {
   } catch {
     return defaultWizardData;
   }
+}
+
+/** No cross-tab sync needed; useSyncExternalStore still avoids effect hydrate. */
+function subscribeDraft() {
+  return () => {};
 }
 
 function RadioOption({
@@ -159,29 +177,27 @@ interface WizardShellProps {
 export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [data, setData] = useState<AssessmentWizardData>(
-    initialData ?? defaultWizardData,
+  const localDraft = useSyncExternalStore(
+    subscribeDraft,
+    loadDraft,
+    () => defaultWizardData,
   );
-  const [hydrated, setHydrated] = useState(Boolean(initialData));
+  const [draftOverride, setDraftOverride] =
+    useState<AssessmentWizardData | null>(initialData ?? null);
+  const data = draftOverride ?? localDraft;
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (initialData) return;
-    setData(loadDraft());
-    setHydrated(true);
-  }, [initialData]);
-
-  useEffect(() => {
-    if (!hydrated || assessmentId) return;
+    if (assessmentId) return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  }, [data, hydrated, assessmentId]);
+  }, [data, assessmentId]);
 
   const update = useCallback(
     (patch: Partial<AssessmentWizardData>) => {
-      setData((prev) => ({ ...prev, ...patch }));
+      setDraftOverride((prev) => ({ ...(prev ?? localDraft), ...patch }));
     },
-    [],
+    [localDraft],
   );
 
   const topics = useMemo(() => {
@@ -215,6 +231,10 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
         return true;
     }
   }, [step, data]);
+
+  const mathsTotalValid =
+    !usesMathsCognitiveLevels(data.subject) ||
+    mathsCognitiveTotal(data.mathsCognitive) === 100;
 
   const toggleTopic = (topic: string) => {
     update({
@@ -293,7 +313,11 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
                     name="subject"
                     checked={data.subject === subject}
                     onChange={() =>
-                      update({ subject, selectedTopics: [] })
+                      update({
+                        subject,
+                        selectedTopics: [],
+                        mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE },
+                      })
                     }
                     label={subject}
                   />
@@ -435,36 +459,121 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
           <div className="flex flex-col gap-6">
             <CardTitle>Advanced options</CardTitle>
             <CardDescription>
-              These are optional. You can leave defaults if you are unsure.
+              These are optional. Defaults match what your parents use in their departments.
             </CardDescription>
-            <div>
-              <p className="text-lg font-medium">Thinking skills focus</p>
-              <div className="mt-3 flex flex-col gap-3">
-                {(
-                  [
-                    { value: "balanced", label: "Balanced", description: "Mix of recall and reasoning" },
-                    { value: "knowledge", label: "Knowledge", description: "More recall questions" },
-                    { value: "application", label: "Application", description: "Use concepts in context" },
-                    { value: "higher_order", label: "Higher order", description: "Analyse and evaluate" },
-                  ] as const
-                ).map((opt) => (
-                  <RadioOption
-                    key={opt.value}
-                    name="bloomFocus"
-                    checked={data.bloomFocus === opt.value}
-                    onChange={() => update({ bloomFocus: opt.value as BloomFocus })}
-                    label={opt.label}
-                    description={opt.description}
-                  />
-                ))}
+
+            {usesMathsCognitiveLevels(data.subject) && (
+              <div>
+                <p className="text-lg font-medium">Cognitive levels (Mathematics)</p>
+                <p className="mt-1 text-base text-muted-foreground">
+                  CAPS uses Knowledge, Routine procedure, Complex procedure and Problem
+                  solving — not Bloom&apos;s taxonomy. Percentages must add up to 100%.
+                </p>
+                <div className="mt-4 flex flex-col gap-4">
+                  {(Object.keys(MATHS_COGNITIVE_LABELS) as MathsCognitiveLevel[]).map(
+                    (level) => (
+                      <div key={level} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+                        <div className="sm:w-48">
+                          <span className="text-lg font-medium">
+                            {MATHS_COGNITIVE_LABELS[level].label}
+                          </span>
+                          <span className="mt-0.5 block text-sm text-muted-foreground">
+                            {MATHS_COGNITIVE_LABELS[level].description}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="number"
+                            min={0}
+                            max={100}
+                            value={data.mathsCognitive[level]}
+                            onChange={(e) =>
+                              update({
+                                mathsCognitive: {
+                                  ...data.mathsCognitive,
+                                  [level]: Number(e.target.value) || 0,
+                                },
+                              })
+                            }
+                            className="min-h-12 w-24 rounded-lg border-2 border-border px-3 text-lg"
+                            aria-label={`${MATHS_COGNITIVE_LABELS[level].label} percentage`}
+                          />
+                          <span className="text-lg">%</span>
+                        </div>
+                      </div>
+                    ),
+                  )}
+                </div>
+                <p
+                  className={`mt-3 text-base ${
+                    mathsCognitiveTotal(data.mathsCognitive) === 100
+                      ? "text-primary"
+                      : "text-red-700"
+                  }`}
+                >
+                  Total: {mathsCognitiveTotal(data.mathsCognitive)}%
+                  {mathsCognitiveTotal(data.mathsCognitive) !== 100
+                    ? " — must equal 100%"
+                    : ""}
+                </p>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="mt-3"
+                  onClick={() =>
+                    update({ mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE } })
+                  }
+                >
+                  Reset to department standard (20 / 35 / 30 / 15)
+                </Button>
               </div>
-            </div>
+            )}
+
+            {usesBloomTaxonomy(data.subject) && (
+              <div>
+                <p className="text-lg font-medium">Bloom&apos;s taxonomy focus (Life Sciences)</p>
+                <p className="mt-1 text-base text-muted-foreground">
+                  For IEB, we can align to SAGS and your past-paper Bloom examples later.
+                </p>
+                <div className="mt-3 flex flex-col gap-3">
+                  {(
+                    [
+                      { value: "balanced", label: "Balanced", description: "Mix of recall and reasoning" },
+                      { value: "knowledge", label: "Knowledge", description: "More recall questions" },
+                      { value: "application", label: "Application", description: "Use concepts in context" },
+                      { value: "higher_order", label: "Higher order", description: "Analyse and evaluate" },
+                    ] as const
+                  ).map((opt) => (
+                    <RadioOption
+                      key={opt.value}
+                      name="bloomFocus"
+                      checked={data.bloomFocus === opt.value}
+                      onChange={() => update({ bloomFocus: opt.value as BloomFocus })}
+                      label={opt.label}
+                      description={opt.description}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {!data.subject && (
+              <p className="text-base text-muted-foreground">
+                Choose a subject in step 2 to see cognitive level options.
+              </p>
+            )}
+
             <div className="flex flex-col gap-3">
               {(
                 [
                   { key: "includeMcq" as const, label: "Include multiple choice questions" },
                   { key: "includeCalculator" as const, label: "Allow calculator where appropriate" },
-                  { key: "includeDiagrams" as const, label: "Include diagrams where helpful" },
+                  {
+                    key: "includeDiagrams" as const,
+                    label: usesBloomTaxonomy(data.subject)
+                      ? "Include diagrams (Life Sciences — high priority)"
+                      : "Include diagrams where helpful",
+                  },
                   { key: "avoidRepeatedQuestions" as const, label: "Avoid repeating recent questions" },
                 ] as const
               ).map((item) => (
@@ -513,7 +622,7 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
           </Button>
         ) : (
           <Button
-            disabled={!canContinue || saving}
+            disabled={!canContinue || saving || (step === STEPS.length && !mathsTotalValid)}
             onClick={async () => {
               setSaveError(null);
               setSaving(true);

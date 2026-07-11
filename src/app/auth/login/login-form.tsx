@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { getAuthErrorMessage } from "@/lib/auth/messages";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -28,7 +29,7 @@ export default function LoginForm() {
     });
     setLoading(false);
     if (signInError) {
-      setError("We could not log you in. Check your email and password.");
+      setError(getAuthErrorMessage(signInError.message, signInError.code));
       return;
     }
     router.push(next);

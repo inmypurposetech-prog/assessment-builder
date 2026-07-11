@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Parent curriculum PDFs (local only — copyright + size). Keep MANIFEST.md / README tracked.
+docs/parent-samples/**/*.pdf
+docs/parent-samples/**/*.docx
+docs/parent-samples/**/*.doc

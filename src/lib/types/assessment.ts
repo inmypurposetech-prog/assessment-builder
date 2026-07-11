@@ -1,3 +1,6 @@
+import type { MathsCognitiveDistribution } from "@/lib/constants/cognitive-levels";
+import { DEFAULT_MATHS_COGNITIVE } from "@/lib/constants/cognitive-levels";
+
 export type ExamBody = "DBE" | "IEB";
 
 export type Subject = "Mathematics" | "Life Sciences";
@@ -33,7 +36,10 @@ export interface AssessmentWizardData {
   totalMarks: number;
   durationMinutes: number;
   difficulty: Difficulty;
+  /** Life Sciences — Bloom's focus */
   bloomFocus: BloomFocus;
+  /** Mathematics — CAPS cognitive level % (must sum to 100) */
+  mathsCognitive: MathsCognitiveDistribution;
   includeDiagrams: boolean;
   includeCalculator: boolean;
   includeMcq: boolean;
@@ -54,6 +60,7 @@ export const defaultWizardData: AssessmentWizardData = {
   durationMinutes: 60,
   difficulty: "balanced",
   bloomFocus: "balanced",
+  mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE },
   includeDiagrams: false,
   includeCalculator: true,
   includeMcq: true,
