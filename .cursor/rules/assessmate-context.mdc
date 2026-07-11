@@ -11,7 +11,14 @@ Before planning or coding, load:
 2. **`docs/ROADMAP_AND_CHECKLIST.md`** — phases / SDLC / checklists  
 3. **`docs/DOCUMENTATION_INDEX.md`** — discipline map + **Documentation Gate** (mandatory)
 
-Also use when relevant: `docs/architecture/OVERVIEW.md`, `docs/architecture/DECISIONS.md`, `docs/design/UX_AND_ACCESSIBILITY.md`, `docs/quality/TESTING_AND_ANALYTICS.md`, `docs/learning/RUNBOOK.md`.
+Also use when relevant: `docs/architecture/OVERVIEW.md`, `docs/architecture/DECISIONS.md`, `docs/design/UX_AND_ACCESSIBILITY.md` (**mandatory for any UI** — WCAG AA / 50s+ patterns; do not copy weak legacy affordances), `docs/quality/TESTING_AND_ANALYTICS.md`, `docs/learning/RUNBOOK.md`.
+
+## UI / a11y non-negotiables (see UX doc for detail)
+
+- Always-visible link/button affordances (not hover-only underlines).  
+- Busy/loading until navigation finishes; errors alone are not enough.  
+- Wizard step change: scroll to top + focus the step heading.  
+- Dependent curriculum options: filter/disable/explain — never silent invalid combos.  
 
 ## Documentation Gate (do not skip)
 

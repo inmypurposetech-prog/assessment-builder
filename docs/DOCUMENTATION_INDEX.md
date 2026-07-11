@@ -55,7 +55,7 @@ You are currently **all of these**. Docs must stay complete enough that a specia
 | **Business Architect** | Value streams (create → moderate → export); pricing/capability model | NORTH_STAR (templates/pricing) | Active |
 | **Technical / Systems Architect** | Stack, boundaries, security, evolution Track A→B | architecture/OVERVIEW, DECISIONS | Active |
 | **Business / Systems Analyst** | Requirements from interviews; acceptance criteria | parent-interview-notes, workflow-map, ROADMAP DoD | Active |
-| **UX / UI Designer** | Wizard UX for 50s+ educators | design/UX_AND_ACCESSIBILITY | Active |
+| UX / UI Designer | Wizard UX for 50s+ educators; WCAG AA patterns | design/UX_AND_ACCESSIBILITY | Active — standards raised 11 Jul 2026 |
 | **Design System Team** | Tokens, components (Button/Input/Card), consistency | design/UX_AND_ACCESSIBILITY + `src/components/ui` | Seeded |
 | **Frontend Engineer** | Next.js App Router, wizard, dashboard | architecture/OVERVIEW, README | Active |
 | **Backend Engineer** | Server actions, API routes, auth session (`proxy.ts`) | architecture/OVERVIEW | Active |
