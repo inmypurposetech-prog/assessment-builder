@@ -85,7 +85,7 @@ npm run test:coverage
 | 2026-07-11 | Auth message helpers + Maths cognitive wizard fields | Code review; unit tests deferred to Phase 2 | Cursor |
 | 2026-07-11 | Production smoke (signup → wizard → save) | Signup 400 on prod; likely existing email — clearer signup errors shipping | Tanielle |
 | 2026-07-11 | Signup error copy (`getSignupErrorMessage`) | Maps already-registered / weak password / invalid email | Cursor |
-| 2026-07-11 | Dad curriculum body | **Confirmed CAPS (DBE)** | Tanielle |
+| 2026-07-11 | Prod wizard “This page couldn't load” | Root cause: unstable localStorage snapshot in useSyncExternalStore → tab crash when draft exists; fix shipping | Tanielle + Cursor |
 
 ---
 

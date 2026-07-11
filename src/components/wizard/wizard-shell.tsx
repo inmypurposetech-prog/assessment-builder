@@ -114,17 +114,56 @@ const SCOPE_OPTIONS: { value: ScopeMode; label: string; description: string }[] 
     },
   ];
 
-function loadDraft(): AssessmentWizardData {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return defaultWizardData;
-    return { ...defaultWizardData, ...JSON.parse(raw) };
-  } catch {
-    return defaultWizardData;
-  }
+function normalizeWizardData(
+  partial?: Partial<AssessmentWizardData> | null,
+): AssessmentWizardData {
+  return {
+    ...defaultWizardData,
+    ...partial,
+    selectedTopics: partial?.selectedTopics ?? defaultWizardData.selectedTopics,
+    mathsCognitive: {
+      ...DEFAULT_MATHS_COGNITIVE,
+      ...(partial?.mathsCognitive ?? {}),
+    },
+  };
 }
 
-/** No cross-tab sync needed; useSyncExternalStore still avoids effect hydrate. */
+/** Cache snapshot so useSyncExternalStore getSnapshot is referentially stable. */
+let draftRaw: string | null = null;
+let draftSnapshot: AssessmentWizardData = defaultWizardData;
+
+function getDraftSnapshot(): AssessmentWizardData {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw === draftRaw) return draftSnapshot;
+  draftRaw = raw;
+  if (!raw) {
+    draftSnapshot = defaultWizardData;
+    return draftSnapshot;
+  }
+  try {
+    draftSnapshot = normalizeWizardData(
+      JSON.parse(raw) as Partial<AssessmentWizardData>,
+    );
+  } catch {
+    draftSnapshot = defaultWizardData;
+  }
+  return draftSnapshot;
+}
+
+function persistDraft(data: AssessmentWizardData) {
+  const raw = JSON.stringify(data);
+  localStorage.setItem(STORAGE_KEY, raw);
+  draftRaw = raw;
+  draftSnapshot = data;
+}
+
+function clearDraft() {
+  localStorage.removeItem(STORAGE_KEY);
+  draftRaw = null;
+  draftSnapshot = defaultWizardData;
+}
+
+/** No cross-tab sync; empty subscribe is fine with a stable getSnapshot. */
 function subscribeDraft() {
   return () => {};
 }
@@ -179,7 +218,7 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
   const [step, setStep] = useState(1);
   const localDraft = useSyncExternalStore(
     subscribeDraft,
-    loadDraft,
+    getDraftSnapshot,
     () => defaultWizardData,
   );
   const [draftOverride, setDraftOverride] =
@@ -190,12 +229,14 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
 
   useEffect(() => {
     if (assessmentId) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    persistDraft(data);
   }, [data, assessmentId]);
 
   const update = useCallback(
     (patch: Partial<AssessmentWizardData>) => {
-      setDraftOverride((prev) => ({ ...(prev ?? localDraft), ...patch }));
+      setDraftOverride((prev) =>
+        normalizeWizardData({ ...(prev ?? localDraft), ...patch }),
+      );
     },
     [localDraft],
   );
@@ -629,7 +670,7 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
               try {
                 const result = await saveAssessmentWizard(data, assessmentId);
                 if (!assessmentId) {
-                  localStorage.removeItem(STORAGE_KEY);
+                  clearDraft();
                 }
                 router.push("/dashboard");
                 router.refresh();

@@ -40,9 +40,10 @@ export const MATHS_COGNITIVE_LABELS: Record<
 };
 
 export function mathsCognitiveTotal(
-  distribution: MathsCognitiveDistribution,
+  distribution: MathsCognitiveDistribution | null | undefined,
 ): number {
-  return Object.values(distribution).reduce((sum, n) => sum + n, 0);
+  if (!distribution) return 0;
+  return Object.values(distribution).reduce((sum, n) => sum + (Number(n) || 0), 0);
 }
 
 export function usesBloomTaxonomy(subject: Subject | null): boolean {

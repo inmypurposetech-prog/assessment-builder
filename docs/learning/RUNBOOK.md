@@ -209,7 +209,7 @@ Update quarterly.
 |---------|--------------|-----|
 | Can’t log in after signup | Email not confirmed | Confirm in Supabase Users or disable confirm for test |
 | Signup says “already registered” / 400 | Email used before (local or prod) | Log in instead; or delete user in Supabase Auth → Users for a clean retest |
-| Confirm Dad = CAPS / email-signups-disabled | Auth provider or body assumption | Dad confirmed CAPS; enable Email signups in Supabase Providers |
+| Wizard “This page couldn't load” on prod | Unstable localStorage getSnapshot (infinite re-render) | Fixed: cache draft snapshot; hard-refresh after deploy |
 | Redirect loop / can’t reach dashboard | Auth URLs wrong | Fix Site URL + redirect allowlist (localhost **and** Vercel domain) |
 | Save assessment fails | Migration not run / RLS | Re-run SQL; check user logged in |
 | Env errors | Missing `.env.local` | Copy from `.env.example` |
