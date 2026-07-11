@@ -53,7 +53,8 @@ Track intentional upskilling. Tick when done; add notes in the log.
 
 ### Product, UX, quality
 
-- [ ] Accessibility basics (WCAG 2.2 AA mindset) — forms, focus, contrast
+- [x] Accessibility basics (WCAG 2.2 AA mindset) — forms, focus, contrast — **in progress**; standards in `design/UX_AND_ACCESSIBILITY.md` after parent smoke
+- [ ] GOV.UK Design System patterns (conditional reveals, focus on step change) — before Phase 1 review polish
 - [ ] Product discovery / continuous interview habits
 - [ ] Testing: Jest/Vitest + Playwright intro (add when Phase 2)
 
@@ -179,6 +180,21 @@ Repo: `https://github.com/inmypurposetech-prog/assessment-builder`
 - **Steps that worked:** NORTH_STAR artifact row updated; Phase 0 exit checklist in quality doc.  
 - **Follow-up:** Run smoke on prod; then tick Phase 0 complete.  
 - **Discipline lens:** PO, QA, Change.
+
+### 2026-07-11 — Parent smoke UX findings → a11y standards
+
+- **Context:** Wizard completed on prod; four UX questions (back link, post-login loading, scroll-on-step, dependent syllabus options).  
+- **Verdict:** All four are **valid** and align with WCAG AA / GOV.UK-style form practice; current app is **partially** below that bar.  
+- **Steps that worked:** Codified targets + known gaps in `design/UX_AND_ACCESSIBILITY.md`; Cursor always-on rule now requires those patterns on UI work.  
+- **Follow-up learning:** GOV.UK Design System (error summary, conditional reveals, focus management); WCAG 2.2 “Status Messages” / “Focus Not Obscured”.  
+- **Discipline lens:** UX, FE, QA, Change.
+
+### 2026-07-11 — Implemented parent smoke UX polish
+
+- **Context:** Ship the four fixes after docs standards.  
+- **Steps that worked:** Always-underline back link; auth busy + status until navigation; wizard scroll/focus; `curriculum-matrix.ts` cascade with clear-on-change notes.  
+- **Commands:** `npm run lint && npm run build`  
+- **Discipline lens:** UX, FE.
 
 ---
 

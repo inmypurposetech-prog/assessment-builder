@@ -20,6 +20,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
   const [confirmEmailMessage, setConfirmEmailMessage] = useState<string | null>(
     null,
   );
@@ -28,6 +29,7 @@ export default function SignupPage() {
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
     setError(null);
+    setStatus(null);
     setConfirmEmailMessage(null);
     setLoading(true);
     const supabase = createClient();
@@ -42,12 +44,10 @@ export default function SignupPage() {
         emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
-    setLoading(false);
 
     if (signUpError) {
-      setError(
-        getSignupErrorMessage(signUpError.message, signUpError.code),
-      );
+      setLoading(false);
+      setError(getSignupErrorMessage(signUpError.message, signUpError.code));
       return;
     }
 
@@ -57,6 +57,7 @@ export default function SignupPage() {
     );
 
     if (outcome.type === "confirm_email") {
+      setLoading(false);
       setConfirmEmailMessage(
         `Account created. We sent a confirmation link to ${email}. Open it, then log in.`,
       );
@@ -64,11 +65,13 @@ export default function SignupPage() {
     }
 
     if (outcome.type === "dashboard") {
+      setStatus("Opening your dashboard…");
       router.push("/dashboard");
       router.refresh();
       return;
     }
 
+    setLoading(false);
     setError(getSignupDuplicateEmailMessage());
   }
 
@@ -84,7 +87,7 @@ export default function SignupPage() {
             <p className="text-lg text-foreground">{confirmEmailMessage}</p>
             <Link
               href="/auth/login"
-              className="mt-4 inline-block text-lg font-semibold underline-offset-4 hover:underline"
+              className="mt-4 inline-block text-lg font-semibold text-primary underline underline-offset-4"
             >
               Go to log in
             </Link>
@@ -97,12 +100,14 @@ export default function SignupPage() {
               required
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
+              disabled={loading}
             />
             <Input
               label="School (optional)"
               hint="Helps us tailor examples later."
               value={school}
               onChange={(e) => setSchool(e.target.value)}
+              disabled={loading}
             />
             <Input
               label="Email"
@@ -111,6 +116,7 @@ export default function SignupPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
             />
             <Input
               label="Password"
@@ -121,20 +127,29 @@ export default function SignupPage() {
               hint="At least 8 characters."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
             />
             {error ? (
               <p className="text-base text-red-700" role="alert">
                 {error}
               </p>
             ) : null}
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Creating account…" : "Create account"}
+            {status ? (
+              <p className="text-base text-foreground" role="status" aria-live="polite">
+                {status}
+              </p>
+            ) : null}
+            <Button type="submit" disabled={loading} className="w-full" aria-busy={loading}>
+              {loading ? (status ?? "Creating account…") : "Create account"}
             </Button>
           </form>
         )}
         <p className="mt-6 text-lg">
           Already registered?{" "}
-          <Link href="/auth/login" className="font-semibold underline-offset-4 hover:underline">
+          <Link
+            href="/auth/login"
+            className="font-semibold text-primary underline underline-offset-4"
+          >
             Log in
           </Link>
         </p>

@@ -241,7 +241,9 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 - [ ] CI: `npm run lint` + `npm run build` on PR
 - [ ] Basic tests: cognitive total validator, title builder, auth error messages
 - [ ] Rate limit generation API
-- [ ] Loading / empty / error states reviewed for 50s+ UX
+- [x] Loading / empty / error states reviewed for 50s+ UX (see `design/UX_AND_ACCESSIBILITY.md` standards from Phase 0 smoke)
+- [x] Wizard polish: always-visible back link; scroll+focus on step change; login busy until dashboard
+- [x] Curriculum cascade matrix (exam body → subject → grade availability)
 
 ### Exit criteria
 

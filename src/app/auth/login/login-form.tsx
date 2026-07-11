@@ -16,24 +16,28 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
     setError(null);
+    setStatus(null);
     setLoading(true);
     const supabase = createClient();
     const { error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    setLoading(false);
     if (signInError) {
+      setLoading(false);
       setError(getAuthErrorMessage(signInError.message, signInError.code));
       return;
     }
+    setStatus("Opening your dashboard…");
     router.push(next);
     router.refresh();
+    // Keep loading=true until the next page paints
   }
 
   return (
@@ -51,6 +55,7 @@ export default function LoginForm() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
           />
           <Input
             label="Password"
@@ -59,19 +64,28 @@ export default function LoginForm() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
           />
           {error ? (
             <p className="text-base text-red-700" role="alert">
               {error}
             </p>
           ) : null}
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Logging in…" : "Log in"}
+          {status ? (
+            <p className="text-base text-foreground" role="status" aria-live="polite">
+              {status}
+            </p>
+          ) : null}
+          <Button type="submit" disabled={loading} className="w-full" aria-busy={loading}>
+            {loading ? (status ?? "Logging in…") : "Log in"}
           </Button>
         </form>
         <p className="mt-6 text-lg">
           New here?{" "}
-          <Link href="/auth/signup" className="font-semibold underline-offset-4 hover:underline">
+          <Link
+            href="/auth/signup"
+            className="font-semibold text-primary underline underline-offset-4"
+          >
             Create an account
           </Link>
         </p>

@@ -86,6 +86,8 @@ npm run test:coverage
 | 2026-07-11 | Production smoke (signup → wizard → save) | Signup 400 on prod; likely existing email — clearer signup errors shipping | Tanielle |
 | 2026-07-11 | Signup error copy (`getSignupErrorMessage`) | Maps already-registered / weak password / invalid email | Cursor |
 | 2026-07-11 | Prod wizard “This page couldn't load” | Root cause: unstable localStorage snapshot in useSyncExternalStore → tab crash when draft exists; fix shipping | Tanielle + Cursor |
+| 2026-07-11 | Phase 0 smoke (wizard complete) | Pass for create flow; UX gaps logged (back link, login busy gap, step scroll, dependent options) → standards in UX doc | Tanielle |
+| 2026-07-11 | UX polish: back link, auth busy, step focus, curriculum matrix | Implemented + lint/build green | Cursor |
 
 ---
 

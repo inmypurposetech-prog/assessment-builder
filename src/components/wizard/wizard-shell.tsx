@@ -6,6 +6,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   useSyncExternalStore,
 } from "react";
@@ -17,7 +18,6 @@ import {
   type BloomFocus,
   type Difficulty,
   type ExamBody,
-  type Grade,
   type ScopeMode,
   type Subject,
 } from "@/lib/types/assessment";
@@ -30,8 +30,14 @@ import {
   usesMathsCognitiveLevels,
 } from "@/lib/constants/cognitive-levels";
 import {
+  getGradesFor,
+  getSubjectsForExamBody,
+  gradeOptionLabel,
+  isCurriculumSupported,
+} from "@/lib/constants/curriculum-matrix";
+import {
   EXAM_BODY_OPTIONS,
-  GRADE_OPTIONS,
+  SUBJECT_LABELS,
   TOPICS_BY_SUBJECT,
 } from "@/lib/constants/subjects";
 import { Button } from "@/components/ui/button";
@@ -215,6 +221,7 @@ interface WizardShellProps {
 
 export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
   const router = useRouter();
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const [step, setStep] = useState(1);
   const localDraft = useSyncExternalStore(
     subscribeDraft,
@@ -226,11 +233,17 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
   const data = draftOverride ?? localDraft;
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [cascadeNote, setCascadeNote] = useState<string | null>(null);
 
   useEffect(() => {
     if (assessmentId) return;
     persistDraft(data);
   }, [data, assessmentId]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    headingRef.current?.focus();
+  }, [step]);
 
   const update = useCallback(
     (patch: Partial<AssessmentWizardData>) => {
@@ -240,6 +253,55 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
     },
     [localDraft],
   );
+
+  const availableSubjects = useMemo(
+    () => getSubjectsForExamBody(data.examBody),
+    [data.examBody],
+  );
+
+  const availableGrades = useMemo(
+    () => getGradesFor(data.examBody, data.subject),
+    [data.examBody, data.subject],
+  );
+
+  const selectExamBody = (examBody: ExamBody) => {
+    const subjects = getSubjectsForExamBody(examBody);
+    const subjectOk = data.subject !== null && subjects.includes(data.subject);
+    const nextSubject = subjectOk ? data.subject : null;
+    const grades = getGradesFor(examBody, nextSubject);
+    const gradeOk = data.grade !== null && grades.includes(data.grade);
+    const cleared: string[] = [];
+    if (data.subject && !subjectOk) cleared.push("subject");
+    if (data.grade && !gradeOk) cleared.push("grade");
+    setCascadeNote(
+      cleared.length > 0
+        ? `We cleared your ${cleared.join(" and ")} because it is not available for that curriculum. Choose again below.`
+        : null,
+    );
+    update({
+      examBody,
+      subject: nextSubject,
+      grade: gradeOk ? data.grade : null,
+      selectedTopics: subjectOk ? data.selectedTopics : [],
+      mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE },
+    });
+  };
+
+  const selectSubject = (subject: Subject) => {
+    const grades = getGradesFor(data.examBody, subject);
+    const gradeOk = data.grade !== null && grades.includes(data.grade);
+    setCascadeNote(
+      data.grade && !gradeOk
+        ? "We cleared your grade because it is not available for that subject. Choose a grade again."
+        : null,
+    );
+    update({
+      subject,
+      grade: gradeOk ? data.grade : null,
+      selectedTopics: [],
+      mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE },
+    });
+  };
 
   const topics = useMemo(() => {
     if (!data.subject) return [];
@@ -255,7 +317,8 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
           data.examBody !== null &&
           data.subject !== null &&
           data.grade !== null &&
-          data.term !== null
+          data.term !== null &&
+          isCurriculumSupported(data.examBody, data.subject, data.grade)
         );
       case 3:
         if (!data.scopeMode) return false;
@@ -292,14 +355,20 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
       <div>
         <Link
           href="/dashboard"
-          className="text-lg text-primary underline-offset-4 hover:underline"
+          className="inline-flex min-h-12 items-center text-lg font-semibold text-primary underline underline-offset-4"
         >
           Back to dashboard
         </Link>
         <p className="mt-4 text-base text-muted-foreground">
           Step {step} of {STEPS.length}
         </p>
-        <h1 className="mt-2 text-3xl font-bold text-foreground">{current.title}</h1>
+        <h1
+          ref={headingRef}
+          tabIndex={-1}
+          className="mt-2 text-3xl font-bold text-foreground outline-none"
+        >
+          {current.title}
+        </h1>
         <p className="mt-2 text-xl text-muted-foreground">{current.subtitle}</p>
         <p className="mt-2 text-base text-muted-foreground">
           {assessmentId
@@ -330,6 +399,11 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
 
         {step === 2 && (
           <div className="flex flex-col gap-8">
+            {cascadeNote ? (
+              <p className="rounded-lg border border-border bg-muted px-4 py-3 text-base text-foreground" role="status">
+                {cascadeNote}
+              </p>
+            ) : null}
             <div>
               <CardTitle>Exam body</CardTitle>
               <div className="mt-4 flex flex-col gap-3">
@@ -338,7 +412,7 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
                     key={opt.value}
                     name="examBody"
                     checked={data.examBody === opt.value}
-                    onChange={() => update({ examBody: opt.value as ExamBody })}
+                    onChange={() => selectExamBody(opt.value as ExamBody)}
                     label={opt.label}
                     description={opt.description}
                   />
@@ -347,37 +421,55 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
             </div>
             <div>
               <CardTitle>Subject</CardTitle>
-              <div className="mt-4 flex flex-col gap-3">
-                {(["Mathematics", "Life Sciences"] as Subject[]).map((subject) => (
-                  <RadioOption
-                    key={subject}
-                    name="subject"
-                    checked={data.subject === subject}
-                    onChange={() =>
-                      update({
-                        subject,
-                        selectedTopics: [],
-                        mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE },
-                      })
-                    }
-                    label={subject}
-                  />
-                ))}
-              </div>
+              {!data.examBody ? (
+                <p className="mt-4 text-base text-muted-foreground">
+                  Choose an exam body first.
+                </p>
+              ) : availableSubjects.length === 0 ? (
+                <p className="mt-4 text-base text-muted-foreground" role="status">
+                  No subjects are available for this curriculum in AssessMate yet.
+                  Choose a different exam body.
+                </p>
+              ) : (
+                <div className="mt-4 flex flex-col gap-3">
+                  {availableSubjects.map((subject) => (
+                    <RadioOption
+                      key={subject}
+                      name="subject"
+                      checked={data.subject === subject}
+                      onChange={() => selectSubject(subject)}
+                      label={SUBJECT_LABELS[subject]}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
             <div>
               <CardTitle>Grade</CardTitle>
-              <div className="mt-4 flex flex-col gap-3">
-                {GRADE_OPTIONS.map((opt) => (
-                  <RadioOption
-                    key={opt.value}
-                    name="grade"
-                    checked={data.grade === opt.value}
-                    onChange={() => update({ grade: opt.value as Grade })}
-                    label={opt.label}
-                  />
-                ))}
-              </div>
+              {!data.subject ? (
+                <p className="mt-4 text-base text-muted-foreground">
+                  Choose a subject first.
+                </p>
+              ) : availableGrades.length === 0 ? (
+                <p className="mt-4 text-base text-muted-foreground" role="status">
+                  No grades are available for this subject and curriculum yet.
+                </p>
+              ) : (
+                <div className="mt-4 flex flex-col gap-3">
+                  {availableGrades.map((grade) => (
+                    <RadioOption
+                      key={grade}
+                      name="grade"
+                      checked={data.grade === grade}
+                      onChange={() => {
+                        setCascadeNote(null);
+                        update({ grade });
+                      }}
+                      label={gradeOptionLabel(grade)}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
             <div>
               <CardTitle>Term</CardTitle>
@@ -395,7 +487,6 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
             </div>
           </div>
         )}
-
         {step === 3 && (
           <div className="flex flex-col gap-6">
             <CardTitle>What should the paper cover?</CardTitle>
@@ -668,18 +759,17 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
               setSaveError(null);
               setSaving(true);
               try {
-                const result = await saveAssessmentWizard(data, assessmentId);
+                await saveAssessmentWizard(data, assessmentId);
                 if (!assessmentId) {
                   clearDraft();
                 }
                 router.push("/dashboard");
                 router.refresh();
-                void result;
+                // Keep saving=true until navigation completes
               } catch {
                 setSaveError(
                   "We could not save your assessment. Check your connection and try again.",
                 );
-              } finally {
                 setSaving(false);
               }
             }}
