@@ -94,6 +94,7 @@ npm run test:coverage
 | 2026-07-11 | Phase 1A content: cognitive validators, template pack v1, Bloom grid pattern, seed bank (25+24) | `npm run lint` + `npm run build`; seed stats via `getSeedQuestionBankStats` | Cursor |
 | 2026-07-11 | Mom 2023 PDF extract + OCR check of low-text pages | Local `_extracts/` (gitignored); lined blanks confirmed; EXTRACT_INDEX committed | Cursor |
 | 2026-07-13 | Re-extract Mom 2023 PDFs via `scripts/extract-ieb-ls-2023.py` | 7 files; weak pages = blanks/cover; migration 002 still needs `SUPABASE_DB_URL` | Cursor |
+| 2026-07-13 | Migration `002_question_bank_phase1a.sql` on cloud Supabase | Applied via SQL Editor; DB password reset (new password for Connect URI / CLI) | Tanielle |
 
 ---
 

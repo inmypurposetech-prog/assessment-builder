@@ -60,7 +60,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [ ] ADR when enabling product analytics
 - [x] Production smoke / Auth path documented (optional: re-confirm Table Editor row + LS save)
 - [x] Branch-first + draft PR standard (ADR-010)
-- [ ] Run `002_question_bank_phase1a.sql` in Supabase — blocked on `SUPABASE_DB_URL` or Dashboard sign-in; runner: `npm run db:migrate:002`
+- [x] Run `002_question_bank_phase1a.sql` in Supabase — applied via SQL Editor (13 Jul 2026); DB password reset same day (store in password manager; Connect button for CLI URI if needed)
 - [x] Optional OCR of Mom’s 2023 question papers — local `_extracts/` (gitignored); lined blanks confirmed; see EXTRACT_INDEX.md + `scripts/extract-ieb-ls-2023.py`
 
 ---

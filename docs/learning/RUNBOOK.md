@@ -132,7 +132,7 @@ Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern 
 3. Update `architecture/OVERVIEW.md` data model section.  
 4. Never “click-only” prod schema without a migration file.
 
-**Learned (11 Jul 2026):** Anon key alone cannot run DDL. Need Dashboard SQL Editor login or the Postgres URI (`SUPABASE_DB_URL`) from Settings → Database.
+**Learned (11–13 Jul 2026):** Anon key alone cannot run DDL. Prefer **SQL Editor** (paste migration → Run) — no connection string needed. If using the CLI: Dashboard → green **Connect** button (top of project) → Session pooler URI as `SUPABASE_DB_URL`. Old “Settings → Database → Connection string” path is easy to miss / relocated.
 
 ### R6 — After any debugging session
 
@@ -263,7 +263,14 @@ Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern 
 - **Context:** Finish OCR of Mom’s 2023 pack and apply `002_question_bank_phase1a.sql` on cloud Supabase.  
 - **Steps that worked:** Re-ran `scripts/extract-ieb-ls-2023.py` (pypdf); weak pages are lined blanks / cover; EXTRACT_INDEX + gitignore `_extracts/`; migration runner `npm run db:migrate:002` + `.env.example` note for `SUPABASE_DB_URL`.  
 - **Pitfalls:** Anon key cannot DDL; Dashboard sign-in required or Postgres URI from Settings → Database. No DB password in local keychain / `.env.local`.  
-- **Follow-up:** User pastes `SUPABASE_DB_URL` into `.env.local` (gitignored) or signs into Supabase SQL Editor and runs `002_…sql`.  
+- **Follow-up:** ~~Paste `SUPABASE_DB_URL`~~ → **Done 13 Jul 2026:** SQL Editor applied `002`; DB password reset (keep in password manager; use Connect → Session pooler if CLI needed later).  
+- **Discipline lens:** DBA, Support.
+
+### 2026-07-13 — Migration 002 applied (SQL Editor)
+
+- **Context:** User could not find connection string at old Settings path; used SQL Editor instead; reset DB password.  
+- **Steps that worked:** Paste `supabase/migrations/002_question_bank_phase1a.sql` → Run. Connection string is under project **Connect** (top bar), not the old Settings route.  
+- **Pitfalls:** Forgotten DB password → reset in Project Settings → Database; update any saved URIs.  
 - **Discipline lens:** DBA, Support.
 
 ---
@@ -301,6 +308,8 @@ Update quarterly.
 | Env errors | Missing `.env.local` | Copy from `.env.example` |
 | “Middleware deprecated” | Old file name | Use `src/proxy.ts` |
 | Prod login works locally but not on Vercel | Missing prod redirect URL or env vars | Add `NEXT_PUBLIC_SUPABASE_*` on Vercel; allowlist `/auth/callback` |
+| Can’t find Postgres connection string | UI moved | Project home → green **Connect** (top); or skip URI and use **SQL Editor** for migrations |
+| Forgot database password | Only resettable, not viewable | Project Settings → Database → reset password; update any saved `SUPABASE_DB_URL` |
 
 ---
 
