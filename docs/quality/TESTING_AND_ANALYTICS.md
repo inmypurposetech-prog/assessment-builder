@@ -92,6 +92,8 @@ npm run test:coverage
 | 2026-07-11 | UX polish: back link, auth busy, step focus, curriculum matrix | Implemented + lint/build green | Cursor |
 | 2026-07-11 | Phase 0 exit | Marked complete; branch-first standard (ADR-010); next = Phase 1A on `cursor/phase-1a-content-templates` | Tanielle + Cursor |
 | 2026-07-11 | Phase 1A content: cognitive validators, template pack v1, Bloom grid pattern, seed bank (25+24) | `npm run lint` + `npm run build`; seed stats via `getSeedQuestionBankStats` | Cursor |
+| 2026-07-11 | Mom 2023 PDF extract + OCR check of low-text pages | Local `_extracts/` (gitignored); lined blanks confirmed; EXTRACT_INDEX committed | Cursor |
+| 2026-07-13 | Re-extract Mom 2023 PDFs via `scripts/extract-ieb-ls-2023.py` | 7 files; weak pages = blanks/cover; migration 002 still needs `SUPABASE_DB_URL` | Cursor |
 
 ---
 

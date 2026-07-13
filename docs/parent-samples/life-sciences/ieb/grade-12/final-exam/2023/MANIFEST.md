@@ -31,4 +31,8 @@ These are gold for AssessMate: they show how IEB Life Sciences maps questions to
 | Bloom columns K–E, AIM 1–3, difficulty E/M/D/VD, Paper II target % | `src/lib/constants/bloom-levels.ts` + `src/lib/content/taxonomy/ieb-ls-analysis-grid.ts` |
 | Wizard Bloom focus radios | `BLOOM_FOCUS_OPTIONS` → wizard Advanced |
 
-**Not ingested:** verbatim Paper 1/2 question text (copyright). Seed bank uses original pedagogical items instead. Optional OCR of papers remains open.
+**Not ingested:** verbatim Paper 1/2 question text (copyright). Seed bank uses original pedagogical items instead.
+
+## Local PDF text extract (11 July 2026)
+
+See [EXTRACT_INDEX.md](./EXTRACT_INDEX.md). Full text under gitignored `_extracts/` (pypdf + Apple Vision OCR check). Lined blank pages confirmed; no further OCR needed for 1A/1B.

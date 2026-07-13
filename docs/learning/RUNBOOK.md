@@ -128,9 +128,11 @@ Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern 
 ### R5 — Database change
 
 1. Add `supabase/migrations/00N_description.sql`.  
-2. Run in Supabase SQL Editor.  
+2. Run in Supabase SQL Editor **or** `SUPABASE_DB_URL='…' npm run db:migrate:002` (for `002_…`).  
 3. Update `architecture/OVERVIEW.md` data model section.  
 4. Never “click-only” prod schema without a migration file.
+
+**Learned (11 Jul 2026):** Anon key alone cannot run DDL. Need Dashboard SQL Editor login or the Postgres URI (`SUPABASE_DB_URL`) from Settings → Database.
 
 ### R6 — After any debugging session
 
@@ -234,10 +236,35 @@ Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern 
 - **Pitfalls:**  
   - Do not commit parent binaries or verbatim past-paper questions (ADR-007 / copyright).  
   - Dad’s June memo tags K/R/C heavily; still reserve P for problem solving in exports.  
-  - Optional OCR of full Mom papers deferred — taxonomy from grids is enough for 1A.  
-- **Commands / links:** Branch `cursor/phase-1a-content-templates`; run `002_…sql` in Supabase when cloud bank needed.  
+  - Full Mom paper OCR completed 13 Jul 2026 (local `_extracts/`); taxonomy from grids remains the app source of truth.  
+- **Commands / links:** Branch `cursor/phase-1a-content-templates`; `npm run db:migrate:002` when `SUPABASE_DB_URL` is set.  
 - **Follow-up learning:** Structured JSON generation; DOCX templating for GDE memo.  
 - **Discipline lens:** BA, Tech Architect, DBA, UX, Quant.
+
+---
+
+### 2026-07-11 — Mom 2023 PDF extract + migration runner
+
+- **Context:** Complete deferred Phase 1A items (PDF extract/OCR + run `002` on Supabase).  
+- **Steps that worked:**  
+  1. `pypdf` extracted all papers/memos/grids/sources into gitignored `_extracts/`.  
+  2. Apple Vision (`ocrmac`) on low-text pages → they are **lined blank answer sheets**, not missing questions.  
+  3. Added `scripts/apply-migration-002.mjs` + `npm run db:migrate:002` (needs `SUPABASE_DB_URL`).  
+- **Pitfalls:**  
+  - Vision OCR fails in sandbox — needs full macOS permissions.  
+  - Anon key cannot ALTER TABLE; Dashboard sign-in or DB URI required.  
+- **Follow-up:** Paste `SUPABASE_DB_URL` (or sign into Supabase Dashboard) so migration can be applied.  
+- **Discipline lens:** DBA, BA, Support.
+
+---
+
+### 2026-07-13 — Deferred 1A: PDF extracts + migration attempt
+
+- **Context:** Finish OCR of Mom’s 2023 pack and apply `002_question_bank_phase1a.sql` on cloud Supabase.  
+- **Steps that worked:** Re-ran `scripts/extract-ieb-ls-2023.py` (pypdf); weak pages are lined blanks / cover; EXTRACT_INDEX + gitignore `_extracts/`; migration runner `npm run db:migrate:002` + `.env.example` note for `SUPABASE_DB_URL`.  
+- **Pitfalls:** Anon key cannot DDL; Dashboard sign-in required or Postgres URI from Settings → Database. No DB password in local keychain / `.env.local`.  
+- **Follow-up:** User pastes `SUPABASE_DB_URL` into `.env.local` (gitignored) or signs into Supabase SQL Editor and runs `002_…sql`.  
+- **Discipline lens:** DBA, Support.
 
 ---
 

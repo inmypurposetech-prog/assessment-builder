@@ -60,8 +60,8 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [ ] ADR when enabling product analytics
 - [x] Production smoke / Auth path documented (optional: re-confirm Table Editor row + LS save)
 - [x] Branch-first + draft PR standard (ADR-010)
-- [ ] Run `002_question_bank_phase1a.sql` in Supabase when ready for cloud bank rows
-- [ ] Optional OCR of Mom’s 2023 question papers (not required for 1B seed path)
+- [ ] Run `002_question_bank_phase1a.sql` in Supabase — blocked on `SUPABASE_DB_URL` or Dashboard sign-in; runner: `npm run db:migrate:002`
+- [x] Optional OCR of Mom’s 2023 question papers — local `_extracts/` (gitignored); lined blanks confirmed; see EXTRACT_INDEX.md + `scripts/extract-ieb-ls-2023.py`
 
 ---
 
@@ -184,7 +184,7 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 - [x] Parse/structure Dad’s June pack as **template pack v1** (paper + memo + answer book layout notes)
 - [x] Ingest Mom’s **analysis grids** as Bloom/taxonomy pattern for Life Sciences
 - [x] Seed a small **question bank** (start manual: 20–50 Maths + 20–50 LS questions with metadata)
-- [ ] Optional: PDF text extract for Mom’s 2023 papers (OCR if needed) — deferred; grids extracted for taxonomy only (ADR-011)
+- [x] Optional: PDF text extract for Mom’s 2023 papers (OCR if needed) — local `_extracts/` via `scripts/extract-ieb-ls-2023.py`; lined blanks confirmed; see EXTRACT_INDEX.md
 
 ### 1B — Generation pipeline
 
