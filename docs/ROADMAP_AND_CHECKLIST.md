@@ -62,7 +62,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Branch-first + draft PR standard (ADR-010)
 - [x] Run `002_question_bank_phase1a.sql` in Supabase — applied via SQL Editor (13 Jul 2026); DB password reset same day (store in password manager; Connect button for CLI URI if needed)
 - [x] Optional OCR of Mom’s 2023 question papers — local `_extracts/` (gitignored); lined blanks confirmed; see EXTRACT_INDEX.md + `scripts/extract-ieb-ls-2023.py`
-- [ ] Run `003_generation_phase1b.sql` in Supabase before prod generate saves (SQL Editor)
+- [x] Run `003_generation_phase1b.sql` in Supabase before prod generate saves (SQL Editor) — applied 14 Jul 2026
 
 ---
 
@@ -92,7 +92,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Review UI (Phase 1C)
 - [ ] Export into Dad/Mom templates (Phase 1D)
 - [ ] Parent pilot protocol + feedback loop
-- [ ] Apply migration `003_generation_phase1b.sql` on cloud Supabase (before prod save works)
+- [x] Apply migration `003_generation_phase1b.sql` on cloud Supabase — applied 14 Jul 2026
 
 ### Definition of “MVP in parents’ hands”
 
@@ -532,5 +532,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Start **Phase 1D** (export) on a new `cursor/phase-1d-…` branch + draft PR. Apply migration **003** on Supabase if not done. After each merge: clean up the feature branch (local + remote).
+**Next action right now:** Start **Phase 1D** (export) on a new `cursor/phase-1d-…` branch + draft PR. Migration **003** is on cloud Supabase. After each merge: clean up the feature branch (local + remote).
 

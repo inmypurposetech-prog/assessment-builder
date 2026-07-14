@@ -101,6 +101,7 @@ npm run test:coverage
 | 2026-07-14 | Post-merge branch cleanup standard | Documented in ROADMAP / R3 / ADR-010; phase-0 + phase-1a branches deleted after merge | Tanielle + Cursor |
 | 2026-07-14 | Phase 1B structured generation API | `npm run lint` + `npm run build`; assembler bank-first + memo derive + cost config; migration 003 authored (apply on Supabase before prod save) | Cursor |
 | 2026-07-14 | Phase 1C review UX | `npm run lint` + `npm run build`; review route + Edit/Replace/Delete + live totals + proud bar; generate wired from wizard/dashboard | Cursor |
+| 2026-07-14 | Migration `003_generation_phase1b.sql` on cloud Supabase | Applied via SQL Editor — `generated_content` / `generation_usage` ready for prod generate + review save | Tanielle |
 
 ---
 
