@@ -95,6 +95,7 @@ npm run test:coverage
 | 2026-07-11 | Mom 2023 PDF extract + OCR check of low-text pages | Local `_extracts/` (gitignored); lined blanks confirmed; EXTRACT_INDEX committed | Cursor |
 | 2026-07-13 | Re-extract Mom 2023 PDFs via `scripts/extract-ieb-ls-2023.py` | 7 files; weak pages = blanks/cover; migration 002 still needs `SUPABASE_DB_URL` | Cursor |
 | 2026-07-13 | Migration `002_question_bank_phase1a.sql` on cloud Supabase | Applied via SQL Editor; DB password reset (new password for Connect URI / CLI) | Tanielle |
+| 2026-07-14 | Post-merge branch cleanup standard | Documented in ROADMAP / R3 / ADR-010; phase-0 + phase-1a branches deleted after merge | Tanielle + Cursor |
 
 ---
 

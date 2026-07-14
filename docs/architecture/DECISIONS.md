@@ -86,11 +86,11 @@
 ## ADR-010 — Branch-first + draft PR
 
 - **Status:** Accepted  
-- **Date:** 2026-07-11  
-- **Context:** Phase 0 pushed straight to `main` for speed; later `cursor/…` branch at the same tip could not open a PR (“No commits between main and …”).  
-- **Decision:** For every feature/phase slice: create `cursor/<topic>` or `feature/<topic>` **before** coding; push; open a **draft PR** into `main`; merge only after gate checks. Keep `main` deployable.  
-- **Consequences:** Slightly more ceremony; reviewable diffs; Vercel preview option; Cursor sessions start on a named branch.  
-- **Rejected alternatives:** Continue committing on `main` for solo speed.  
+- **Date:** 2026-07-11 (cleanup step clarified 2026-07-14)  
+- **Context:** Phase 0 pushed straight to `main` for speed; later `cursor/…` branch at the same tip could not open a PR (“No commits between main and …”). After Phase 1A merge, stale `cursor/…` remotes also cluttered the next session.  
+- **Decision:** For every feature/phase slice: create `cursor/<topic>` or `feature/<topic>` **before** coding; push; open a **draft PR** into `main`; merge only after gate checks. Keep `main` deployable. **After merge, delete the feature branch locally and on `origin`** (and prune). Squash merges keep the tree on `main`; branch delete only removes the tip name.  
+- **Consequences:** Slightly more ceremony; reviewable diffs; Vercel preview option; Cursor sessions start on a named branch from a clean `main`; no pile of merged `cursor/…` remotes.  
+- **Rejected alternatives:** Continue committing on `main` for solo speed; leave merged feature branches forever “for history.”  
 - **Disciplines consulted:** Tech Architect, Change, Support.
 
 ---

@@ -354,7 +354,7 @@ Use this loop for **each** feature (generation, export, templates, etc.).
 4. Implement  → small PR on a branch
 5. Verify     → lint, build, manual test checklist
 6. Review     → you + Cursor; parents if user-facing
-7. Release    → merge → Vercel deploy → smoke test prod
+7. Release    → merge → **delete feature branch** → Vercel deploy → smoke test prod
 8. Learn      → feedback → update NORTH_STAR / this checklist
 ```
 
@@ -374,14 +374,28 @@ git checkout -b cursor/<short-topic>   # or feature/<short-topic>
 | Branch naming | `cursor/…` (agent sessions) or `feature/…` (manual) — one concern per branch |
 | Open a **draft PR early** | `gh pr create --draft --base main` after first push |
 | Merge → then Vercel prod | Only merge when lint/build + smoke notes are OK |
+| **After merge: clean up the branch** | Delete local + remote feature branch so only `main` (and active work) remains |
 | `main` stays deployable | Hotfixes only; still prefer a tiny branch if possible |
 
 ```text
 main (deployable)
-  └── cursor/phase-1a-…  → draft PR → review → merge → Vercel
+  └── cursor/phase-…  → draft PR → review → merge → delete branch → Vercel
 ```
 
+**After every merge (mandatory cleanup):**
+
+```bash
+git checkout main
+git pull origin main
+git branch -d cursor/<short-topic>          # local (use -D only if Git complains after squash merge)
+git push origin --delete cursor/<short-topic>
+git fetch --prune
+```
+
+Safe when the PR is merged: a squash merge keeps the **tree** on `main` even if the tip commit is not an ancestor. You only drop the branch *name* and granular tip SHAs — not the merged files. Also delete any older merged `cursor/…` / `feature/…` remotes sitting around.
+
 **Anti-pattern:** push commits to `main` all session, then try to open a PR from a same-tip branch (GitHub: “No commits between main and …”).  
+**Anti-pattern:** leave merged `cursor/…` branches on GitHub “just in case” — they clutter the next session and confuse which tip to branch from.  
 
 ### Environments
 
@@ -400,6 +414,7 @@ main (deployable)
 - [ ] Migration added if schema changed  
 - [ ] NORTH_STAR or this checklist updated if scope changed  
 - [ ] **Documentation Gate** completed (see top of this file)  
+- [ ] PR merged to `main` **and** feature branch deleted (local + remote)  
 
 ---
 
@@ -511,5 +526,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Merge Phase 1A draft PR when green → start **Phase 1B** (structured generation API) on a new `cursor/phase-1b-…` branch + draft PR.
+**Next action right now:** Start **Phase 1B** (structured generation API) on a new `cursor/phase-1b-…` branch + draft PR. After each merge: clean up the feature branch (local + remote).
 

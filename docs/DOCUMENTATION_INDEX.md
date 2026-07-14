@@ -18,7 +18,7 @@ In Cursor, start sessions with:
 @docs/DOCUMENTATION_INDEX.md @docs/NORTH_STAR.md @docs/ROADMAP_AND_CHECKLIST.md
 ```
 
-**Git:** Create/checkout a `cursor/…` or `feature/…` branch **before** implementing; open a draft PR into `main` (ADR-010). Do not feature-commit on `main`.
+**Git:** Create/checkout a `cursor/…` or `feature/…` branch **before** implementing; open a draft PR into `main` (ADR-010). Do not feature-commit on `main`. After merge, delete the feature branch (local + remote).
 
 After a learning-heavy task (e.g. Supabase, Vercel, AI):
 
