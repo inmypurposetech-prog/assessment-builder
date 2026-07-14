@@ -2,7 +2,7 @@
 
 > **Disciplines:** Quality/Testing Engineer · Data & Insights · Quant · Support  
 > **Status:** Seeded (manual testing today; automation Phase 2+)  
-> **Last updated:** 14 July 2026 (Phase 1B)
+> **Last updated:** 14 July 2026 (Phase 1C)
 
 ---
 
@@ -37,6 +37,8 @@
 - [ ] `getAuthErrorMessage` / signup outcomes  
 - [ ] `getSeedQuestionBankStats` counts (25 Maths + 24 LS)  
 - [ ] `assembleAssessment` mark sum + Maths withinTolerance / LS Bloom attachment  
+- [ ] `evaluateProudToPresent` blockers (memo empty, marks mismatch)  
+- [ ] `recomputeGeneratedAssessment` after delete renumbers + mark totals  
 - [ ] Future: memo marks === paper marks always  
 
 ### Integration
@@ -47,7 +49,7 @@
 ### E2E / UAT
 
 - [ ] Manual: signup → wizard → save (today)  
-- [ ] Manual Phase 1: generate → edit → export  
+- [ ] Manual Phase 1: generate → review edit → export  
 - [ ] Playwright smoke (Phase 2+): login + dashboard  
 
 ### Non-functional
@@ -98,6 +100,7 @@ npm run test:coverage
 | 2026-07-13 | Migration `002_question_bank_phase1a.sql` on cloud Supabase | Applied via SQL Editor; DB password reset (new password for Connect URI / CLI) | Tanielle |
 | 2026-07-14 | Post-merge branch cleanup standard | Documented in ROADMAP / R3 / ADR-010; phase-0 + phase-1a branches deleted after merge | Tanielle + Cursor |
 | 2026-07-14 | Phase 1B structured generation API | `npm run lint` + `npm run build`; assembler bank-first + memo derive + cost config; migration 003 authored (apply on Supabase before prod save) | Cursor |
+| 2026-07-14 | Phase 1C review UX | `npm run lint` + `npm run build`; review route + Edit/Replace/Delete + live totals + proud bar; generate wired from wizard/dashboard | Cursor |
 
 ---
 

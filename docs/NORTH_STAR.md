@@ -71,9 +71,10 @@
 ## MVP user flow
 
 ```
-Login → Dashboard → Create Assessment → Wizard → Save draft
-  → Generate (POST /api/generate → structured paper + memo JSON)
-  → [Phase 1C+] Review & Edit → Supporting docs → Export / Email / Save
+Login → Dashboard → Create Assessment → Wizard
+  → Build my paper (POST /api/generate → structured paper + memo JSON)
+  → Review & Edit (/assessments/[id]/review) → Save review
+  → [Phase 1D+] Supporting docs → Export / Email
 ```
 
 ### Wizard steps (current)
@@ -83,6 +84,8 @@ Login → Dashboard → Create Assessment → Wizard → Save draft
 3. Scope (topics / term / previous paper / custom mix)
 4. Settings (marks, duration, difficulty)
 5. Advanced — **subject-aware**: Maths cognitive % **or** Life Sciences Bloom focus
+
+Wizard finish offers **Build my paper** (primary) or **Save and finish for now**. Dashboard opens **Review paper** when `generated_content` exists.
 
 ---
 

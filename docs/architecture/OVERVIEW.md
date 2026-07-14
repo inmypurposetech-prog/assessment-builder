@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical/Systems Architect · Frontend · Backend · Database Architect  
 > **Status:** Active (MVP Track A)  
-> **Last updated:** 14 July 2026 (Phase 1B structured generation)
+> **Last updated:** 14 July 2026 (Phase 1C review UX)
 
 ---
 
@@ -47,6 +47,8 @@
 ```text
 src/app/                 # Routes (RSC + client where needed)
 src/app/api/generate/    # Phase 1B structured generation API
+src/app/assessments/[id]/review/  # Phase 1C review UX
+src/components/review/   # ReviewShell, GenerateAssessmentButton
 src/components/ui/       # Design-system primitives
 src/components/wizard/   # Assessment wizard
 src/lib/supabase/        # Browser + server + session helpers
@@ -75,10 +77,20 @@ supabase/migrations/     # Source of truth for schema
 |--------|------|
 | `generation/assemble.ts` | Bank-first paper assembly + taxonomy report |
 | `generation/memo.ts` | Derive memo from locked questions |
+| `generation/recompute.ts` | Rebuild totals + taxonomy after teacher edits |
+| `generation/proud-to-present.ts` | Blocker/caution flags for review bar |
 | `generation/config.ts` | Model / max tokens / monthly cap |
 | `generation/usage.ts` | Count + record `generation_usage` |
 | `generation/ai-gaps.ts` | Optional AI gap-fill hook (no-op until keys) |
 | `app/api/generate/route.ts` | Session-checked POST → JSON (+ persist) |
+
+### Review layer (Phase 1C)
+
+| Path | Role |
+|------|------|
+| `app/assessments/[id]/review` | Auth + load `generated_content` → `ReviewShell` |
+| `components/review/` | Edit / Replace / Delete; live totals; proud bar; generate CTA |
+| `saveGeneratedAssessment` | Persist edited JSON to `assessments.generated_content` |
 
 ---
 
@@ -108,7 +120,8 @@ Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`, `003_gene
 | **Build** | `npm run build` | CI on PR |
 | **Deploy** | Vercel auto-deploy from GitHub `main` (ADR-009) | Preview deploys on PR (optional) |
 | **Migrate** | Paste SQL in Supabase Editor | CLI optional later |
-| **Generate** | `POST /api/generate` → seed bank → structured JSON → validate cognitive/Bloom → derive memo → save + usage (ADR-012) | Review UI (1C); provider-backed gap-fill when keys set |
+| **Generate** | `POST /api/generate` → seed bank → structured JSON → validate cognitive/Bloom → derive memo → save + usage (ADR-012) | Provider-backed gap-fill when keys set |
+| **Review** | `/assessments/[id]/review` — edit/replace/delete; live totals; proud bar; save `generated_content` (ADR-013) | Export (1D) |
 | **Export** | Not built | JSON → DOCX/PDF via template pack notes |
 | **Ingest** | Guide/grid distilled into typed content; binaries stay local | Optional OCR + embeddings later |
 

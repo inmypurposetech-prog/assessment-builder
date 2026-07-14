@@ -42,6 +42,7 @@ import {
   SUBJECT_LABELS,
   TOPICS_BY_SUBJECT,
 } from "@/lib/constants/subjects";
+import { GenerateAssessmentButton } from "@/components/review/generate-assessment-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -759,29 +760,46 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
             Continue
           </Button>
         ) : (
-          <Button
-            disabled={!canContinue || saving || (step === STEPS.length && !mathsTotalValid)}
-            onClick={async () => {
-              setSaveError(null);
-              setSaving(true);
-              try {
-                await saveAssessmentWizard(data, assessmentId);
-                if (!assessmentId) {
-                  clearDraft();
-                }
-                router.push("/dashboard");
-                router.refresh();
-                // Keep saving=true until navigation completes
-              } catch {
-                setSaveError(
-                  "We could not save your assessment. Check your connection and try again.",
-                );
-                setSaving(false);
+          <div className="flex w-full flex-col gap-3 sm:items-end">
+            <GenerateAssessmentButton
+              assessmentId={assessmentId}
+              wizardData={data}
+              className="w-full sm:w-auto"
+              disabled={!canContinue || !mathsTotalValid}
+              label="Build my paper"
+              busyLabel="Building your paper…"
+              onBeforeNavigate={() => {
+                if (!assessmentId) clearDraft();
+              }}
+            />
+            <Button
+              variant="secondary"
+              className="w-full sm:w-auto"
+              disabled={
+                !canContinue || saving || (step === STEPS.length && !mathsTotalValid)
               }
-            }}
-          >
-            {saving ? "Saving…" : "Save and finish for now"}
-          </Button>
+              onClick={async () => {
+                setSaveError(null);
+                setSaving(true);
+                try {
+                  await saveAssessmentWizard(data, assessmentId);
+                  if (!assessmentId) {
+                    clearDraft();
+                  }
+                  router.push("/dashboard");
+                  router.refresh();
+                  // Keep saving=true until navigation completes
+                } catch {
+                  setSaveError(
+                    "We could not save your assessment. Check your connection and try again.",
+                  );
+                  setSaving(false);
+                }
+              }}
+            >
+              {saving ? "Saving…" : "Save and finish for now"}
+            </Button>
+          </div>
         )}
       </div>
       {saveError ? (

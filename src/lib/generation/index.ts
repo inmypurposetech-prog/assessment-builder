@@ -1,4 +1,4 @@
-export { assembleAssessment } from "./assemble";
+export { assembleAssessment, buildBloomReport, buildMathsReport } from "./assemble";
 export { fillGapsWithAi } from "./ai-gaps";
 export {
   getGenerationCostConfig,
@@ -6,6 +6,15 @@ export {
 } from "./config";
 export type { GenerationCostConfig, GenerationModelId } from "./config";
 export { deriveMemoFromQuestions, sumMarks } from "./memo";
+export {
+  evaluateProudToPresent,
+} from "./proud-to-present";
+export type {
+  ProudFlagSeverity,
+  ProudToPresentFlag,
+  ProudToPresentResult,
+} from "./proud-to-present";
+export { recomputeGeneratedAssessment } from "./recompute";
 export { generateRequestSchema } from "./schema";
 export type {
   AssembledMemoItem,
