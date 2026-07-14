@@ -74,7 +74,8 @@
 Login → Dashboard → Create Assessment → Wizard
   → Build my paper (POST /api/generate → structured paper + memo JSON)
   → Review & Edit (/assessments/[id]/review) → Save review
-  → [Phase 1D+] Supporting docs → Export / Email
+  → Download for moderation (POST /api/export → Maths DOCX ZIP / LS PDF)
+  → [Phase 1E+] Template upload / Email
 ```
 
 ### Wizard steps (current)

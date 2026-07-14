@@ -30,6 +30,7 @@ import type { AssessmentWizardData } from "@/lib/types/assessment";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { ExportDownloadButton } from "@/components/review/export-download-button";
 import { GenerateAssessmentButton } from "@/components/review/generate-assessment-button";
 
 interface ReviewShellProps {
@@ -232,7 +233,8 @@ export function ReviewShell({
         </h1>
         <p className="mt-3 text-lg text-muted-foreground">
           Edit, replace, or remove questions. Marks and cognitive levels update
-          as you go. Export comes next.
+          as you go. When you are ready, download a pack shaped like your
+          department template.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link href={`/assessments/${assessmentId}/wizard`}>
@@ -539,19 +541,30 @@ export function ReviewShell({
         )}
       </section>
 
+      <ExportSection
+        assessmentId={assessmentId}
+        draft={draft}
+        proudReady={proud.ready}
+        onSaveOk={() => {
+          setSaveOk(true);
+          setSaveError(null);
+        }}
+      />
+
       <div className="sticky bottom-0 z-10 -mx-4 border-t border-border bg-[var(--background)] px-4 py-4">
         <div className="mx-auto flex max-w-3xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-base text-muted-foreground" role="status" aria-live="polite">
             {saving
               ? "Saving…"
               : saveOk
-                ? "Saved. Export will use this version."
-                : "Remember to save after you edit."}
+                ? "Saved. Download uses this version."
+                : "Remember to save after you edit — or download (it saves first)."}
           </p>
           <Button
             onClick={handleSave}
             disabled={saving}
             aria-busy={saving}
+            variant="secondary"
             className="w-full sm:w-auto"
           >
             {saving ? "Saving…" : "Save review"}
@@ -564,6 +577,56 @@ export function ReviewShell({
         ) : null}
       </div>
     </div>
+  );
+}
+
+function ExportSection({
+  assessmentId,
+  draft,
+  proudReady,
+  onSaveOk,
+}: {
+  assessmentId: string;
+  draft: GeneratedAssessment;
+  proudReady: boolean;
+  onSaveOk: () => void;
+}) {
+  const isMaths = draft.subject === "Mathematics";
+
+  return (
+    <section
+      aria-labelledby="export-heading"
+      className="rounded-xl border-2 border-border bg-card p-5"
+    >
+      <h2 id="export-heading" className="text-2xl font-semibold">
+        Download for moderation
+      </h2>
+      <p className="mt-2 text-lg text-muted-foreground">
+        {isMaths
+          ? "Mathematics downloads a ZIP with Dad-style DOCX files: question paper, memorandum (K/R/C/P codes), answer book, and CAPS cognitive summary."
+          : "Life Sciences downloads one PDF: question paper with lined answer space, memorandum, and Bloom summary — Arial-style 12pt, 1.5 line spacing."}
+      </p>
+      {!proudReady ? (
+        <p className="mt-3 text-base text-amber-950" role="status">
+          The proud-to-present bar still has blockers. You can download anyway,
+          but fix those before you take it to a moderator.
+        </p>
+      ) : null}
+      <div className="mt-4">
+        <ExportDownloadButton
+          assessmentId={assessmentId}
+          draft={draft}
+          subject={draft.subject}
+          disabled={draft.paper.questions.length === 0}
+          onSaveOk={onSaveOk}
+        />
+      </div>
+      {draft.paper.questions.length === 0 ? (
+        <p className="mt-2 text-base text-muted-foreground">
+          Add at least one question before you download.
+        </p>
+      ) : null}
+    </section>
   );
 }
 

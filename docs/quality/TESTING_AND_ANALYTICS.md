@@ -2,7 +2,7 @@
 
 > **Disciplines:** Quality/Testing Engineer · Data & Insights · Quant · Support  
 > **Status:** Seeded (manual testing today; automation Phase 2+)  
-> **Last updated:** 14 July 2026 (Phase 1C)
+> **Last updated:** 14 July 2026 (Phase 1D)
 
 ---
 
@@ -102,6 +102,7 @@ npm run test:coverage
 | 2026-07-14 | Phase 1B structured generation API | `npm run lint` + `npm run build`; assembler bank-first + memo derive + cost config; migration 003 authored (apply on Supabase before prod save) | Cursor |
 | 2026-07-14 | Phase 1C review UX | `npm run lint` + `npm run build`; review route + Edit/Replace/Delete + live totals + proud bar; generate wired from wizard/dashboard | Cursor |
 | 2026-07-14 | Migration `003_generation_phase1b.sql` on cloud Supabase | Applied via SQL Editor — `generated_content` / `generation_usage` ready for prod generate + review save | Tanielle |
+| 2026-07-14 | Phase 1D export (Maths DOCX ZIP / LS PDF) | `npm run lint` + `npm run build`; `POST /api/export` + review download CTA; fidelity iterate vs exemplars | Cursor |
 
 ---
 
@@ -182,6 +183,8 @@ Then we tick: Auth URL ✅, smoke ✅, Documentation Gate Phase 0 exit ✅, mast
 | Monthly generate count vs `GENERATION_MONTHLY_CAP` | Soft kill / 429 before runaway bill |
 
 **Phase 1B note:** Default model is `bank-only` (no token cost). When `GENERATION_MODEL` is mini/flash + API key, tokens are capped by `GENERATION_MAX_TOKENS` and counted on `generation_usage.tokens_used`.
+
+**Phase 1D note:** Export is on-demand binary generation from saved JSON — **no AI tokens**. Product analytics for “Exports” events still future (table above).
 
 ### Privacy
 

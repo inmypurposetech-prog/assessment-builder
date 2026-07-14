@@ -27,11 +27,13 @@ Review & Edit (/assessments/[id]/review)
   │  Live marks + CAPS / Bloom totals
   │  Proud-to-present bar → Save review
   │
-  ▼  [Phase 1D+]
-Supporting documents (memo export, cognitive/Bloom report, answer book)
-  │
   ▼
-Final review → Export / Email moderator
+Download for moderation (POST /api/export)
+  │  Maths: DOCX ZIP (paper + memo + answer book + cognitive)
+  │  Life Sciences: PDF (12pt / 1.5 + lined + Bloom)
+  │
+  ▼  [Phase 1E+]
+Template upload / Email moderator
 ```
 
 ## System flow (behind the scenes)
@@ -52,6 +54,11 @@ Teacher clicks Build my paper
 Teacher edits on review
   → recomputeGeneratedAssessment (client)
   → saveGeneratedAssessment → generated_content
+
+Teacher downloads
+  → save draft → POST /api/export
+  → buildExportPack (Maths ZIP / LS PDF)
+  → Content-Disposition attachment
 ```
 
 ## Status
@@ -62,5 +69,5 @@ Teacher edits on review
 - [x] Assessment wizard (5 steps, local + cloud save, subject-aware cognitive UI)
 - [x] Seeded question bank + structured generate API (Phase 1B)
 - [x] Review / edit generated paper (Phase 1C)
-- [ ] Export DOCX/PDF into parent templates (Phase 1D)
+- [x] Export DOCX/PDF into parent templates (Phase 1D)
 - [ ] Parent pilot complete

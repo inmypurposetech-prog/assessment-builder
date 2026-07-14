@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical/Systems Architect · Frontend · Backend · Database Architect  
 > **Status:** Active (MVP Track A)  
-> **Last updated:** 14 July 2026 (Phase 1C review UX)
+> **Last updated:** 14 July 2026 (Phase 1D export)
 
 ---
 
@@ -34,7 +34,8 @@
 | UI framework | React 19 + Next.js 16 App Router | TypeScript |
 | Styling | Tailwind CSS 4 | CSS variables in `globals.css` |
 | Auth/DB/Storage | Supabase (`@supabase/ssr`, `@supabase/supabase-js`) | Cloud Postgres — not local PG for MVP |
-| Validation | Zod (dependency present; expand usage) | Forms / API |
+| Validation | Zod | Forms / API (`generate`, `export`) |
+| Document export | `docx` + `pdfkit` + `jszip` | Maths ZIP of DOCX; LS single PDF (ADR-014) |
 | Session boundary | `src/proxy.ts` | Next.js 16 `proxy` (not deprecated middleware) |
 | Hosting | Vercel | Hobby → Pro later |
 | Repo | GitHub `assessment-builder` | |
@@ -47,8 +48,9 @@
 ```text
 src/app/                 # Routes (RSC + client where needed)
 src/app/api/generate/    # Phase 1B structured generation API
+src/app/api/export/      # Phase 1D DOCX/PDF download
 src/app/assessments/[id]/review/  # Phase 1C review UX
-src/components/review/   # ReviewShell, GenerateAssessmentButton
+src/components/review/   # ReviewShell, GenerateAssessmentButton, ExportDownloadButton
 src/components/ui/       # Design-system primitives
 src/components/wizard/   # Assessment wizard
 src/lib/supabase/        # Browser + server + session helpers
@@ -56,6 +58,7 @@ src/lib/actions/         # Server actions
 src/lib/constants/       # Subjects, cognitive levels, Bloom, export defaults
 src/lib/content/         # Template packs, taxonomy patterns, seed question bank
 src/lib/generation/      # Assemble / memo / cost / AI gap-fill hook
+src/lib/export/          # Maths DOCX pack + Life Sciences PDF builders
 src/lib/types/           # Domain types
 src/proxy.ts             # Auth refresh + route protection
 supabase/migrations/     # Source of truth for schema
@@ -89,8 +92,18 @@ supabase/migrations/     # Source of truth for schema
 | Path | Role |
 |------|------|
 | `app/assessments/[id]/review` | Auth + load `generated_content` → `ReviewShell` |
-| `components/review/` | Edit / Replace / Delete; live totals; proud bar; generate CTA |
+| `components/review/` | Edit / Replace / Delete; live totals; proud bar; generate CTA; export CTA |
 | `saveGeneratedAssessment` | Persist edited JSON to `assessments.generated_content` |
+
+### Export layer (Phase 1D)
+
+| Module | Role |
+|--------|------|
+| `export/maths-docx.ts` | Dad-style DOCX: paper, memo (K/R/C/P), answer book, CAPS summary |
+| `export/life-sciences-pdf.ts` | Mom-style PDF: 12pt, 1.5 spacing, lined blanks, Bloom sheet |
+| `export/build-pack.ts` | Subject → ZIP (Maths) or PDF (LS) |
+| `app/api/export/route.ts` | Session-checked POST → binary download |
+| `ExportDownloadButton` | Save draft → fetch export → browser download (busy until start) |
 
 ---
 
@@ -121,8 +134,8 @@ Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`, `003_gene
 | **Deploy** | Vercel auto-deploy from GitHub `main` (ADR-009) | Preview deploys on PR (optional) |
 | **Migrate** | Paste SQL in Supabase Editor | CLI optional later |
 | **Generate** | `POST /api/generate` → seed bank → structured JSON → validate cognitive/Bloom → derive memo → save + usage (ADR-012) | Provider-backed gap-fill when keys set |
-| **Review** | `/assessments/[id]/review` — edit/replace/delete; live totals; proud bar; save `generated_content` (ADR-013) | Export (1D) |
-| **Export** | Not built | JSON → DOCX/PDF via template pack notes |
+| **Review** | `/assessments/[id]/review` — edit/replace/delete; live totals; proud bar; save `generated_content` (ADR-013) | — |
+| **Export** | `POST /api/export` → Maths DOCX ZIP / LS PDF from saved JSON (ADR-014) | Higher pixel fidelity vs parent exemplars; embed true Arial |
 | **Ingest** | Guide/grid distilled into typed content; binaries stay local | Optional OCR + embeddings later |
 
 ---

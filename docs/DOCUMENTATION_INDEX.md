@@ -2,7 +2,7 @@
 
 > **Purpose:** Map of all project docs, which workplace **discipline** owns each concern, and the **Documentation Gate** so docs never become an afterthought.  
 > **Audience:** You (solo) now; future collaborators or readers later.  
-> **Last updated:** 14 July 2026 (Phase 1C)
+> **Last updated:** 14 July 2026 (Phase 1D)
 
 ---
 
@@ -57,10 +57,10 @@ You are currently **all of these**. Docs must stay complete enough that a specia
 | **Business Architect** | Value streams (create → moderate → export); pricing/capability model | NORTH_STAR (templates/pricing) | Active |
 | **Technical / Systems Architect** | Stack, boundaries, security, evolution Track A→B | architecture/OVERVIEW, DECISIONS | Active |
 | **Business / Systems Analyst** | Requirements from interviews; acceptance criteria | parent-interview-notes, workflow-map, ROADMAP DoD | Active |
-| UX / UI Designer | Wizard + review UX for 50s+ educators; WCAG AA patterns | design/UX_AND_ACCESSIBILITY | Active — review standards 14 Jul 2026 |
+| UX / UI Designer | Wizard + review + export UX for 50s+ educators; WCAG AA patterns | design/UX_AND_ACCESSIBILITY | Active — export download 14 Jul 2026 |
 | **Design System Team** | Tokens, components (Button/Input/Card), consistency | design/UX_AND_ACCESSIBILITY + `src/components/ui` | Seeded |
-| **Frontend Engineer** | Next.js App Router, wizard, dashboard, review | architecture/OVERVIEW, README | Active — `/assessments/[id]/review` |
-| **Backend Engineer** | Server actions, API routes, auth session (`proxy.ts`) | architecture/OVERVIEW | Active — `/api/generate` + `saveGeneratedAssessment` |
+| **Frontend Engineer** | Next.js App Router, wizard, dashboard, review, export CTA | architecture/OVERVIEW, README | Active — export download on review |
+| **Backend Engineer** | Server actions, API routes, auth session (`proxy.ts`) | architecture/OVERVIEW | Active — `/api/generate` + `/api/export` |
 | **Database Analyst / Architect** | Postgres schema, RLS, migrations | architecture/OVERVIEW, `supabase/migrations/` | Active — `003_generation_phase1b` |
 | **Quant** | Cognitive % validators; generation cost unit economics | NORTH_STAR pricing; quality/TESTING (metrics); learning RUNBOOK | Active — monthly cap + usage |
 | **Quality / Testing Engineer** | Test strategy, coverage goals, UAT with parents | quality/TESTING_AND_ANALYTICS | Seeded — 1C review smoke notes |

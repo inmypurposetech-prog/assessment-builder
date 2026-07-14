@@ -38,14 +38,14 @@
 
 A feature or phase is **not done** until applicable boxes are checked:
 
-- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated — Phase 1C review UX
-- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-013 + OVERVIEW review layer
-- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — review Edit/Replace/Delete + proud bar
-- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + review smoke notes
-- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — N/A (no new cost path; save edits only)
-- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — R9 review UX
-- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — README review path
-- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — MVP flow includes review
+- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated — Phase 1D export
+- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-014 + OVERVIEW export layer
+- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — Download for moderation CTA + busy
+- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + export smoke notes
+- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — N/A (on-demand export; no new AI cost)
+- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — R10 export
+- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — README export path
+- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — MVP flow includes export download
 
 **Phase exit also:**
 
@@ -83,6 +83,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Phase 1A content / seed bank / migration 002
 - [x] Phase 1B structured generation API (`POST /api/generate`, migration 003)
 - [x] Phase 1C review UX (`/assessments/[id]/review`)
+- [x] Phase 1D export (`POST /api/export` — Maths DOCX ZIP / LS PDF)
 
 ### Not done yet (blocks “in parents’ hands” for generation)
 
@@ -90,7 +91,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Vercel deploy + production Supabase env
 - [x] Question bank / extraction (seed + API assembly)
 - [x] Review UI (Phase 1C)
-- [ ] Export into Dad/Mom templates (Phase 1D)
+- [x] Export into Dad/Mom templates (Phase 1D)
 - [ ] Parent pilot protocol + feedback loop
 - [x] Apply migration `003_generation_phase1b.sql` on cloud Supabase — applied 14 Jul 2026
 
@@ -119,7 +120,7 @@ Same as above, plus:
 
 ```text
 Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
-Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — 1C review on cursor/phase-1c-…
+Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — 1D export on cursor/phase-1d-…
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
@@ -208,10 +209,10 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 ### 1D — Export
 
-- [ ] DOCX export for Maths using Dad-style structure (iterate toward pixel fidelity)
-- [ ] PDF export for Life Sciences (Arial 12, 1.5 spacing — Mom rules)
-- [ ] Include memo (+ answer book for Maths when applicable)
-- [ ] Cognitive / Bloom summary sheet
+- [x] DOCX export for Maths using Dad-style structure (iterate toward pixel fidelity)
+- [x] PDF export for Life Sciences (Arial 12, 1.5 spacing — Mom rules)
+- [x] Include memo (+ answer book for Maths when applicable)
+- [x] Cognitive / Bloom summary sheet
 
 ### 1E — Template upload (thin slice)
 
@@ -504,11 +505,11 @@ Cursor is your pair programmer — still **you** own go/no-go, Documentation Gat
 
 Copy-paste to start the next session:
 
-1. **Start Phase 1D (after 1C merged):**  
-   `Continue AssessMate Phase 1D from @docs/ROADMAP_AND_CHECKLIST.md — DOCX/PDF export into Dad/Mom templates. New cursor/ branch + draft PR. Update design + architecture docs.`
+1. **Start Phase 1E (after 1D merged):**  
+   `Continue AssessMate Phase 1E from @docs/ROADMAP_AND_CHECKLIST.md — thin template upload (Storage + select when creating). New cursor/ branch + draft PR.`
 
-2. **Template export (Maths detail):**  
-   `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, plan DOCX export matching June 2026 pack. New cursor/ branch. Update design + architecture docs.`
+2. **Improve export fidelity:**  
+   `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, tighten DOCX export toward June 2026 pack. New cursor/ branch. Update design + architecture docs.`
 
 3. **Learning catch-up:**  
    `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 1 needs.`
@@ -532,5 +533,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Start **Phase 1D** (export) on a new `cursor/phase-1d-…` branch + draft PR. Migration **003** is on cloud Supabase. After each merge: clean up the feature branch (local + remote).
+**Next action right now:** Start **Phase 1E** (template upload thin slice) or tighten export fidelity vs parent exemplars — new `cursor/…` branch + draft PR. After each merge: clean up the feature branch (local + remote).
 

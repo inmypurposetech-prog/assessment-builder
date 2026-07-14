@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical Architect · Business Architect · Product Owner  
 > **How to add:** Copy the template at the bottom; never delete old ADRs — mark `Superseded` if replaced.  
-> **Last updated:** 14 July 2026 (ADR-012)
+> **Last updated:** 14 July 2026 (ADR-014)
 
 ---
 
@@ -22,6 +22,8 @@
 | ADR-010 | Branch-first + draft PR before merge to `main` | Accepted | 2026-07 |
 | ADR-011 | Phase 1A content as typed seed + template packs (binaries stay local) | Accepted | 2026-07 |
 | ADR-012 | Structured generation API: bank-first assemble + memo derive + cost caps | Accepted | 2026-07 |
+| ADR-013 | Review edits mutate generated_content (Edit/Replace/Delete + proud bar) | Accepted | 2026-07 |
+| ADR-014 | Subject-aware DOCX/PDF export from generated_content | Accepted | 2026-07 |
 
 ---
 
@@ -138,6 +140,21 @@
 - **Consequences:** Export (1D) maps the same JSON teachers already approved; rebuild overwrites with confirm. Migration 003 applied on cloud Supabase (14 Jul 2026).  
 - **Rejected alternatives:** Per-question Postgres rows for MVP; regenerating the whole paper on every edit; separate memo invent API.  
 - **Disciplines consulted:** Tech Architect, UX, Frontend, Backend, PO.
+
+## ADR-014 — Subject-aware DOCX/PDF export (Phase 1D)
+
+- **Status:** Accepted  
+- **Date:** 2026-07-14  
+- **Context:** Phase 1D must turn approved `generated_content` into files Dad/Mom can take to moderation: Maths GDE-style DOCX pack vs Life Sciences moderator PDF (Arial 12, 1.5 spacing). Pixel fidelity will iterate; structure and subject rules must ship first.  
+- **Decision:**  
+  1. Authenticated `POST /api/export` with Zod `{ assessmentId }` loads **saved** `generated_content` (same schemaVersion 1 JSON as generate/review).  
+  2. **Mathematics** → ZIP of four DOCX files (question paper, memorandum with K/R/C/P, answer book, CAPS cognitive summary) built with `docx`, ordered per `MATHS_GDE_JUNE_P2_TEMPLATE_PACK.exportOrder` (+ cognitive sheet).  
+  3. **Life Sciences** → single PDF via `pdfkit`: paper (lined handwriting space), memo, Bloom summary; **12pt + 1.5 line spacing**; Helvetica as Arial-compatible core-font substitute until a licensed Arial face is embedded.  
+  4. Review UI **saves draft then downloads** (`ExportDownloadButton`) so the file matches the screen; busy until download starts; proud blockers warn but do not hard-block download.  
+  5. No new tables / Storage for MVP export bytes (generate on demand).  
+- **Consequences:** Template fidelity improves by editing builders against parent exemplars (gitignored); library deps `docx` / `pdfkit` / `jszip`; `serverExternalPackages` in Next config.  
+- **Rejected alternatives:** One format for both subjects; HTML-print-only; Puppeteer/Chrome PDF (heavier ops); regenerating paper text at export time.  
+- **Disciplines consulted:** Tech Architect, Backend, UX, PO, Design.
 
 ## Template for new ADRs
 

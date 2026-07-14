@@ -2,7 +2,7 @@
 
 > **Purpose:** Your personal engineering & product journey log — processes you’ve done, what you learned, mistakes, and **follow-up courses/resources**. Use it as a runbook when repeating a task or onboarding your future self.  
 > **Update:** After every non-trivial setup or debugging session (Documentation Gate).  
-> **Last updated:** 14 July 2026 (Phase 1C review UX)
+> **Last updated:** 14 July 2026 (Phase 1D export)
 
 ---
 
@@ -201,6 +201,17 @@ await fetch('/api/generate', {
 
 **Learned:** Teachers stay in control — review mutates the same `GeneratedAssessment` JSON export will use (ADR-013). Colour alone is not enough for blockers; pair with “Fix:” / “Note:” text.
 
+### R10 — Export DOCX/PDF (Phase 1D)
+
+1. Have a saved paper on review (`generated_content` from R8/R9).  
+2. On `/assessments/<id>/review`, scroll to **Download for moderation**.  
+3. Click the subject-aware button — it **saves first**, then `POST /api/export`.  
+4. Maths → ZIP with `01-question-paper.docx`, `02-memorandum.docx`, `03-answer-book.docx`, `04-cognitive-summary.docx`.  
+5. Life Sciences → single PDF (Helvetica as Arial-compatible MVP font; 12pt; 1.5 spacing; lined blanks + Bloom sheet).  
+6. Busy status stays until the browser download starts; empty paper disables the button.
+
+**Learned:** Export maps the **saved** JSON (ADR-014) — never invent a second paper at download time. PDF core fonts lack Arial; document the Helvetica substitute until a licensed face is embedded. Keep binary builders in `serverExternalPackages` (`pdfkit`, `docx`, `jszip`).
+
 ---
 
 ## Learning log
@@ -363,6 +374,22 @@ await fetch('/api/generate', {
 - **Commands:** `npm run lint && npm run build`.  
 - **Follow-up learning:** Accessible confirm dialogs (replace `window.confirm`); Phase 1D export.  
 - **Discipline lens:** UX, Frontend, Tech Architect, Support.
+
+### 2026-07-14 — Phase 1D DOCX/PDF export
+
+- **Context:** Parents need downloads close to Dad GDE DOCX pack / Mom moderator PDF.  
+- **Steps that worked:**  
+  1. Branch `cursor/phase-1d-export-templates` from clean `main`.  
+  2. `docx` + `pdfkit` + `jszip`; `buildExportPack` + `POST /api/export`.  
+  3. Review **Download for moderation** (save-then-download, busy until start).  
+  4. ADR-014 + OVERVIEW export layer + UX §7 + R10.  
+- **Pitfalls:**  
+  - PDFKit has no Arial — use Helvetica + document substitute (ADR-014).  
+  - Keep builders in `serverExternalPackages` to avoid Next bundling quirks.  
+  - Export reads **saved** JSON; button must save draft first.  
+- **Commands:** `npm run lint && npm run build`.  
+- **Follow-up learning:** Embed licensed/metric-compatible Arial; iterate DOCX toward June 2026 exemplar fidelity.  
+- **Discipline lens:** Backend, Tech Architect, UX, Support.
 
 ### 2026-07-14 — Migration 003 applied (SQL Editor)
 
