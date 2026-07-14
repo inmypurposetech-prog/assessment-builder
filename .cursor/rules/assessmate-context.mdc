@@ -36,7 +36,7 @@ After any non-trivial change, update the appropriate docs (ADR, UX/a11y, test lo
 - Template fidelity: educators upload packs (paper/memo/answer book/cognitive rules); visibility Private → School → later Public. Monetise template *slots/library* inside tiers — never archive-revival or storage-guilt fees.
 - Dad Maths exemplar: `docs/parent-samples/mathematics/dbe/grade-12/` (June 2026 P2 + cognitive guide). Mom LS exemplar: `docs/parent-samples/life-sciences/ieb/grade-12/final-exam/2023/`.
 - Solo founder wears all workplace disciplines (PO → Support) — see DOCUMENTATION_INDEX.
-- **Git:** Branch first (`cursor/…` or `feature/…`), draft PR into `main`, then merge. Do **not** commit feature work straight to `main` (empty PRs). See ROADMAP SDLC → Branching and RUNBOOK R3.
+- **Git:** Branch first (`cursor/…` or `feature/…`), draft PR into `main`, then merge. **After merge: delete the feature branch (local + remote).** Do **not** commit feature work straight to `main` (empty PRs). See ROADMAP SDLC → Branching and RUNBOOK R3.
 - Out of MVP: SATAP Paper 2 packs, full PAT, SA-SAMS, B2G tenders, payments until parents validate.
 
 ## When parent docs arrive

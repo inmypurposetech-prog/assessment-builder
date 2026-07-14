@@ -99,17 +99,30 @@ Open http://localhost:3000 — signup → dashboard → wizard → save.
 cd ~/Projects/assessmate
 git checkout main
 git pull origin main
-git checkout -b cursor/<short-topic>    # e.g. cursor/phase-1a-content-templates
+git checkout -b cursor/<short-topic>    # e.g. cursor/phase-1b-generation
 # … commit on this branch only …
 git push -u origin HEAD
 gh pr create --draft --base main --title "…" --body "…"
-# after review: merge PR → Vercel deploys main
+# after review: merge PR → Vercel deploys main → then clean up branch (below)
 ```
 
 Repo: `https://github.com/inmypurposetech-prog/assessment-builder`  
 Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern per branch.
 
-**Anti-pattern:** finish work on `main`, then create `cursor/…` at the same tip → GitHub “No commits between main and …”.
+**After every merge — delete the feature branch (local + remote):**
+
+```bash
+git checkout main
+git pull origin main
+git branch -d cursor/<short-topic>    # -D if squash merge warns “not fully merged”
+git push origin --delete cursor/<short-topic>
+git fetch --prune
+```
+
+Confirm with `git branch -a` that only `main` (plus any *active* unfinished branches) remains. Merged work lives on `main`; deleting the branch name does not drop the files (even after a squash merge).
+
+**Anti-pattern:** finish work on `main`, then create `cursor/…` at the same tip → GitHub “No commits between main and …”.  
+**Anti-pattern:** leave merged `cursor/…` remotes around — next chat should start from clean `main`.
 
 ### R4 — Vercel deploy (Phase 0)
 
@@ -272,6 +285,13 @@ Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern 
 - **Steps that worked:** Paste `supabase/migrations/002_question_bank_phase1a.sql` → Run. Connection string is under project **Connect** (top bar), not the old Settings route.  
 - **Pitfalls:** Forgotten DB password → reset in Project Settings → Database; update any saved URIs.  
 - **Discipline lens:** DBA, Support.
+
+### 2026-07-14 — Post-merge branch cleanup
+
+- **Context:** After Phase 1A squash-merge, `cursor/phase-1a-…` and `cursor/phase-0-…` still sat on local + remote.  
+- **Steps that worked:** Confirm tree on `main` matches merged work → `git checkout main && git pull` → `git branch -d …` → `git push origin --delete …` → `git fetch --prune`.  
+- **Learned:** Deleting a squash-merged branch loses tip SHAs only, not files. Codified cleanup in ROADMAP Branching, RUNBOOK R3, ADR-010, Cursor always-on rule.  
+- **Discipline lens:** Change, DevOps.
 
 ---
 
