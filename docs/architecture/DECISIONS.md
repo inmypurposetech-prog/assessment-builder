@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical Architect · Business Architect · Product Owner  
 > **How to add:** Copy the template at the bottom; never delete old ADRs — mark `Superseded` if replaced.  
-> **Last updated:** 11 July 2026 (ADR-011)
+> **Last updated:** 14 July 2026 (ADR-012)
 
 ---
 
@@ -21,6 +21,7 @@
 | ADR-009 | Host on Vercel linked to GitHub `main` | Accepted | 2026-07 |
 | ADR-010 | Branch-first + draft PR before merge to `main` | Accepted | 2026-07 |
 | ADR-011 | Phase 1A content as typed seed + template packs (binaries stay local) | Accepted | 2026-07 |
+| ADR-012 | Structured generation API: bank-first assemble + memo derive + cost caps | Accepted | 2026-07 |
 
 ---
 
@@ -108,6 +109,21 @@
 - **Consequences:** Generation (1B) can filter the in-repo bank immediately; DB seed can follow; template DOCX fidelity still iterates in 1D using local exemplars.  
 - **Rejected alternatives:** Commit parent binaries; scrape past-paper wording into git; wait for full OCR pipeline before any bank.  
 - **Disciplines consulted:** Tech Architect, BA, DBA, PO.
+
+## ADR-012 — Structured generation API (Phase 1B)
+
+- **Status:** Accepted  
+- **Date:** 2026-07-14  
+- **Context:** Phase 1B needs assemble → validate → memo → cost controls before review UX (1C) and export (1D). Parents must not get free-form prose papers; Maths ≠ Bloom; AI cost must stay cap-able on free tiers.  
+- **Decision:**  
+  1. Authenticated `POST /api/generate` with Zod body `{ assessmentId, dryRun? }` returns **structured JSON** (`schemaVersion: 1`: paper + memo + taxonomy + warnings + cost).  
+  2. **Bank-first assembly** from `src/lib/content/question-bank/` (ADR-003 / ADR-011); Maths fills CAPS cognitive buckets toward wizard %; Life Sciences prefers Bloom bands from `bloomFocus` and **attaches Bloom (+ AIM) on every item**.  
+  3. **Memo is derived** from the locked bank selection (`memoAnswer` + `markingPoints` + K/R/C/P or Bloom short codes) — never generated as a separate paper invent.  
+  4. **Cost controls:** `GENERATION_MODEL` (`bank-only` | `gpt-4o-mini` | `gemini-2.0-flash`), `GENERATION_MAX_TOKENS`, `GENERATION_MONTHLY_CAP`; usage rows in `generation_usage`; persist payload on `assessments.generated_content` / `generated_at` (migration `003_generation_phase1b.sql`).  
+  5. Light **AI gap-fill** is a typed hook (`fillGapsWithAi`) that no-ops until a provider key + non-`bank-only` model are configured — keeps structured schema ready without paying for tokens yet.  
+- **Consequences:** Review UI (1C) can consume `generated_content`; export (1D) maps the same JSON; operators must run migration 003 before prod generate saves succeed; monthly cap returns HTTP 429.  
+- **Rejected alternatives:** Free-form LLM paper+memo in one shot; regenerating memo independently of the paper; skipping usage logging until “later”.  
+- **Disciplines consulted:** Tech Architect, Backend, Quant, DBA, PO.
 
 ## Template for new ADRs
 

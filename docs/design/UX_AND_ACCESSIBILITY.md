@@ -2,7 +2,8 @@
 
 > **Disciplines:** UX/UI Designer · Design System · Frontend · Change (adoption)  
 > **Status:** Active — **follow this file on every UI change** (industry baseline for 50s+ educators)  
-> **Last updated:** 11 July 2026 (Phase 1A Advanced step copy)  
+> **Last updated:** 14 July 2026 (Phase 1B — API only; review UI next)
+  
 > **Bar:** WCAG 2.2 Level **AA** where practical; GOV.UK / NHS-style clarity over SaaS density
 
 ---
@@ -138,7 +139,8 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - Wizard Advanced: subject-aware (Maths CAPS % with guide bullets vs LS Bloom focus from IEB grid pattern).  
 - Local draft: stable `useSyncExternalStore` snapshot (avoid tab crash).  
 - Phase 1A (11 Jul 2026): invalid Maths totals use `role="alert"`; Bloom radios from `BLOOM_FOCUS_OPTIONS`.  
-- **Parent smoke 11 July 2026:** wizard usable end-to-end; raised link visibility, post-login loading gap, step scroll, dependent options — captured as standards above.
+- **Parent smoke 11 July 2026:** wizard usable end-to-end; raised link visibility, post-login loading gap, step scroll, dependent options — captured as standards above.  
+- **Phase 1B (14 Jul 2026):** No UI change — structured `POST /api/generate` only. Review screen (busy/loading, edit/replace, taxonomy totals) lands in **Phase 1C**; follow the Target column above when building it.
 
 ---
 
