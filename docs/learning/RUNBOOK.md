@@ -2,7 +2,7 @@
 
 > **Purpose:** Your personal engineering & product journey log — processes you’ve done, what you learned, mistakes, and **follow-up courses/resources**. Use it as a runbook when repeating a task or onboarding your future self.  
 > **Update:** After every non-trivial setup or debugging session (Documentation Gate).  
-> **Last updated:** 11 July 2026 (Phase 1A content ingest)
+> **Last updated:** 14 July 2026 (Phase 1B generation API)
 
 ---
 
@@ -161,6 +161,35 @@ Confirm with `git branch -a` that only `main` (plus any *active* unfinished bran
 4. If schema changes → numbered migration under `supabase/migrations/` + OVERVIEW data model.  
 5. Tick ROADMAP 1A; ADR if approach changes; log in this RUNBOOK.
 
+### R8 — Structured generate (Phase 1B)
+
+1. Ensure wizard draft is saved (has `assessments.id`) with subject + grade + exam body.  
+2. Run migration `supabase/migrations/003_generation_phase1b.sql` in Supabase **SQL Editor** (adds `generated_content` / `generated_at` + `generation_usage`).  
+3. Call while logged in:
+
+```bash
+curl -X POST http://localhost:3000/api/generate \
+  -H 'Content-Type: application/json' \
+  -H "Cookie: <session cookies from browser>" \
+  -d '{"assessmentId":"<uuid>","dryRun":true}'
+```
+
+Or from browser DevTools (same origin, session cookie present):
+
+```js
+await fetch('/api/generate', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ assessmentId: '…', dryRun: true }),
+});
+```
+
+4. Expect JSON: `paper.questions`, `memo.items` (derived from bank), `taxonomy` (CAPS drift or Bloom per question), `cost`, `warnings`.  
+5. Non-`dryRun` writes `status=generated`, increments monthly usage; `429` if `GENERATION_MONTHLY_CAP` hit.  
+6. Cost env: `GENERATION_MODEL`, `GENERATION_MAX_TOKENS`, `GENERATION_MONTHLY_CAP`; AI keys optional until gap-fill is wired.
+
+**Learned:** Keep memo derived from locked bank ids — never a second independent LLM invent. Bank-first + structured schema beats free-form prose for parent trust (ADR-012).
+
 ---
 
 ## Learning log
@@ -293,6 +322,22 @@ Confirm with `git branch -a` that only `main` (plus any *active* unfinished bran
 - **Learned:** Deleting a squash-merged branch loses tip SHAs only, not files. Codified cleanup in ROADMAP Branching, RUNBOOK R3, ADR-010, Cursor always-on rule.  
 - **Discipline lens:** Change, DevOps.
 
+### 2026-07-14 — Phase 1B structured generation API
+
+- **Context:** Assemble paper JSON from wizard + seed bank; validate Maths CAPS %; attach LS Bloom; derive memo from locked items; cost caps.  
+- **Steps that worked:**  
+  1. Branch `cursor/phase-1b-structured-generation` from clean `main`.  
+  2. `src/lib/generation/*` + `POST /api/generate` (session, Zod body, dryRun).  
+  3. Migration `003_generation_phase1b.sql` (`generated_content`, `generation_usage`).  
+  4. ADR-012 + OVERVIEW generation layer + R8 runbook.  
+- **Pitfalls:**  
+  - Saving generate fails until migration 003 is applied on Supabase.  
+  - `/api/*` is not cookie-redirect protected like `/dashboard` — route returns **401 JSON** (correct for APIs).  
+  - Small seed pools → mark shortfall warnings; AI gap-fill hook is intentional no-op without keys.  
+- **Commands:** `npm run lint && npm run build`; run 003 in SQL Editor before prod generate.  
+- **Follow-up learning:** Structured outputs with LLMs; Phase 1C review UX consuming `generated_content`.  
+- **Discipline lens:** Backend, Tech Architect, Quant, DBA, Support.
+
 ---
 
 ## Skills inventory (honest self-check)
@@ -309,7 +354,7 @@ Update quarterly.
 | Git / GitHub | | assessment-builder | |
 | Product discovery | | Parent interviews | |
 | UX for non-technical users | | Large text wizard | |
-| AI / RAG | 1 | Planned Phase 1 | Courses above |
+| AI / RAG | 2 | Bank-first `/api/generate` + AI gap-fill hook (ADR-012) | Provider structured outputs |
 | Testing / CI | 1 | Manual only so far | Phase 2 |
 | Deploy / DevOps | 2 | Vercel + GitHub `main` (Phase 0) | Auth redirect smoke; optional CI |
 | Analytics | 1 | Not started | Phase 3+ |
@@ -330,6 +375,10 @@ Update quarterly.
 | Prod login works locally but not on Vercel | Missing prod redirect URL or env vars | Add `NEXT_PUBLIC_SUPABASE_*` on Vercel; allowlist `/auth/callback` |
 | Can’t find Postgres connection string | UI moved | Project home → green **Connect** (top); or skip URI and use **SQL Editor** for migrations |
 | Forgot database password | Only resettable, not viewable | Project Settings → Database → reset password; update any saved `SUPABASE_DB_URL` |
+| Generate returns 401 | Not signed in | Log in; call `/api/generate` with session cookie |
+| Generate returns 429 | Monthly cap hit | Wait for next month or raise `GENERATION_MONTHLY_CAP` |
+| Generate save fails / missing column | Migration 003 not applied | Paste `003_generation_phase1b.sql` in SQL Editor → Run |
+| Paper marks short of target | Small seed bank for that topic | Expand seed bank; warnings list shortfall; AI gap-fill later |
 
 ---
 

@@ -2,7 +2,7 @@
 
 > **Disciplines:** Quality/Testing Engineer · Data & Insights · Quant · Support  
 > **Status:** Seeded (manual testing today; automation Phase 2+)  
-> **Last updated:** 11 July 2026 (Phase 1A seed bank)
+> **Last updated:** 14 July 2026 (Phase 1B)
 
 ---
 
@@ -36,7 +36,8 @@
 - [ ] `buildAssessmentTitle`  
 - [ ] `getAuthErrorMessage` / signup outcomes  
 - [ ] `getSeedQuestionBankStats` counts (25 Maths + 24 LS)  
-- [ ] Future: mark sum === totalMarks; Bloom distribution helpers  
+- [ ] `assembleAssessment` mark sum + Maths withinTolerance / LS Bloom attachment  
+- [ ] Future: memo marks === paper marks always  
 
 ### Integration
 
@@ -96,6 +97,7 @@ npm run test:coverage
 | 2026-07-13 | Re-extract Mom 2023 PDFs via `scripts/extract-ieb-ls-2023.py` | 7 files; weak pages = blanks/cover; migration 002 still needs `SUPABASE_DB_URL` | Cursor |
 | 2026-07-13 | Migration `002_question_bank_phase1a.sql` on cloud Supabase | Applied via SQL Editor; DB password reset (new password for Connect URI / CLI) | Tanielle |
 | 2026-07-14 | Post-merge branch cleanup standard | Documented in ROADMAP / R3 / ADR-010; phase-0 + phase-1a branches deleted after merge | Tanielle + Cursor |
+| 2026-07-14 | Phase 1B structured generation API | `npm run lint` + `npm run build`; assembler bank-first + memo derive + cost config; migration 003 authored (apply on Supabase before prod save) | Cursor |
 
 ---
 
@@ -161,7 +163,7 @@ Then we tick: Auth URL ✅, smoke ✅, Documentation Gate Phase 0 exit ✅, mast
 |--------|-----|------------------|
 | Signups | Growth | Supabase Auth |
 | Assessments created | Activation | `assessments` insert |
-| Generations / user / month | Cost + engagement | generation log table |
+| Generations / user / month | Cost + engagement | `generation_usage` (Phase 1B) |
 | Exports | Value moment | export events |
 | Template uploads | Differentiator usage | templates table |
 | “Would use again” | Qualitative | Pilot form |
@@ -173,6 +175,9 @@ Then we tick: Auth URL ✅, smoke ✅, Documentation Gate Phase 0 exit ✅, mast
 | AI $ (or R) per generation | Pricing floor |
 | AI $ per active user / month | Tier sustainability |
 | Error rate on generate | Reliability |
+| Monthly generate count vs `GENERATION_MONTHLY_CAP` | Soft kill / 429 before runaway bill |
+
+**Phase 1B note:** Default model is `bank-only` (no token cost). When `GENERATION_MODEL` is mini/flash + API key, tokens are capped by `GENERATION_MAX_TOKENS` and counted on `generation_usage.tokens_used`.
 
 ### Privacy
 
@@ -183,7 +188,7 @@ Then we tick: Auth URL ✅, smoke ✅, Documentation Gate Phase 0 exit ✅, mast
 ### Tooling backlog
 
 - [ ] Vercel Analytics or privacy-friendly alternative  
-- [ ] Simple `events` table or log file for generations  
+- [x] Simple `generation_usage` table for generations (Phase 1B)  
 - [ ] Monthly cost spreadsheet (acceptable until warehouse needed)
 
 ---

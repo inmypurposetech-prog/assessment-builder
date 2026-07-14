@@ -58,7 +58,9 @@ Teacher clicks Generate
 - [x] Login / signup (Supabase Auth)
 - [x] Dashboard
 - [x] Assessment wizard (5 steps, local + cloud save, subject-aware cognitive UI)
-- [ ] Question extraction / seeded question bank
+- [x] Seeded question bank + structured generate API (Phase 1B)
+- [ ] Review / edit generated paper (Phase 1C)
+- [ ] Export DOCX/PDF into parent templates (Phase 1D)
 - [ ] AI generation
 - [ ] Review editor + template-faithful export
 - [ ] Parent pilot complete

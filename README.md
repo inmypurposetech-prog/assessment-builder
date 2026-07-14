@@ -32,11 +32,13 @@ npm install
 cp .env.example .env.local
 ```
 
-### 3. Run the database migration
+### 3. Run the database migrations
 
-In the Supabase dashboard, open **SQL Editor** and run the contents of:
+In the Supabase dashboard, open **SQL Editor** and run (in order):
 
-`supabase/migrations/001_initial_schema.sql`
+1. `supabase/migrations/001_initial_schema.sql`
+2. `supabase/migrations/002_question_bank_phase1a.sql`
+3. `supabase/migrations/003_generation_phase1b.sql` — required before `POST /api/generate` can save
 
 ### 4. Configure authentication (important)
 
@@ -70,26 +72,26 @@ Open [http://localhost:3000](http://localhost:3000).
 - Dashboard with saved assessments
 - 5-step assessment wizard (type → curriculum → scope → settings → advanced)
 - Drafts saved to Supabase when you click **Save and finish for now**
+- Structured generate API: `POST /api/generate` with `{ "assessmentId": "<uuid>", "dryRun": true }` (session required) — bank-first paper + derived memo JSON
 
 ## What comes next
 
-See [docs/workflow-map.md](docs/workflow-map.md) and [docs/parent-interview-guide.md](docs/parent-interview-guide.md).
+See [docs/workflow-map.md](docs/workflow-map.md) and [docs/ROADMAP_AND_CHECKLIST.md](docs/ROADMAP_AND_CHECKLIST.md).
 
-1. Parent interviews (Phase 0)
-2. PDF ingest + question bank
-3. AI-assisted paper assembly
-4. Review editor + PDF/DOCX export
+1. Review UI for generated papers (Phase 1C)
+2. PDF/DOCX export matching Dad/Mom templates (Phase 1D)
+3. Optional AI gap-fill when provider keys are set
 
 ## Project structure
 
 ```
 src/
-  app/              # Pages and routes
+  app/              # Pages, routes, api/generate
   components/       # UI and wizard
-  lib/              # Supabase, types, server actions
+  lib/              # Supabase, content, generation, types, actions
 supabase/
   migrations/       # SQL schema
-docs/               # Workflow map and interview guide
+docs/               # North star, roadmap, architecture, learning runbook
 ```
 
 ## Deploy (Vercel)

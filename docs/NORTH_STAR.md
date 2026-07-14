@@ -6,7 +6,7 @@
 > **Learning runbook:** [`learning/RUNBOOK.md`](./learning/RUNBOOK.md)  
 > **Use in Cursor:** Referenced by `.cursor/rules/assessmate-context.mdc` (always applied).  
 > **Update when:** Parent interviews, new templates, scope changes, or major architecture decisions — and whenever the Documentation Gate requires it.  
-> **Last updated:** 11 July 2026
+> **Last updated:** 14 July 2026
 
 ---
 
@@ -72,7 +72,8 @@
 
 ```
 Login → Dashboard → Create Assessment → Wizard → Save draft
-  → [Phase 2+] Generate → Review & Edit → Supporting docs → Export / Email / Save
+  → Generate (POST /api/generate → structured paper + memo JSON)
+  → [Phase 1C+] Review & Edit → Supporting docs → Export / Email / Save
 ```
 
 ### Wizard steps (current)

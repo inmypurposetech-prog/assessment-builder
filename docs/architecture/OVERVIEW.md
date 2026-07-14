@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical/Systems Architect · Frontend · Backend · Database Architect  
 > **Status:** Active (MVP Track A)  
-> **Last updated:** 11 July 2026 (Phase 1A content layer)
+> **Last updated:** 14 July 2026 (Phase 1B structured generation)
 
 ---
 
@@ -46,12 +46,14 @@
 
 ```text
 src/app/                 # Routes (RSC + client where needed)
+src/app/api/generate/    # Phase 1B structured generation API
 src/components/ui/       # Design-system primitives
 src/components/wizard/   # Assessment wizard
 src/lib/supabase/        # Browser + server + session helpers
 src/lib/actions/         # Server actions
 src/lib/constants/       # Subjects, cognitive levels, Bloom, export defaults
 src/lib/content/         # Template packs, taxonomy patterns, seed question bank
+src/lib/generation/      # Assemble / memo / cost / AI gap-fill hook
 src/lib/types/           # Domain types
 src/proxy.ts             # Auth refresh + route protection
 supabase/migrations/     # Source of truth for schema
@@ -67,6 +69,17 @@ supabase/migrations/     # Source of truth for schema
 | `content/taxonomy/ieb-ls-analysis-grid.ts` | Mom IEB grid column model + target % |
 | `content/question-bank/` | Original seed items (25 Maths + 24 LS) for assembly |
 
+### Generation layer (Phase 1B)
+
+| Module | Role |
+|--------|------|
+| `generation/assemble.ts` | Bank-first paper assembly + taxonomy report |
+| `generation/memo.ts` | Derive memo from locked questions |
+| `generation/config.ts` | Model / max tokens / monthly cap |
+| `generation/usage.ts` | Count + record `generation_usage` |
+| `generation/ai-gaps.ts` | Optional AI gap-fill hook (no-op until keys) |
+| `app/api/generate/route.ts` | Session-checked POST → JSON (+ persist) |
+
 ---
 
 ## Data model (current)
@@ -74,15 +87,16 @@ supabase/migrations/     # Source of truth for schema
 | Table | Purpose | RLS |
 |-------|---------|-----|
 | `profiles` | Educator profile (name, school) | Own row |
-| `assessments` | Wizard drafts + status + `wizard_data` JSON | Own rows |
+| `assessments` | Wizard drafts + status + `wizard_data` + `generated_content` / `generated_at` | Own rows |
 | `questions` | Question bank (`cognitive_level`, `bloom_level`, `aim`, `strand`, `visibility`) | Authenticated read |
+| `generation_usage` | Per-generate cost log (model, tokens, source) for monthly caps | Own insert/select |
 
 Triggers: create profile on signup; `updated_at` on profiles/assessments.  
-Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`.
+Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`, `003_generation_phase1b.sql`.
 
-**App seed vs DB:** Phase 1A bank is typed in `src/lib/content/question-bank/` (ADR-011). Load into Supabase when generation needs shared cloud rows.
+**App seed vs DB:** Phase 1A/1B assembly reads the in-repo seed bank (ADR-011). Supabase `questions` remains for later multi-device / shared cloud load.
 
-**Planned tables (document when added):** `templates`, `assessment_versions`, `usage_credits`, `schools`, `school_memberships`, analytics events.
+**Planned tables (document when added):** `templates`, `assessment_versions`, `usage_credits` (or expand `generation_usage`), `schools`, `school_memberships`, analytics events.
 
 ---
 
@@ -94,7 +108,7 @@ Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`.
 | **Build** | `npm run build` | CI on PR |
 | **Deploy** | Vercel auto-deploy from GitHub `main` (ADR-009) | Preview deploys on PR (optional) |
 | **Migrate** | Paste SQL in Supabase Editor | CLI optional later |
-| **Generate (AI)** | Not built | API route → seed/bank → JSON → validate → save |
+| **Generate** | `POST /api/generate` → seed bank → structured JSON → validate cognitive/Bloom → derive memo → save + usage (ADR-012) | Review UI (1C); provider-backed gap-fill when keys set |
 | **Export** | Not built | JSON → DOCX/PDF via template pack notes |
 | **Ingest** | Guide/grid distilled into typed content; binaries stay local | Optional OCR + embeddings later |
 
@@ -106,7 +120,7 @@ Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`.
 - RLS on user-owned tables  
 - Anon key in client (expected); never commit service role key  
 - No learner PII in MVP  
-- Generation endpoints must verify session + rate limit (Phase 1)
+- Generation endpoints verify session (`/api/generate` → 401) + monthly cap (429); finer rate limits Phase 2
 
 ---
 

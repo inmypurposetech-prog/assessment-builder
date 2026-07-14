@@ -3,7 +3,7 @@
 > **Purpose:** The plan you follow from “bootstrap done” → parents using MVP → public users → iterative features.  
 > **Pair with:** [`NORTH_STAR.md`](./NORTH_STAR.md) · [`DOCUMENTATION_INDEX.md`](./DOCUMENTATION_INDEX.md) · [`learning/RUNBOOK.md`](./learning/RUNBOOK.md)  
 > **In Cursor:** `@docs/ROADMAP_AND_CHECKLIST.md` (+ index / north star) at the start of a new chat.  
-> **Last updated:** 11 July 2026
+> **Last updated:** 14 July 2026
 
 ---
 
@@ -38,14 +38,14 @@
 
 A feature or phase is **not done** until applicable boxes are checked:
 
-- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated — Phase 1A content (ADR-011)
-- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-011
-- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — wizard Advanced copy from guide/grids
-- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + seed counts
-- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — N/A (no generation yet)
-- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — PDF/DOCX distill for content
-- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — N/A (no new support path)
-- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — N/A
+- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated — Phase 1B generation API (ADR-012)
+- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-012 + OVERVIEW generation layer
+- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — N/A (API only; review UI is 1C)
+- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + dry assemble notes
+- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — monthly cap + usage table noted
+- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — R8 generate + migration 003
+- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — README generate section
+- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — MVP flow mentions generate API
 
 **Phase exit also:**
 
@@ -62,10 +62,11 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Branch-first + draft PR standard (ADR-010)
 - [x] Run `002_question_bank_phase1a.sql` in Supabase — applied via SQL Editor (13 Jul 2026); DB password reset same day (store in password manager; Connect button for CLI URI if needed)
 - [x] Optional OCR of Mom’s 2023 question papers — local `_extracts/` (gitignored); lined blanks confirmed; see EXTRACT_INDEX.md + `scripts/extract-ieb-ls-2023.py`
+- [ ] Run `003_generation_phase1b.sql` in Supabase before prod generate saves (SQL Editor)
 
 ---
 
-## Current snapshot (as of 11 July 2026)
+## Current snapshot (as of 14 July 2026)
 
 ### Done
 
@@ -79,14 +80,17 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Documentation system (index, architecture, ADRs, UX/a11y, quality/analytics, learning runbook)
 - [x] Workplace disciplines mapped (PO → Support) in DOCUMENTATION_INDEX
 - [x] Vercel production deploy: https://assessment-builder-sooty.vercel.app/
+- [x] Phase 1A content / seed bank / migration 002
+- [x] Phase 1B structured generation API (`POST /api/generate`, migration 003)
 
 ### Not done yet (blocks “in parents’ hands” for generation)
 
 - [x] Commit/push outstanding local docs + auth/wizard improvements
 - [x] Vercel deploy + production Supabase env
-- [ ] Question bank / extraction
-- [ ] AI generate + review + export into Dad/Mom templates
+- [x] Question bank / extraction (seed + API assembly)
+- [ ] Review UI + export into Dad/Mom templates (Phases 1C–1D)
 - [ ] Parent pilot protocol + feedback loop
+- [ ] Apply migration `003_generation_phase1b.sql` on cloud Supabase (before prod save works)
 
 ### Definition of “MVP in parents’ hands”
 
@@ -113,7 +117,7 @@ Same as above, plus:
 
 ```text
 Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
-Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — 1A content on cursor/phase-1a-…
+Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — 1B API on cursor/phase-1b-…
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
@@ -188,11 +192,11 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 ### 1B — Generation pipeline
 
-- [ ] API route: assemble assessment JSON from wizard + question bank (+ light AI fill gaps)
-- [ ] Maths: validate cognitive % (20/35/30/15)
-- [ ] Life Sciences: attach Bloom levels per question
-- [ ] Derive memo from locked questions (don’t regenerate paper from scratch for memo)
-- [ ] Cost controls: model choice (mini/flash), max tokens, per-user monthly generation cap
+- [x] API route: assemble assessment JSON from wizard + question bank (+ light AI fill gaps)
+- [x] Maths: validate cognitive % (20/35/30/15)
+- [x] Life Sciences: attach Bloom levels per question
+- [x] Derive memo from locked questions (don’t regenerate paper from scratch for memo)
+- [x] Cost controls: model choice (mini/flash), max tokens, per-user monthly generation cap
 
 ### 1C — Review UX
 
@@ -444,17 +448,17 @@ Safe when the PR is merged: a squash merge keeps the **tree** on `main` even if 
 ### Auth & security
 
 - [ ] RLS on user data tables
-- [ ] Generation API checks session
+- [x] Generation API checks session
 - [ ] Generation rate limits
 - [ ] POPIA-minded: no learner marks/PII in MVP
 - [ ] Redirect URLs allowlist (localhost + production domain)
 
 ### AI / cost pipeline
 
-- [ ] Structured JSON output (schema), not free-form prose only
-- [ ] RAG / question bank before “invent everything”
-- [ ] Cap generations per user per month
-- [ ] Log token usage monthly (spreadsheet is fine at first)
+- [x] Structured JSON output (schema), not free-form prose only
+- [x] RAG / question bank before “invent everything”
+- [x] Cap generations per user per month
+- [ ] Log token usage monthly (spreadsheet is fine at first) — `generation_usage` table is the app log; spreadsheet optional
 - [ ] Kill switch: disable generate if budget exceeded
 
 ### Observability
@@ -498,8 +502,8 @@ Cursor is your pair programmer — still **you** own go/no-go, Documentation Gat
 
 Copy-paste to start the next session:
 
-1. **Start Phase 1B (after 1A merged):**  
-   `Continue AssessMate Phase 1B from @docs/ROADMAP_AND_CHECKLIST.md — structured generation API. New cursor/ branch + draft PR. Update ADRs + RUNBOOK + architecture overview as part of Documentation Gate. @docs/NORTH_STAR.md`
+1. **Start Phase 1C (after 1B merged):**  
+   `Continue AssessMate Phase 1C from @docs/ROADMAP_AND_CHECKLIST.md — review UX for generated papers. New cursor/ branch + draft PR. Update UX + quality docs. @docs/design/UX_AND_ACCESSIBILITY.md`
 
 2. **Template export:**  
    `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, plan DOCX export matching June 2026 pack. New cursor/ branch. Update design + architecture docs.`
@@ -526,5 +530,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Start **Phase 1B** (structured generation API) on a new `cursor/phase-1b-…` branch + draft PR. After each merge: clean up the feature branch (local + remote).
+**Next action right now:** Start **Phase 1C** (review UX) on a new `cursor/phase-1c-…` branch + draft PR. Apply migration **003** on Supabase if not done. After each merge: clean up the feature branch (local + remote).
 
