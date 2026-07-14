@@ -45,3 +45,6 @@ next-env.d.ts
 docs/parent-samples/**/*.pdf
 docs/parent-samples/**/*.docx
 docs/parent-samples/**/*.doc
+
+# Local PDF text extracts (copyrighted exam content — do not commit)
+docs/parent-samples/**/_extracts/

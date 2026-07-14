@@ -2,7 +2,7 @@
 
 > **Purpose:** Your personal engineering & product journey log — processes you’ve done, what you learned, mistakes, and **follow-up courses/resources**. Use it as a runbook when repeating a task or onboarding your future self.  
 > **Update:** After every non-trivial setup or debugging session (Documentation Gate).  
-> **Last updated:** 11 July 2026
+> **Last updated:** 11 July 2026 (Phase 1A content ingest)
 
 ---
 
@@ -91,16 +91,25 @@ npm run dev
 
 Open http://localhost:3000 — signup → dashboard → wizard → save.
 
-### R3 — GitHub push
+### R3 — GitHub: branch first, then PR (mandatory)
+
+**Never push feature work straight to `main`.** Phase 0 did that for speed; empty PRs followed. From Phase 1 onward:
 
 ```bash
-git status
-git add …
-git commit -m "…"
-git push origin main
+cd ~/Projects/assessmate
+git checkout main
+git pull origin main
+git checkout -b cursor/<short-topic>    # e.g. cursor/phase-1a-content-templates
+# … commit on this branch only …
+git push -u origin HEAD
+gh pr create --draft --base main --title "…" --body "…"
+# after review: merge PR → Vercel deploys main
 ```
 
-Repo: `https://github.com/inmypurposetech-prog/assessment-builder`
+Repo: `https://github.com/inmypurposetech-prog/assessment-builder`  
+Branch prefixes: `cursor/` (agent sessions) or `feature/` (manual). One concern per branch.
+
+**Anti-pattern:** finish work on `main`, then create `cursor/…` at the same tip → GitHub “No commits between main and …”.
 
 ### R4 — Vercel deploy (Phase 0)
 
@@ -119,15 +128,25 @@ Repo: `https://github.com/inmypurposetech-prog/assessment-builder`
 ### R5 — Database change
 
 1. Add `supabase/migrations/00N_description.sql`.  
-2. Run in Supabase SQL Editor.  
+2. Run in Supabase SQL Editor **or** `SUPABASE_DB_URL='…' npm run db:migrate:002` (for `002_…`).  
 3. Update `architecture/OVERVIEW.md` data model section.  
 4. Never “click-only” prod schema without a migration file.
+
+**Learned (11–13 Jul 2026):** Anon key alone cannot run DDL. Prefer **SQL Editor** (paste migration → Run) — no connection string needed. If using the CLI: Dashboard → green **Connect** button (top of project) → Session pooler URI as `SUPABASE_DB_URL`. Old “Settings → Database → Connection string” path is easy to miss / relocated.
 
 ### R6 — After any debugging session
 
 1. Log entry in this file.  
 2. If decision changed stack/process → ADR in `architecture/DECISIONS.md`.  
 3. If user-facing → UX or SUPPORT note.
+
+### R7 — Phase 1A content ingest (repeatable)
+
+1. Keep binaries under `docs/parent-samples/` (gitignored).  
+2. Distil **definitions / targets / layout** into `src/lib/constants/` or `src/lib/content/` — never paste copyrighted question text into git.  
+3. Add/adjust seed items in `src/lib/content/question-bank/` with subject-aware metadata (Maths `cognitiveLevel` vs LS `bloomLevel` + `aim`).  
+4. If schema changes → numbered migration under `supabase/migrations/` + OVERVIEW data model.  
+5. Tick ROADMAP 1A; ADR if approach changes; log in this RUNBOOK.
 
 ---
 
@@ -196,6 +215,64 @@ Repo: `https://github.com/inmypurposetech-prog/assessment-builder`
 - **Commands:** `npm run lint && npm run build`  
 - **Discipline lens:** UX, FE.
 
+### 2026-07-11 — Phase 0 exited; branch-first standard
+
+- **Context:** Close chat; adopt PR workflow so next phase is reviewable.  
+- **Steps that worked:** Marked Phase 0 complete in ROADMAP; documented mandatory branch-first + draft PR in ROADMAP SDLC + RUNBOOK R3; created `cursor/phase-1a-content-templates` for next chat.  
+- **Pitfalls:** Pushing to `main` then branching at same tip → empty PR.  
+- **Follow-up:** Phase 1A on that branch; open draft PR early.  
+- **Discipline lens:** Change, DevOps, PO.
+
+---
+
+### 2026-07-11 — Phase 1A content & templates
+
+- **Context:** Ingest Dad’s cognitive guide + June pack structure + Mom’s analysis-grid Bloom/AIM pattern; seed an original question bank without committing past-paper text.  
+- **Steps that worked:**  
+  1. Extract PDF text locally (temp venv + `pypdf`) from cognitive guide and IEB analysis grids; DOCX via unzip/`document.xml` for layout notes only.  
+  2. Distil into typed modules under `src/lib/constants/` + `src/lib/content/` (ADR-011).  
+  3. Enrich wizard Advanced step copy; add `isValidMathsCognitiveDistribution` + `role="alert"` on invalid totals.  
+  4. Migration `002_question_bank_phase1a.sql` for `cognitive_level` / `aim` / `strand` / `visibility`.  
+- **Pitfalls:**  
+  - Do not commit parent binaries or verbatim past-paper questions (ADR-007 / copyright).  
+  - Dad’s June memo tags K/R/C heavily; still reserve P for problem solving in exports.  
+  - Full Mom paper OCR completed 13 Jul 2026 (local `_extracts/`); taxonomy from grids remains the app source of truth.  
+- **Commands / links:** Branch `cursor/phase-1a-content-templates`; `npm run db:migrate:002` when `SUPABASE_DB_URL` is set.  
+- **Follow-up learning:** Structured JSON generation; DOCX templating for GDE memo.  
+- **Discipline lens:** BA, Tech Architect, DBA, UX, Quant.
+
+---
+
+### 2026-07-11 — Mom 2023 PDF extract + migration runner
+
+- **Context:** Complete deferred Phase 1A items (PDF extract/OCR + run `002` on Supabase).  
+- **Steps that worked:**  
+  1. `pypdf` extracted all papers/memos/grids/sources into gitignored `_extracts/`.  
+  2. Apple Vision (`ocrmac`) on low-text pages → they are **lined blank answer sheets**, not missing questions.  
+  3. Added `scripts/apply-migration-002.mjs` + `npm run db:migrate:002` (needs `SUPABASE_DB_URL`).  
+- **Pitfalls:**  
+  - Vision OCR fails in sandbox — needs full macOS permissions.  
+  - Anon key cannot ALTER TABLE; Dashboard sign-in or DB URI required.  
+- **Follow-up:** Paste `SUPABASE_DB_URL` (or sign into Supabase Dashboard) so migration can be applied.  
+- **Discipline lens:** DBA, BA, Support.
+
+---
+
+### 2026-07-13 — Deferred 1A: PDF extracts + migration attempt
+
+- **Context:** Finish OCR of Mom’s 2023 pack and apply `002_question_bank_phase1a.sql` on cloud Supabase.  
+- **Steps that worked:** Re-ran `scripts/extract-ieb-ls-2023.py` (pypdf); weak pages are lined blanks / cover; EXTRACT_INDEX + gitignore `_extracts/`; migration runner `npm run db:migrate:002` + `.env.example` note for `SUPABASE_DB_URL`.  
+- **Pitfalls:** Anon key cannot DDL; Dashboard sign-in required or Postgres URI from Settings → Database. No DB password in local keychain / `.env.local`.  
+- **Follow-up:** ~~Paste `SUPABASE_DB_URL`~~ → **Done 13 Jul 2026:** SQL Editor applied `002`; DB password reset (keep in password manager; use Connect → Session pooler if CLI needed later).  
+- **Discipline lens:** DBA, Support.
+
+### 2026-07-13 — Migration 002 applied (SQL Editor)
+
+- **Context:** User could not find connection string at old Settings path; used SQL Editor instead; reset DB password.  
+- **Steps that worked:** Paste `supabase/migrations/002_question_bank_phase1a.sql` → Run. Connection string is under project **Connect** (top bar), not the old Settings route.  
+- **Pitfalls:** Forgotten DB password → reset in Project Settings → Database; update any saved URIs.  
+- **Discipline lens:** DBA, Support.
+
 ---
 
 ## Skills inventory (honest self-check)
@@ -231,6 +308,8 @@ Update quarterly.
 | Env errors | Missing `.env.local` | Copy from `.env.example` |
 | “Middleware deprecated” | Old file name | Use `src/proxy.ts` |
 | Prod login works locally but not on Vercel | Missing prod redirect URL or env vars | Add `NEXT_PUBLIC_SUPABASE_*` on Vercel; allowlist `/auth/callback` |
+| Can’t find Postgres connection string | UI moved | Project home → green **Connect** (top); or skip URI and use **SQL Editor** for migrations |
+| Forgot database password | Only resettable, not viewable | Project Settings → Database → reset password; update any saved `SUPABASE_DB_URL` |
 
 ---
 

@@ -2,7 +2,7 @@
 
 > **Disciplines:** Quality/Testing Engineer · Data & Insights · Quant · Support  
 > **Status:** Seeded (manual testing today; automation Phase 2+)  
-> **Last updated:** 11 July 2026
+> **Last updated:** 11 July 2026 (Phase 1A seed bank)
 
 ---
 
@@ -31,9 +31,11 @@
 
 ### Unit (start Phase 1–2)
 
-- [ ] `mathsCognitiveTotal` === 100 validator  
+- [ ] `mathsCognitiveTotal` / `isValidMathsCognitiveDistribution`  
+- [ ] `mathsCognitiveDrift`  
 - [ ] `buildAssessmentTitle`  
 - [ ] `getAuthErrorMessage` / signup outcomes  
+- [ ] `getSeedQuestionBankStats` counts (25 Maths + 24 LS)  
 - [ ] Future: mark sum === totalMarks; Bloom distribution helpers  
 
 ### Integration
@@ -88,6 +90,11 @@ npm run test:coverage
 | 2026-07-11 | Prod wizard “This page couldn't load” | Root cause: unstable localStorage snapshot in useSyncExternalStore → tab crash when draft exists; fix shipping | Tanielle + Cursor |
 | 2026-07-11 | Phase 0 smoke (wizard complete) | Pass for create flow; UX gaps logged (back link, login busy gap, step scroll, dependent options) → standards in UX doc | Tanielle |
 | 2026-07-11 | UX polish: back link, auth busy, step focus, curriculum matrix | Implemented + lint/build green | Cursor |
+| 2026-07-11 | Phase 0 exit | Marked complete; branch-first standard (ADR-010); next = Phase 1A on `cursor/phase-1a-content-templates` | Tanielle + Cursor |
+| 2026-07-11 | Phase 1A content: cognitive validators, template pack v1, Bloom grid pattern, seed bank (25+24) | `npm run lint` + `npm run build`; seed stats via `getSeedQuestionBankStats` | Cursor |
+| 2026-07-11 | Mom 2023 PDF extract + OCR check of low-text pages | Local `_extracts/` (gitignored); lined blanks confirmed; EXTRACT_INDEX committed | Cursor |
+| 2026-07-13 | Re-extract Mom 2023 PDFs via `scripts/extract-ieb-ls-2023.py` | 7 files; weak pages = blanks/cover; migration 002 still needs `SUPABASE_DB_URL` | Cursor |
+| 2026-07-13 | Migration `002_question_bank_phase1a.sql` on cloud Supabase | Applied via SQL Editor; DB password reset (new password for Connect URI / CLI) | Tanielle |
 
 ---
 

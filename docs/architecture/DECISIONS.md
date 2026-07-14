@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical Architect · Business Architect · Product Owner  
 > **How to add:** Copy the template at the bottom; never delete old ADRs — mark `Superseded` if replaced.  
-> **Last updated:** 11 July 2026
+> **Last updated:** 11 July 2026 (ADR-011)
 
 ---
 
@@ -19,6 +19,8 @@
 | ADR-007 | Parent samples gitignored; manifests committed | Accepted | 2026-07 |
 | ADR-008 | Documentation Gate mandatory in SDLC | Accepted | 2026-07 |
 | ADR-009 | Host on Vercel linked to GitHub `main` | Accepted | 2026-07 |
+| ADR-010 | Branch-first + draft PR before merge to `main` | Accepted | 2026-07 |
+| ADR-011 | Phase 1A content as typed seed + template packs (binaries stay local) | Accepted | 2026-07 |
 
 ---
 
@@ -81,7 +83,31 @@
 - **Rejected alternatives:** Self-host Node on a VPS (ops overhead); Azure App Service now (Track B later).  
 - **Disciplines consulted:** Tech Architect, Backend, Support.
 
+## ADR-010 — Branch-first + draft PR
+
+- **Status:** Accepted  
+- **Date:** 2026-07-11  
+- **Context:** Phase 0 pushed straight to `main` for speed; later `cursor/…` branch at the same tip could not open a PR (“No commits between main and …”).  
+- **Decision:** For every feature/phase slice: create `cursor/<topic>` or `feature/<topic>` **before** coding; push; open a **draft PR** into `main`; merge only after gate checks. Keep `main` deployable.  
+- **Consequences:** Slightly more ceremony; reviewable diffs; Vercel preview option; Cursor sessions start on a named branch.  
+- **Rejected alternatives:** Continue committing on `main` for solo speed.  
+- **Disciplines consulted:** Tech Architect, Change, Support.
+
 ---
+
+## ADR-011 — Typed content seed + template packs (Phase 1A)
+
+- **Status:** Accepted  
+- **Date:** 2026-07-11  
+- **Context:** Phase 1A needs cognitive guide copy, Dad template layout notes, Mom Bloom/AIM patterns, and a starter question bank before generation (1B). Parent PDF/DOCX stay gitignored (ADR-007); past-paper text must not be republished in the repo.  
+- **Decision:**  
+  1. Distil cognitive / Bloom **definitions and targets** into `src/lib/constants/` (+ `src/lib/content/taxonomy/`).  
+  2. Represent Dad’s June pack as **structured template pack v1** in `src/lib/content/template-packs/` (paths + layout conventions, not binary embeds).  
+  3. Ship an **original pedagogical seed bank** (25 Maths + 24 LS) in `src/lib/content/question-bank/` as the app-readable source of truth for early generation.  
+  4. Extend Supabase `questions` via `002_question_bank_phase1a.sql` (`cognitive_level`, `aim`, `strand`, `visibility`) for later DB load — no past-paper verbatim inserts.  
+- **Consequences:** Generation (1B) can filter the in-repo bank immediately; DB seed can follow; template DOCX fidelity still iterates in 1D using local exemplars.  
+- **Rejected alternatives:** Commit parent binaries; scrape past-paper wording into git; wait for full OCR pipeline before any bank.  
+- **Disciplines consulted:** Tech Architect, BA, DBA, PO.
 
 ## Template for new ADRs
 

@@ -23,3 +23,16 @@ These are gold for AssessMate: they show how IEB Life Sciences maps questions to
 1. Analysis grids → taxonomy rules  
 2. Question papers + memos → question bank pairs  
 3. Sources → Paper 2 / SATAP-style generation (Phase 3+, not MVP)
+
+## Ingested into app (Phase 1A — 11 July 2026)
+
+| Concern | App module |
+|---------|------------|
+| Bloom columns K–E, AIM 1–3, difficulty E/M/D/VD, Paper II target % | `src/lib/constants/bloom-levels.ts` + `src/lib/content/taxonomy/ieb-ls-analysis-grid.ts` |
+| Wizard Bloom focus radios | `BLOOM_FOCUS_OPTIONS` → wizard Advanced |
+
+**Not ingested:** verbatim Paper 1/2 question text (copyright). Seed bank uses original pedagogical items instead.
+
+## Local PDF text extract (11 July 2026)
+
+See [EXTRACT_INDEX.md](./EXTRACT_INDEX.md). Full text under gitignored `_extracts/` (pypdf + Apple Vision OCR check). Lined blank pages confirmed; no further OCR needed for 1A/1B.
