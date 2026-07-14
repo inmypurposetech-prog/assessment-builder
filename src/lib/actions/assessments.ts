@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { buildAssessmentTitle } from "@/lib/assessments/title";
+import type { GeneratedAssessment } from "@/lib/generation/types";
 import { createClient } from "@/lib/supabase/server";
 import type { AssessmentWizardData } from "@/lib/types/assessment";
 
@@ -49,6 +50,37 @@ export async function saveAssessmentWizard(
   if (error) throw new Error(error.message);
   revalidatePath("/dashboard");
   return { id: data.id as string };
+}
+
+/** Persist teacher edits on a generated paper (Phase 1C review). */
+export async function saveGeneratedAssessment(
+  assessmentId: string,
+  generated: GeneratedAssessment,
+) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect(`/auth/login?next=/assessments/${assessmentId}/review`);
+  }
+
+  const { error } = await supabase
+    .from("assessments")
+    .update({
+      generated_content: generated,
+      status: "generated",
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", assessmentId)
+    .eq("user_id", user.id);
+
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/dashboard");
+  revalidatePath(`/assessments/${assessmentId}/review`);
+  return { id: assessmentId };
 }
 
 export async function signOut() {

@@ -38,14 +38,14 @@
 
 A feature or phase is **not done** until applicable boxes are checked:
 
-- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated — Phase 1B generation API (ADR-012)
-- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-012 + OVERVIEW generation layer
-- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — N/A (API only; review UI is 1C)
-- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + dry assemble notes
-- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — monthly cap + usage table noted
-- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — R8 generate + migration 003
-- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — README generate section
-- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — MVP flow mentions generate API
+- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated — Phase 1C review UX
+- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-013 + OVERVIEW review layer
+- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — review Edit/Replace/Delete + proud bar
+- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + review smoke notes
+- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — N/A (no new cost path; save edits only)
+- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — R9 review UX
+- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — README review path
+- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — MVP flow includes review
 
 **Phase exit also:**
 
@@ -82,13 +82,15 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Vercel production deploy: https://assessment-builder-sooty.vercel.app/
 - [x] Phase 1A content / seed bank / migration 002
 - [x] Phase 1B structured generation API (`POST /api/generate`, migration 003)
+- [x] Phase 1C review UX (`/assessments/[id]/review`)
 
 ### Not done yet (blocks “in parents’ hands” for generation)
 
 - [x] Commit/push outstanding local docs + auth/wizard improvements
 - [x] Vercel deploy + production Supabase env
 - [x] Question bank / extraction (seed + API assembly)
-- [ ] Review UI + export into Dad/Mom templates (Phases 1C–1D)
+- [x] Review UI (Phase 1C)
+- [ ] Export into Dad/Mom templates (Phase 1D)
 - [ ] Parent pilot protocol + feedback loop
 - [ ] Apply migration `003_generation_phase1b.sql` on cloud Supabase (before prod save works)
 
@@ -117,7 +119,7 @@ Same as above, plus:
 
 ```text
 Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
-Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — 1B API on cursor/phase-1b-…
+Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — 1C review on cursor/phase-1c-…
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
@@ -200,9 +202,9 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 ### 1C — Review UX
 
-- [ ] Review screen: list questions with Edit / Replace / Delete
-- [ ] Live totals: marks + cognitive/Bloom distribution
-- [ ] “Proud to present” bar: flags missing memo points, marks mismatch
+- [x] Review screen: list questions with Edit / Replace / Delete
+- [x] Live totals: marks + cognitive/Bloom distribution
+- [x] “Proud to present” bar: flags missing memo points, marks mismatch
 
 ### 1D — Export
 
@@ -502,10 +504,10 @@ Cursor is your pair programmer — still **you** own go/no-go, Documentation Gat
 
 Copy-paste to start the next session:
 
-1. **Start Phase 1C (after 1B merged):**  
-   `Continue AssessMate Phase 1C from @docs/ROADMAP_AND_CHECKLIST.md — review UX for generated papers. New cursor/ branch + draft PR. Update UX + quality docs. @docs/design/UX_AND_ACCESSIBILITY.md`
+1. **Start Phase 1D (after 1C merged):**  
+   `Continue AssessMate Phase 1D from @docs/ROADMAP_AND_CHECKLIST.md — DOCX/PDF export into Dad/Mom templates. New cursor/ branch + draft PR. Update design + architecture docs.`
 
-2. **Template export:**  
+2. **Template export (Maths detail):**  
    `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, plan DOCX export matching June 2026 pack. New cursor/ branch. Update design + architecture docs.`
 
 3. **Learning catch-up:**  
@@ -530,5 +532,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Start **Phase 1C** (review UX) on a new `cursor/phase-1c-…` branch + draft PR. Apply migration **003** on Supabase if not done. After each merge: clean up the feature branch (local + remote).
+**Next action right now:** Start **Phase 1D** (export) on a new `cursor/phase-1d-…` branch + draft PR. Apply migration **003** on Supabase if not done. After each merge: clean up the feature branch (local + remote).
 

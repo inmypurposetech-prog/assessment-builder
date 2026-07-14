@@ -125,6 +125,20 @@
 - **Rejected alternatives:** Free-form LLM paper+memo in one shot; regenerating memo independently of the paper; skipping usage logging until “later”.  
 - **Disciplines consulted:** Tech Architect, Backend, Quant, DBA, PO.
 
+## ADR-013 — Review edits mutate generated_content (Phase 1C)
+
+- **Status:** Accepted  
+- **Date:** 2026-07-14  
+- **Context:** Phase 1C needs Edit / Replace / Delete with live marks + taxonomy and a proud-to-present bar, without inventing a second paper schema or regenerating the memo as a separate invent.  
+- **Decision:**  
+  1. Route `/assessments/[id]/review` loads `assessments.generated_content` as `GeneratedAssessment` (schemaVersion 1).  
+  2. Teacher edits run client-side through `recomputeGeneratedAssessment` (renumber, mark totals, rebuild CAPS/Bloom report, keep memo aligned). Replace pulls from the in-repo seed bank and re-derives memo answers.  
+  3. Persist via `saveGeneratedAssessment` server action (same jsonb column; no new tables).  
+  4. Proud-to-present uses `evaluateProudToPresent` (blockers vs cautions) — text + colour.  
+- **Consequences:** Export (1D) maps the same JSON teachers already approved; rebuild overwrites with confirm; migration 003 still required for prod.  
+- **Rejected alternatives:** Per-question Postgres rows for MVP; regenerating the whole paper on every edit; separate memo invent API.  
+- **Disciplines consulted:** Tech Architect, UX, Frontend, Backend, PO.
+
 ## Template for new ADRs
 
 ```markdown

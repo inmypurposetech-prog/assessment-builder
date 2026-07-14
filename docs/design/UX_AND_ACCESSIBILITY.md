@@ -2,7 +2,7 @@
 
 > **Disciplines:** UX/UI Designer · Design System · Frontend · Change (adoption)  
 > **Status:** Active — **follow this file on every UI change** (industry baseline for 50s+ educators)  
-> **Last updated:** 14 July 2026 (Phase 1B — API only; review UI next)
+> **Last updated:** 14 July 2026 (Phase 1C — review UX)
   
 > **Bar:** WCAG 2.2 Level **AA** where practical; GOV.UK / NHS-style clarity over SaaS density
 
@@ -10,7 +10,7 @@
 
 ## Honesty check (are we “industry best practice” today?)
 
-**Mostly on track for MVP.** Product UX (large text, plain language, wizard, subject-aware cognitive models) plus the parent-smoke interaction fixes (links, busy auth, step focus, curriculum cascade). Remaining gaps: shared empty/loading components, skip link, full SR/keyboard audit (Phase 2).
+**Mostly on track for MVP.** Product UX (large text, plain language, wizard, subject-aware cognitive models) plus parent-smoke interaction fixes and Phase 1C review (edit/replace/delete, live totals, proud-to-present bar). Remaining gaps: shared empty/loading components, skip link, full SR/keyboard audit (Phase 2).
 
 | Area | Today | Target (best practice) |
 |------|-------|------------------------|
@@ -18,6 +18,8 @@
 | Auth pending state | Busy until navigation + “Opening your dashboard…” | Keep |
 | Wizard step change | Scroll to top + focus step `h1` | Keep |
 | Dependent fields | `curriculum-matrix.ts` filters subject/grade | Extend matrix as content grows |
+| Generate busy | “Building your paper…” until review loads | Keep; never silent fail |
+| Review screen | Edit / Replace / Delete + live totals + proud bar | Export follows in 1D |
 | Empty / loading / error | Partial shared patterns | Shared components Phase 2 |
 | Skip link / SR audit | Not done | Phase 2 |
 
@@ -93,8 +95,9 @@ Target mindset: **WCAG 2.2 Level AA** where practical for MVP. Inspired by GOV.U
 - [x] Login/signup: keep busy state until `router` navigation completes (+ “Opening your dashboard…”) — done 11 Jul 2026  
 - [x] Wizard: on step change → `scrollTo(0)` + focus step heading — done 11 Jul 2026  
 - [x] Curriculum cascade: subject/grade availability by exam body (`curriculum-matrix.ts`) — done 11 Jul 2026  
-- [ ] Full keyboard audit of wizard  
-- [ ] Screen reader pass on login + dashboard  
+- [x] Review: scroll + focus page `h1`; generate busy until review; proud-to-present uses text + colour (not colour alone) — done 14 Jul 2026  
+- [ ] Full keyboard audit of wizard + review  
+- [ ] Screen reader pass on login + dashboard + review  
 - [ ] Skip link to main content  
 - [ ] Reduced-motion preference for future animations  
 - [ ] Shared Empty / Loading / Error components  
@@ -119,7 +122,21 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 
 ### 4. Escape links & wayfinding
 
-**Implemented:** “Back to dashboard” uses always-on underline + `min-h-12` hit target.
+**Implemented:** “Back to dashboard” uses always-on underline + `min-h-12` hit target (wizard + review).
+
+### 5. Generate → review busy state
+
+**Implemented:** `GenerateAssessmentButton` keeps `aria-busy` and shows **Building your paper…** (`role="status"`) until `/assessments/[id]/review` loads. Rebuild from review confirms overwrite first.
+
+### 6. Review edit / replace / delete
+
+**Implemented** (`/assessments/[id]/review`):
+
+- One question card at a time; primary actions are **Edit**, **Replace**, **Delete** (min-h-12).  
+- **Live totals:** paper marks, memo marks, target + subject-aware CAPS % or Bloom mark share.  
+- **Proud to present** bar: plain-language blockers (empty memo, marks mismatch) and cautions (CAPS ±5pp, bank shortfall). Colour pairs with text labels (“Fix:” / “Note:”).  
+- Replace lists unused seed-bank items for the same subject/grade/exam body; empty list explains why.  
+- **Save review** persists `generated_content` via `saveGeneratedAssessment`.
 
 ---
 
@@ -129,9 +146,10 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 |---------|------------|------------|
 | Signup | Clear fields → success or “confirm email” message (`getSignupSuccessMessage`) | Mapped via `getSignupErrorMessage` |
 | Login | Busy until dashboard; then dashboard | Mapped via `getAuthErrorMessage` |
-| Create assessment | 5-step wizard → save → list on dashboard | Disable Continue until valid; Maths % must be valid integers summing to 100; step 5 branches Maths CAPS % (guide bullets) vs LS Bloom focus (analysis-grid pattern) |
-| Generate (Phase 1) | Progress steps → review | Retry; never silent fail |
-| Export (Phase 1) | Download DOCX/PDF | Explain if template missing |
+| Create assessment | 5-step wizard → **Build my paper** or save draft | Disable Continue until valid; Maths % must sum to 100 |
+| Generate | Busy → review | Alert + retry; monthly cap message if 429 |
+| Review | Edit / replace / delete → Save review | Alert on save fail; proud bar lists blockers |
+| Export (Phase 1D) | Download DOCX/PDF | Explain if template missing |
 
 ### UX notes
 
@@ -140,7 +158,8 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - Local draft: stable `useSyncExternalStore` snapshot (avoid tab crash).  
 - Phase 1A (11 Jul 2026): invalid Maths totals use `role="alert"`; Bloom radios from `BLOOM_FOCUS_OPTIONS`.  
 - **Parent smoke 11 July 2026:** wizard usable end-to-end; raised link visibility, post-login loading gap, step scroll, dependent options — captured as standards above.  
-- **Phase 1B (14 Jul 2026):** No UI change — structured `POST /api/generate` only. Review screen (busy/loading, edit/replace, taxonomy totals) lands in **Phase 1C**; follow the Target column above when building it.
+- **Phase 1B (14 Jul 2026):** Structured `POST /api/generate` only.  
+- **Phase 1C (14 Jul 2026):** Review at `/assessments/[id]/review`; dashboard **Review paper** / **Build my paper**; wizard primary CTA **Build my paper**.
 
 ---
 
@@ -150,9 +169,10 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - [x] Auth busy until navigation (`aria-busy` + status)  
 - [x] Wizard scroll + focus heading on step change  
 - [x] `supportedCurriculum` matrix + cascading selects  
+- [x] Review shell + proud-to-present + live taxonomy totals  
 - [ ] Document component API in this file as components grow  
 - [ ] Empty / loading / error pattern components  
-- [ ] Modal / confirm dialog (export, delete) — accessible  
+- [ ] Modal / confirm dialog (export, delete) — accessible (review delete uses `window.confirm` for now)  
 - [ ] Form fieldset patterns for radio groups (wizard already custom)
 
 ---
@@ -162,4 +182,4 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - Parent UX evidence: [parent-interview-notes.md](../parent-interview-notes.md)  
 - Tokens in code: `src/app/globals.css`  
 - Quality UAT: [TESTING_AND_ANALYTICS.md](../quality/TESTING_AND_ANALYTICS.md)  
-- Roadmap: Phase 0 smoke leftovers / Phase 2 a11y harden  
+- Roadmap: Phase 1D export next; Phase 2 a11y harden  

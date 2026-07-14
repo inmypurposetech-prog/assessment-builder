@@ -19,16 +19,16 @@ Assessment Wizard
   │  Step 4: Settings (marks, time, difficulty)
   │  Step 5: Advanced (Maths cognitive % OR Life Sciences Bloom)
   ▼
-Save draft → Dashboard
-  │
-  ▼  [Phase 1+]
-Generate (from question bank + AI)
+Build my paper  (or Save draft → Dashboard → Build later)
   │
   ▼
-Review & Edit (replace / edit / delete per question)
+Review & Edit (/assessments/[id]/review)
+  │  Edit / Replace / Delete per question
+  │  Live marks + CAPS / Bloom totals
+  │  Proud-to-present bar → Save review
   │
-  ▼
-Supporting documents (memo, marking guideline, cognitive/Bloom report, answer book)
+  ▼  [Phase 1D+]
+Supporting documents (memo export, cognitive/Bloom report, answer book)
   │
   ▼
 Final review → Export / Email moderator
@@ -41,15 +41,17 @@ Teacher completes wizard
   → Validate inputs
   → Save wizard_data to Postgres
 
-[Phase 1+]
-Teacher clicks Generate
-  → Retrieve CAPS/SAGS topics
+Teacher clicks Build my paper
+  → POST /api/generate
   → Filter question bank
-  → Assemble paper (RAG + structured JSON)
+  → Assemble paper (structured JSON)
   → Validate marks + Maths cognitive OR Bloom balance
-  → Generate memo (+ answer book) from locked questions
-  → Apply selected template pack
-  → Return to teacher review
+  → Derive memo from locked questions
+  → Persist generated_content → open review
+
+Teacher edits on review
+  → recomputeGeneratedAssessment (client)
+  → saveGeneratedAssessment → generated_content
 ```
 
 ## Status
@@ -59,8 +61,6 @@ Teacher clicks Generate
 - [x] Dashboard
 - [x] Assessment wizard (5 steps, local + cloud save, subject-aware cognitive UI)
 - [x] Seeded question bank + structured generate API (Phase 1B)
-- [ ] Review / edit generated paper (Phase 1C)
+- [x] Review / edit generated paper (Phase 1C)
 - [ ] Export DOCX/PDF into parent templates (Phase 1D)
-- [ ] AI generation
-- [ ] Review editor + template-faithful export
 - [ ] Parent pilot complete

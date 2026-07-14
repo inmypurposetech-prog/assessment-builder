@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signOut } from "@/lib/actions/assessments";
 import { createClient } from "@/lib/supabase/server";
+import { GenerateAssessmentButton } from "@/components/review/generate-assessment-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
@@ -10,6 +11,21 @@ function formatDate(iso: string) {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(iso));
+}
+
+function statusLabel(status: string) {
+  switch (status) {
+    case "draft":
+      return "Draft";
+    case "generated":
+      return "Ready to review";
+    case "exported":
+      return "Exported";
+    case "archived":
+      return "Archived";
+    default:
+      return status;
+  }
 }
 
 export default async function DashboardPage() {
@@ -29,7 +45,7 @@ export default async function DashboardPage() {
 
   const { data: assessments } = await supabase
     .from("assessments")
-    .select("id, title, status, updated_at")
+    .select("id, title, status, updated_at, generated_content")
     .eq("user_id", user.id)
     .order("updated_at", { ascending: false })
     .limit(20);
@@ -76,22 +92,43 @@ export default async function DashboardPage() {
             </Card>
           ) : (
             <ul className="mt-6 flex flex-col gap-4">
-              {assessments.map((item) => (
-                <li key={item.id}>
-                  <Card className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <CardTitle className="text-xl">{item.title}</CardTitle>
-                      <CardDescription>
-                        {item.status === "draft" ? "Draft" : item.status} · Last
-                        edited {formatDate(item.updated_at)}
-                      </CardDescription>
-                    </div>
-                    <Link href={`/assessments/${item.id}/wizard`}>
-                      <Button variant="secondary">Open</Button>
-                    </Link>
-                  </Card>
-                </li>
-              ))}
+              {assessments.map((item) => {
+                const hasGenerated =
+                  item.generated_content != null &&
+                  typeof item.generated_content === "object";
+                return (
+                  <li key={item.id}>
+                    <Card className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <CardTitle className="text-xl">{item.title}</CardTitle>
+                        <CardDescription>
+                          {statusLabel(item.status)} · Last edited{" "}
+                          {formatDate(item.updated_at)}
+                        </CardDescription>
+                      </div>
+                      <div className="flex flex-col gap-2 sm:items-end">
+                        {hasGenerated ? (
+                          <Link href={`/assessments/${item.id}/review`}>
+                            <Button className="w-full sm:w-auto">
+                              Review paper
+                            </Button>
+                          </Link>
+                        ) : (
+                          <GenerateAssessmentButton
+                            assessmentId={item.id}
+                            className="w-full sm:w-auto"
+                          />
+                        )}
+                        <Link href={`/assessments/${item.id}/wizard`}>
+                          <Button variant="secondary" className="w-full sm:w-auto">
+                            Open wizard
+                          </Button>
+                        </Link>
+                      </div>
+                    </Card>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </section>

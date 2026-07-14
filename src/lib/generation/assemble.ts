@@ -249,7 +249,7 @@ function selectLifeSciencesQuestions(
   return { selected, warnings };
 }
 
-function buildMathsReport(
+export function buildMathsReport(
   questions: AssembledQuestion[],
   wizard: AssessmentWizardData,
 ): MathsTaxonomyReport {
@@ -275,7 +275,7 @@ function buildMathsReport(
   };
 }
 
-function buildBloomReport(
+export function buildBloomReport(
   questions: AssembledQuestion[],
   wizard: AssessmentWizardData,
 ): BloomTaxonomyReport {

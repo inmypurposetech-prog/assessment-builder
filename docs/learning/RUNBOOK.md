@@ -2,7 +2,7 @@
 
 > **Purpose:** Your personal engineering & product journey log — processes you’ve done, what you learned, mistakes, and **follow-up courses/resources**. Use it as a runbook when repeating a task or onboarding your future self.  
 > **Update:** After every non-trivial setup or debugging session (Documentation Gate).  
-> **Last updated:** 14 July 2026 (Phase 1B generation API)
+> **Last updated:** 14 July 2026 (Phase 1C review UX)
 
 ---
 
@@ -53,8 +53,8 @@ Track intentional upskilling. Tick when done; add notes in the log.
 
 ### Product, UX, quality
 
-- [x] Accessibility basics (WCAG 2.2 AA mindset) — forms, focus, contrast — **in progress**; standards in `design/UX_AND_ACCESSIBILITY.md` after parent smoke
-- [ ] GOV.UK Design System patterns (conditional reveals, focus on step change) — before Phase 1 review polish
+- [x] Accessibility basics (WCAG 2.2 AA mindset) — forms, focus, contrast — **in progress**; standards in `design/UX_AND_ACCESSIBILITY.md` after parent smoke + 1C review  
+- [x] GOV.UK Design System patterns (conditional reveals, focus on step change) — applied on wizard + review heading focus  
 - [ ] Product discovery / continuous interview habits
 - [ ] Testing: Jest/Vitest + Playwright intro (add when Phase 2)
 
@@ -189,6 +189,17 @@ await fetch('/api/generate', {
 6. Cost env: `GENERATION_MODEL`, `GENERATION_MAX_TOKENS`, `GENERATION_MONTHLY_CAP`; AI keys optional until gap-fill is wired.
 
 **Learned:** Keep memo derived from locked bank ids — never a second independent LLM invent. Bank-first + structured schema beats free-form prose for parent trust (ADR-012).
+
+### R9 — Review generated paper (Phase 1C)
+
+1. Migration `003` applied (same as R8) so `generated_content` exists.  
+2. From wizard step 5: **Build my paper** (or dashboard **Build my paper** on a draft).  
+3. Busy state shows until `/assessments/<id>/review` loads.  
+4. Edit / Replace / Delete questions; watch live totals + proud-to-present bar.  
+5. **Save review** → `saveGeneratedAssessment` writes `generated_content`.  
+6. Rebuild from review confirms overwrite (counts as another generate toward monthly cap).
+
+**Learned:** Teachers stay in control — review mutates the same `GeneratedAssessment` JSON export will use (ADR-013). Colour alone is not enough for blockers; pair with “Fix:” / “Note:” text.
 
 ---
 
@@ -338,6 +349,22 @@ await fetch('/api/generate', {
 - **Follow-up learning:** Structured outputs with LLMs; Phase 1C review UX consuming `generated_content`.  
 - **Discipline lens:** Backend, Tech Architect, Quant, DBA, Support.
 
+### 2026-07-14 — Phase 1C review UX
+
+- **Context:** Teachers need Edit / Replace / Delete, live marks + taxonomy, and Dad’s proud-to-present check before export.  
+- **Steps that worked:**  
+  1. Branch `cursor/phase-1c-review-ux` from clean `main`.  
+  2. `/assessments/[id]/review` + `ReviewShell`; `recomputeGeneratedAssessment` + `evaluateProudToPresent`.  
+  3. Wire **Build my paper** from wizard + dashboard; `saveGeneratedAssessment`.  
+  4. ADR-013 + UX doc standards + R9.  
+- **Pitfalls:**  
+  - Prod generate/save still needs migration 003.  
+  - Rebuild overwrites — confirm dialog required.  
+  - Replace empty when all matching bank items already on the paper.  
+- **Commands:** `npm run lint && npm run build`.  
+- **Follow-up learning:** Accessible confirm dialogs (replace `window.confirm`); Phase 1D export.  
+- **Discipline lens:** UX, Frontend, Tech Architect, Support.
+
 ---
 
 ## Skills inventory (honest self-check)
@@ -379,6 +406,9 @@ Update quarterly.
 | Generate returns 429 | Monthly cap hit | Wait for next month or raise `GENERATION_MONTHLY_CAP` |
 | Generate save fails / missing column | Migration 003 not applied | Paste `003_generation_phase1b.sql` in SQL Editor → Run |
 | Paper marks short of target | Small seed bank for that topic | Expand seed bank; warnings list shortfall; AI gap-fill later |
+| Review says “No paper yet” | Never generated / dryRun only | Click **Build my paper** (not dryRun) |
+| Replace list empty | All matching bank items already on paper | Delete a question first, or rebuild |
+| Proud bar stuck on Fix | Empty memo or marks mismatch | Edit memo points; check paper vs memo marks |
 
 ---
 
