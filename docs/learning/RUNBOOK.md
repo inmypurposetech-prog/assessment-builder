@@ -358,12 +358,18 @@ await fetch('/api/generate', {
   3. Wire **Build my paper** from wizard + dashboard; `saveGeneratedAssessment`.  
   4. ADR-013 + UX doc standards + R9.  
 - **Pitfalls:**  
-  - Prod generate/save still needs migration 003.  
   - Rebuild overwrites — confirm dialog required.  
   - Replace empty when all matching bank items already on the paper.  
 - **Commands:** `npm run lint && npm run build`.  
 - **Follow-up learning:** Accessible confirm dialogs (replace `window.confirm`); Phase 1D export.  
 - **Discipline lens:** UX, Frontend, Tech Architect, Support.
+
+### 2026-07-14 — Migration 003 applied (SQL Editor)
+
+- **Context:** Prod generate + review save need `generated_content` / `generated_at` / `generation_usage`.  
+- **Steps that worked:** Paste `supabase/migrations/003_generation_phase1b.sql` in Supabase **SQL Editor** → Run.  
+- **Next:** Smoke Build my paper → review → Save review on prod/local against cloud.  
+- **Discipline lens:** DBA, Support.
 
 ---
 

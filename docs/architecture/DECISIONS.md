@@ -121,7 +121,7 @@
   3. **Memo is derived** from the locked bank selection (`memoAnswer` + `markingPoints` + K/R/C/P or Bloom short codes) — never generated as a separate paper invent.  
   4. **Cost controls:** `GENERATION_MODEL` (`bank-only` | `gpt-4o-mini` | `gemini-2.0-flash`), `GENERATION_MAX_TOKENS`, `GENERATION_MONTHLY_CAP`; usage rows in `generation_usage`; persist payload on `assessments.generated_content` / `generated_at` (migration `003_generation_phase1b.sql`).  
   5. Light **AI gap-fill** is a typed hook (`fillGapsWithAi`) that no-ops until a provider key + non-`bank-only` model are configured — keeps structured schema ready without paying for tokens yet.  
-- **Consequences:** Review UI (1C) can consume `generated_content`; export (1D) maps the same JSON; operators must run migration 003 before prod generate saves succeed; monthly cap returns HTTP 429.  
+- **Consequences:** Review UI (1C) can consume `generated_content`; export (1D) maps the same JSON; monthly cap returns HTTP 429. Migration `003` applied on cloud Supabase 14 Jul 2026.  
 - **Rejected alternatives:** Free-form LLM paper+memo in one shot; regenerating memo independently of the paper; skipping usage logging until “later”.  
 - **Disciplines consulted:** Tech Architect, Backend, Quant, DBA, PO.
 
@@ -135,7 +135,7 @@
   2. Teacher edits run client-side through `recomputeGeneratedAssessment` (renumber, mark totals, rebuild CAPS/Bloom report, keep memo aligned). Replace pulls from the in-repo seed bank and re-derives memo answers.  
   3. Persist via `saveGeneratedAssessment` server action (same jsonb column; no new tables).  
   4. Proud-to-present uses `evaluateProudToPresent` (blockers vs cautions) — text + colour.  
-- **Consequences:** Export (1D) maps the same JSON teachers already approved; rebuild overwrites with confirm; migration 003 still required for prod.  
+- **Consequences:** Export (1D) maps the same JSON teachers already approved; rebuild overwrites with confirm. Migration 003 applied on cloud Supabase (14 Jul 2026).  
 - **Rejected alternatives:** Per-question Postgres rows for MVP; regenerating the whole paper on every edit; separate memo invent API.  
 - **Disciplines consulted:** Tech Architect, UX, Frontend, Backend, PO.
 
