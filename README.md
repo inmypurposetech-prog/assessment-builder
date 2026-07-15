@@ -74,13 +74,15 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Build my paper** → structured generate → review screen
 - Drafts saved to Supabase (**Save and finish for now**)
 - Review: Edit / Replace / Delete questions, live marks + taxonomy, proud-to-present bar
+- **Download for moderation:** Maths DOCX ZIP (paper/memo/answer book/cognitive) or Life Sciences PDF (Arial-style 12pt, 1.5 spacing)
 - Structured generate API: `POST /api/generate` with `{ "assessmentId": "<uuid>", "dryRun": true }` (session required)
+- Export API: `POST /api/export` with `{ "assessmentId": "<uuid>" }` (session required; binary download)
 
 ## What comes next
 
 See [docs/workflow-map.md](docs/workflow-map.md) and [docs/ROADMAP_AND_CHECKLIST.md](docs/ROADMAP_AND_CHECKLIST.md).
 
-1. PDF/DOCX export matching Dad/Mom templates (Phase 1D)
+1. Template upload thin slice (Phase 1E)
 2. Optional AI gap-fill when provider keys are set
 3. Parent pilot (Phase 2)
 
@@ -88,12 +90,12 @@ See [docs/workflow-map.md](docs/workflow-map.md) and [docs/ROADMAP_AND_CHECKLIST
 
 ```
 src/
-  app/              # Pages, routes, api/generate, assessments/[id]/review
+  app/              # Pages, routes, api/generate, api/export, assessments/[id]/review
   components/
     wizard/         # Assessment wizard
-    review/         # ReviewShell + generate button
+    review/         # ReviewShell + generate + export buttons
     ui/             # Button, Input, Card
-  lib/              # Supabase, content, generation, types, actions
+  lib/              # Supabase, content, generation, export, types, actions
 supabase/
   migrations/       # SQL schema
 docs/               # North star, roadmap, architecture, learning runbook
@@ -109,6 +111,6 @@ docs/               # North star, roadmap, architecture, learning runbook
 4. After the first deploy, copy the production URL and update **Supabase → Authentication → URL configuration**:
    - **Site URL:** `https://<your-vercel-domain>`
    - **Redirect URLs:** include `https://<your-vercel-domain>/auth/callback` (keep localhost entries for local dev)
-5. Smoke-test: signup → login → wizard → **Build my paper** → review → Save review
+5. Smoke-test: signup → login → wizard → **Build my paper** → review → **Download for moderation**
 
 See `docs/learning/RUNBOOK.md` procedure **R4** and ADR-009.

@@ -2,7 +2,7 @@
 
 > **Disciplines:** UX/UI Designer · Design System · Frontend · Change (adoption)  
 > **Status:** Active — **follow this file on every UI change** (industry baseline for 50s+ educators)  
-> **Last updated:** 14 July 2026 (Phase 1C — review UX)
+> **Last updated:** 14 July 2026 (Phase 1D — DOCX/PDF export)
   
 > **Bar:** WCAG 2.2 Level **AA** where practical; GOV.UK / NHS-style clarity over SaaS density
 
@@ -10,7 +10,7 @@
 
 ## Honesty check (are we “industry best practice” today?)
 
-**Mostly on track for MVP.** Product UX (large text, plain language, wizard, subject-aware cognitive models) plus parent-smoke interaction fixes and Phase 1C review (edit/replace/delete, live totals, proud-to-present bar). Remaining gaps: shared empty/loading components, skip link, full SR/keyboard audit (Phase 2).
+**Mostly on track for MVP.** Product UX (large text, plain language, wizard, subject-aware cognitive models) plus parent-smoke interaction fixes, Phase 1C review, and Phase 1D export download. Remaining gaps: shared empty/loading components, skip link, full SR/keyboard audit (Phase 2).
 
 | Area | Today | Target (best practice) |
 |------|-------|------------------------|
@@ -19,7 +19,8 @@
 | Wizard step change | Scroll to top + focus step `h1` | Keep |
 | Dependent fields | `curriculum-matrix.ts` filters subject/grade | Extend matrix as content grows |
 | Generate busy | “Building your paper…” until review loads | Keep; never silent fail |
-| Review screen | Edit / Replace / Delete + live totals + proud bar | Export follows in 1D |
+| Review screen | Edit / Replace / Delete + live totals + proud bar | — |
+| Export | Download Maths ZIP / LS PDF from review | Iterate template pixel fidelity |
 | Empty / loading / error | Partial shared patterns | Shared components Phase 2 |
 | Skip link / SR audit | Not done | Phase 2 |
 
@@ -138,6 +139,17 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - Replace lists unused seed-bank items for the same subject/grade/exam body; empty list explains why.  
 - **Save review** persists `generated_content` via `saveGeneratedAssessment`.
 
+### 7. Export download (Phase 1D)
+
+**Implemented** on the review screen (**Download for moderation**):
+
+- Primary CTA label is subject-aware: **Download Maths pack (DOCX ZIP)** or **Download Life Sciences PDF**.  
+- Button stays `aria-busy` with plain-language status until the browser download starts (save first, then `POST /api/export`).  
+- Proud blockers **warn** but do not hard-block download (teachers stay in control).  
+- Empty paper disables download with an explanation.  
+- Success message states what the file contains (ZIP parts or PDF sections).  
+- Maths pack: question paper + memo + answer book + CAPS cognitive summary. LS: one PDF, 12pt / 1.5 spacing, lined blanks + Bloom sheet.
+
 ---
 
 ## Key user journeys (UX)
@@ -149,7 +161,7 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 | Create assessment | 5-step wizard → **Build my paper** or save draft | Disable Continue until valid; Maths % must sum to 100 |
 | Generate | Busy → review | Alert + retry; monthly cap message if 429 |
 | Review | Edit / replace / delete → Save review | Alert on save fail; proud bar lists blockers |
-| Export (Phase 1D) | Download DOCX/PDF | Explain if template missing |
+| Export | Download DOCX ZIP (Maths) or PDF (LS) | Alert on fail; empty-paper explanation; proud blockers as caution only |
 
 ### UX notes
 
@@ -159,7 +171,8 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - Phase 1A (11 Jul 2026): invalid Maths totals use `role="alert"`; Bloom radios from `BLOOM_FOCUS_OPTIONS`.  
 - **Parent smoke 11 July 2026:** wizard usable end-to-end; raised link visibility, post-login loading gap, step scroll, dependent options — captured as standards above.  
 - **Phase 1B (14 Jul 2026):** Structured `POST /api/generate` only.  
-- **Phase 1C (14 Jul 2026):** Review at `/assessments/[id]/review`; dashboard **Review paper** / **Build my paper**; wizard primary CTA **Build my paper**.
+- **Phase 1C (14 Jul 2026):** Review at `/assessments/[id]/review`; dashboard **Review paper** / **Build my paper**; wizard primary CTA **Build my paper**.  
+- **Phase 1D (14 Jul 2026):** Review **Download for moderation** → Maths DOCX ZIP / LS PDF (`POST /api/export`).
 
 ---
 
@@ -170,6 +183,7 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - [x] Wizard scroll + focus heading on step change  
 - [x] `supportedCurriculum` matrix + cascading selects  
 - [x] Review shell + proud-to-present + live taxonomy totals  
+- [x] Export download busy + subject-aware CTA labels  
 - [ ] Document component API in this file as components grow  
 - [ ] Empty / loading / error pattern components  
 - [ ] Modal / confirm dialog (export, delete) — accessible (review delete uses `window.confirm` for now)  
@@ -182,4 +196,4 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - Parent UX evidence: [parent-interview-notes.md](../parent-interview-notes.md)  
 - Tokens in code: `src/app/globals.css`  
 - Quality UAT: [TESTING_AND_ANALYTICS.md](../quality/TESTING_AND_ANALYTICS.md)  
-- Roadmap: Phase 1D export next; Phase 2 a11y harden  
+- Roadmap: Phase 1E template upload next; Phase 2 a11y harden  
