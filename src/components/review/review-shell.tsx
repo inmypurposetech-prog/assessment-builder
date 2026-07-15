@@ -603,7 +603,7 @@ function ExportSection({
       </h2>
       <p className="mt-2 text-lg text-muted-foreground">
         {isMaths
-          ? "Mathematics downloads a ZIP with Dad-style DOCX files: question paper, memorandum (K/R/C/P codes), answer book, and CAPS cognitive summary."
+          ? "Mathematics downloads a ZIP shaped like a GDE-style department pack: question paper, memorandum (K/R/C/P codes), answer book, and CAPS cognitive summary."
           : "Life Sciences downloads one PDF: question paper with lined answer space, memorandum, and Bloom summary — Arial-style 12pt, 1.5 line spacing."}
       </p>
       {!proudReady ? (
@@ -659,7 +659,7 @@ function ProudToPresentBar({
             : "Not ready to present yet"}
       </h2>
       <p className="mt-2 text-lg text-muted-foreground">
-        Dad&apos;s bar: would you put this in front of a moderator today?
+        Would you put this in front of a moderator today?
       </p>
       {flags.length === 0 ? (
         <p className="mt-3 text-lg" role="status">

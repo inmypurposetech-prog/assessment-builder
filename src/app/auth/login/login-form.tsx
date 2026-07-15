@@ -8,6 +8,7 @@ import { getAuthErrorMessage } from "@/lib/auth/messages";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { PasswordField } from "@/components/ui/password-field";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -57,14 +58,14 @@ export default function LoginForm() {
             onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
           />
-          <Input
+          <PasswordField
             label="Password"
-            type="password"
             autoComplete="current-password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={loading}
+            hint="Use Show if you want to check for typos."
           />
           {error ? (
             <p className="text-base text-red-700" role="alert">
@@ -81,6 +82,14 @@ export default function LoginForm() {
           </Button>
         </form>
         <p className="mt-6 text-lg">
+          <Link
+            href="/auth/forgot-password"
+            className="font-semibold text-primary underline underline-offset-4"
+          >
+            Forgot password?
+          </Link>
+        </p>
+        <p className="mt-4 text-lg">
           New here?{" "}
           <Link
             href="/auth/signup"

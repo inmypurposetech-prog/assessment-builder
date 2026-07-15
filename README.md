@@ -68,7 +68,7 @@ Open [http://localhost:3000](http://localhost:3000).
 ## What works today (MVP bootstrap)
 
 - Landing page
-- Sign up / log in
+- Sign up / log in (Show password; Forgot password → email reset → set new password)
 - Dashboard with saved assessments (**Review paper** or **Build my paper**)
 - 5-step assessment wizard (type → curriculum → scope → settings → advanced)
 - **Build my paper** → structured generate → review screen

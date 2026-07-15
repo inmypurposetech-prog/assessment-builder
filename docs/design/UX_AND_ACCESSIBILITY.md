@@ -2,7 +2,7 @@
 
 > **Disciplines:** UX/UI Designer · Design System · Frontend · Change (adoption)  
 > **Status:** Active — **follow this file on every UI change** (industry baseline for 50s+ educators)  
-> **Last updated:** 14 July 2026 (Phase 1D — DOCX/PDF export)
+> **Last updated:** 16 July 2026 (auth: show password + forgot password)
   
 > **Bar:** WCAG 2.2 Level **AA** where practical; GOV.UK / NHS-style clarity over SaaS density
 
@@ -16,6 +16,8 @@
 |------|-------|------------------------|
 | Link affordance | Always-underlined back + auth links | Keep; never colour-only / hover-only |
 | Auth pending state | Busy until navigation + “Opening your dashboard…” | Keep |
+| Password fields | Show/Hide control (always visible) | Keep — supports WCAG G211 |
+| Forgot password | Email link → set new password | Keep redirect allowlist current |
 | Wizard step change | Scroll to top + focus step `h1` | Keep |
 | Dependent fields | `curriculum-matrix.ts` filters subject/grade | Extend matrix as content grows |
 | Generate busy | “Building your paper…” until review loads | Keep; never silent fail |
@@ -53,7 +55,7 @@
 | `--muted-foreground` | `#4a4a4a` | Secondary text |
 | `--border` | `#c5d0d0` | Borders |
 
-Primitives: `src/components/ui/{button,input,card}.tsx` — treat as the seed **design system**.  
+Primitives: `src/components/ui/{button,input,password-field,card}.tsx` — treat as the seed **design system**.  
 When adding components: reuse tokens, keep variants few (`primary` / `secondary` / `ghost`).
 
 **Avoid (product rule):** purple-gradient AI clichés; dense dashboards; tiny ghost links as only CTAs.
@@ -94,6 +96,9 @@ Target mindset: **WCAG 2.2 Level AA** where practical for MVP. Inspired by GOV.U
 
 - [x] Wizard “Back to dashboard” always-visible affordance (underline always on) — done 11 Jul 2026  
 - [x] Login/signup: keep busy state until `router` navigation completes (+ “Opening your dashboard…”) — done 11 Jul 2026  
+- [x] Password **Show/Hide** on login, signup, update-password (`PasswordField`, `aria-pressed`) — done 16 Jul 2026  
+- [x] Forgot password journey (`/auth/forgot-password` → email → `/auth/update-password`) — done 16 Jul 2026  
+- [x] Teacher-facing copy: no “Dad/Mom” labels (product-owner nicknames stay in docs/code comments only) — done 16 Jul 2026  
 - [x] Wizard: on step change → `scrollTo(0)` + focus step heading — done 11 Jul 2026  
 - [x] Curriculum cascade: subject/grade availability by exam body (`curriculum-matrix.ts`) — done 11 Jul 2026  
 - [x] Review: scroll + focus page `h1`; generate busy until review; proud-to-present uses text + colour (not colour alone) — done 14 Jul 2026  
@@ -156,8 +161,9 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 
 | Journey | Happy path | Failure UX |
 |---------|------------|------------|
-| Signup | Clear fields → success or “confirm email” message (`getSignupSuccessMessage`) | Mapped via `getSignupErrorMessage` |
-| Login | Busy until dashboard; then dashboard | Mapped via `getAuthErrorMessage` |
+| Login | Busy until dashboard; Show password; Forgot password link | Mapped via `getAuthErrorMessage` |
+| Forgot password | Email → reset link → Set new password | Rate-limit / redirect allowlist messages |
+| Signup | Clear fields → success or “confirm email” message (`getSignupSuccessMessage`); Show password | Mapped via `getSignupErrorMessage` |
 | Create assessment | 5-step wizard → **Build my paper** or save draft | Disable Continue until valid; Maths % must sum to 100 |
 | Generate | Busy → review | Alert + retry; monthly cap message if 429 |
 | Review | Edit / replace / delete → Save review | Alert on save fail; proud bar lists blockers |

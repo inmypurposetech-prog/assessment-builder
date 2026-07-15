@@ -11,7 +11,7 @@ export function getAuthErrorMessage(
     return "Please confirm your email first. Check your inbox (and spam) for the link from Supabase, then try logging in again.";
   }
   if (code === "invalid_credentials") {
-    return "Incorrect email or password. Double-check what you used when signing up.";
+    return "Incorrect email or password. Double-check what you used when signing up, or use Forgot password if you need a new one.";
   }
   if (message.toLowerCase().includes("email not confirmed")) {
     return "Please confirm your email first. Check your inbox (and spam) for the confirmation link.";
@@ -102,4 +102,47 @@ export function getSignupSuccessMessage(
 
 export function getSignupDuplicateEmailMessage(): string {
   return "This email may already be registered. Try logging in instead. If you never finished signup, check your inbox for a confirmation link.";
+}
+
+export function getPasswordResetRequestMessage(
+  message: string,
+  code?: string,
+): string {
+  const lower = message.toLowerCase();
+  if (
+    code === "over_email_send_rate_limit" ||
+    lower.includes("rate limit") ||
+    lower.includes("too many requests")
+  ) {
+    return "Too many reset emails were requested. Wait a few minutes, then try again.";
+  }
+  if (
+    lower.includes("redirect") ||
+    lower.includes("redirect_uri") ||
+    lower.includes("redirect url")
+  ) {
+    return "We could not send a reset email because this site’s address is not allowed yet. Ask the AssessMate admin to add the reset callback under Supabase Auth URL settings.";
+  }
+  return "We could not send a reset email right now. Check your connection and try again.";
+}
+
+export function getPasswordUpdateErrorMessage(
+  message: string,
+  code?: string,
+): string {
+  const lower = message.toLowerCase();
+  if (
+    code === "weak_password" ||
+    (lower.includes("password") &&
+      (lower.includes("weak") ||
+        lower.includes("short") ||
+        lower.includes("least") ||
+        lower.includes("characters")))
+  ) {
+    return "That password is too weak. Use at least 8 characters, and mix letters and numbers if possible.";
+  }
+  if (lower.includes("session") || lower.includes("auth")) {
+    return "Your reset link may have expired. Request a new one from Forgot password, then try again.";
+  }
+  return "We could not save your new password. Request a fresh reset link and try again.";
 }
