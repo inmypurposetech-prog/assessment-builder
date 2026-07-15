@@ -36,7 +36,9 @@ export async function updateSession(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const isAuthRoute =
     pathname.startsWith("/auth/login") ||
-    pathname.startsWith("/auth/signup");
+    pathname.startsWith("/auth/signup") ||
+    pathname.startsWith("/auth/forgot-password");
+  const isPasswordUpdate = pathname.startsWith("/auth/update-password");
   const isProtected =
     pathname.startsWith("/dashboard") || pathname.startsWith("/assessments");
 
@@ -47,9 +49,16 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Logged-in users skip login/signup/forgot — but may land on update-password via reset link.
   if (isAuthRoute && user) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
+  }
+
+  if (isPasswordUpdate && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/forgot-password";
     return NextResponse.redirect(url);
   }
 

@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { PasswordField } from "@/components/ui/password-field";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -118,13 +119,12 @@ export default function SignupPage() {
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
             />
-            <Input
+            <PasswordField
               label="Password"
-              type="password"
               autoComplete="new-password"
               required
               minLength={8}
-              hint="At least 8 characters."
+              hint="At least 8 characters. Use Show if you want to check for typos."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}

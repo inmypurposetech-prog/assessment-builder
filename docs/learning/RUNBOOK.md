@@ -2,7 +2,7 @@
 
 > **Purpose:** Your personal engineering & product journey log — processes you’ve done, what you learned, mistakes, and **follow-up courses/resources**. Use it as a runbook when repeating a task or onboarding your future self.  
 > **Update:** After every non-trivial setup or debugging session (Documentation Gate).  
-> **Last updated:** 14 July 2026 (Phase 1D export)
+> **Last updated:** 16 July 2026 (auth password UX + R11)
 
 ---
 
@@ -212,6 +212,17 @@ await fetch('/api/generate', {
 
 **Learned:** Export maps the **saved** JSON (ADR-014) — never invent a second paper at download time. PDF core fonts lack Arial; document the Helvetica substitute until a licensed face is embedded. Keep binary builders in `serverExternalPackages` (`pdfkit`, `docx`, `jszip`).
 
+### R11 — Forgot / reset password
+
+1. Supabase → **Authentication → URL configuration** must allow Site URL plus:  
+   `http://localhost:3000/auth/callback` and `https://<prod>/auth/callback`.  
+2. App: **Log in → Forgot password?** → email → Supabase sends link with  
+   `redirectTo=…/auth/callback?next=/auth/update-password`.  
+3. User opens link → callback → **Set a new password** → dashboard.  
+4. Success copy is the same whether or not the email exists (no account enumeration). Test with a real inbox (+ spam).
+
+**Learned:** Show/Hide password is **good** for accessibility (WCAG 2.2 / technique G211), especially for 50s+ educators — not a violation when the user chooses to reveal it on their device.
+
 ---
 
 ## Learning log
@@ -397,6 +408,14 @@ await fetch('/api/generate', {
 - **Steps that worked:** Paste `supabase/migrations/003_generation_phase1b.sql` in Supabase **SQL Editor** → Run.  
 - **Next:** Smoke Build my paper → review → Save review on prod/local against cloud.  
 - **Discipline lens:** DBA, Support.
+
+### 2026-07-16 — Show password + Forgot password
+
+- **Context:** Parent-friendly auth gaps found in smoke (no Show; no Forgot).  
+- **Steps that worked:** `PasswordField` (Show/Hide, `aria-pressed`); `/auth/forgot-password` + `/auth/update-password`; strip Dad/Mom from teacher-facing review copy.  
+- **Pitfalls:** Reset emails need `/auth/callback` on Supabase redirect allowlist (same as login).  
+- **Follow-up learning:** WCAG G211 (password visibility as accessibility aid).  
+- **Discipline lens:** UX, Support, Frontend.
 
 ---
 
