@@ -27,6 +27,7 @@
 | `design/UX_AND_ACCESSIBILITY.md` | UX, design system, a11y |
 | `quality/TESTING_AND_ANALYTICS.md` | Tests, coverage, usage analytics |
 | `quality/SECURITY_AND_THREAT_MODEL.md` | InfoSec threat model + Phase 2 security checklist |
+| `legal/COMPLIANCE.md` | POPIA, copyright, privacy/terms stub |
 | `learning/RUNBOOK.md` | Process learnings, courses, ops runbook |
 | `workflow-map.md` | Teacher journey |
 | `parent-interview-notes.md` | Interview evidence |
@@ -513,8 +514,12 @@ Safe when the PR is merged: a squash merge keeps the **tree** on `main` even if 
 | Frontend / Backend | Next.js + server actions/API | architecture/OVERVIEW, code |
 | Database Architect | Schema, RLS, migrations | migrations + OVERVIEW |
 | Quant | Cognitive validators; unit economics | NORTH_STAR, quality doc |
+| Content / Curriculum | CAPS vs Bloom; bank + parent samples | NORTH_STAR, parent-samples, `lib/content` |
+| Legal / Compliance | POPIA, copyright, privacy/terms | legal/COMPLIANCE |
 | Quality/Testing | Strategy, coverage, UAT | quality/TESTING_AND_ANALYTICS |
 | InfoSec / Cyber | Threat model, RLS/authz, light adversarial pass | quality/SECURITY_AND_THREAT_MODEL |
+| DevOps / SRE | Deploy, CI, env, incidents | OVERVIEW, RUNBOOK, ROADMAP CI |
+| Product Marketing / Comms | Landing, pilot messaging | NORTH_STAR, landing page |
 | Data & Insights | Funnels, AI cost logs | quality/TESTING_AND_ANALYTICS |
 | Change Manager | Pilots, school rollout comms | ROADMAP Phase 2–5 |
 | Support Analyst | Auth issues, how-tos | learning/RUNBOOK, README |

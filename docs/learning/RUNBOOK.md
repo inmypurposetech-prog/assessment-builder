@@ -432,6 +432,13 @@ await fetch('/api/generate', {
 - **Follow-up learning:** OWASP Top 10 + Supabase RLS; complete Phase 2 InfoSec checklist before closed beta.  
 - **Discipline lens:** InfoSec, QA, Tech Architect, PO.
 
+### 2026-07-16 — Extra workplace lenses (Content, Legal, Comms, DevOps)
+
+- **Context:** Discipline map felt thin beyond eng/PO; user asked what was missing.  
+- **Added:** Content/Curriculum, Legal/Compliance (`legal/COMPLIANCE.md` stub), Product Marketing/Comms, DevOps/SRE rows + gate ticks.  
+- **Explicitly deferred as separate hats:** Sales, HR, Finance ops, formal Design Research.  
+- **Discipline lens:** PO, Change, Legal, DevOps.
+
 ---
 
 ## Skills inventory (honest self-check)
