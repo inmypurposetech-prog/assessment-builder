@@ -71,9 +71,14 @@ export default async function DashboardPage() {
           <p className="mt-3 text-xl text-muted-foreground">
             Create a new assessment or continue where you left off.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link href="/assessments/new/wizard">
               <Button className="w-full sm:w-auto">+ Create assessment</Button>
+            </Link>
+            <Link href="/templates">
+              <Button variant="secondary" className="w-full sm:w-auto">
+                My templates
+              </Button>
             </Link>
           </div>
         </section>

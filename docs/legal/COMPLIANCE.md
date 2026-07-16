@@ -22,7 +22,7 @@ This is **not** legal advice. When in doubt (especially school contracts or paid
 | **Learner PII / marks** | Out of MVP — do not store learner names/marks as core data | NORTH_STAR; threat model |
 | **Educator account data** | Email, name, school optional — POPIA-minded; privacy policy in Phase 2 | Auth + profiles |
 | **Past papers / parent samples** | Local reference only; **gitignored** binaries; do not republish | ADR-007; parent-samples README |
-| **User-uploaded templates** (1E+) | User retains rights; AssessMate stores to generate *into* their format | NORTH_STAR templates; future Terms |
+| **User-uploaded templates** (1E) | User retains rights; AssessMate stores privately to link on create; **no learner PII**; School share later | ADR-016; `/templates` UI copy; future Terms |
 | **AI-generated content** | Teacher stays in control; teacher responsible for moderation use | NORTH_STAR principles |
 
 ---
@@ -49,7 +49,7 @@ This is **not** legal advice. When in doubt (especially school contracts or paid
 | Question | Owner | Status |
 |----------|-------|--------|
 | Confirm EU Supabase region messaging for SA educators | You + privacy draft | Open |
-| Template upload licence wording | BA + Legal lens | Before 1E/5 school share |
+| Template upload licence wording | BA + Legal lens | Seeded in `/templates` UI (educator-owned; Private); formal Terms before School share |
 | Who owns generated paper text after export? | PO default: educator | Confirm in Terms |
 
 ---

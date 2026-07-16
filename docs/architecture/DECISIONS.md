@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical Architect · Business Architect · Product Owner  
 > **How to add:** Copy the template at the bottom; never delete old ADRs — mark `Superseded` if replaced.  
-> **Last updated:** 16 July 2026 (ADR-015)
+> **Last updated:** 16 July 2026 (ADR-016)
 
 ---
 
@@ -25,6 +25,7 @@
 | ADR-013 | Review edits mutate generated_content (Edit/Replace/Delete + proud bar) | Accepted | 2026-07 |
 | ADR-014 | Subject-aware DOCX/PDF export from generated_content | Accepted | 2026-07 |
 | ADR-015 | Phase 2 testing: CI + Playwright/Vitest before hosted AI agents (KaneAI deferred) | Accepted | 2026-07 |
+| ADR-016 | Phase 1E private template upload (Supabase Storage + select on create) | Accepted | 2026-07 |
 
 ---
 
@@ -169,6 +170,21 @@
 - **Consequences:** No new vendor cost in Phase 2; CI catches broken AI edits early; security work stays checklist-driven.  
 - **Rejected alternatives:** Adopt KaneAI now as primary QA; skip CI until after pilot; treat UI agent coverage as sufficient for RLS/authz.  
 - **Disciplines consulted:** InfoSec, QA, Tech Architect, PO.
+
+## ADR-016 — Phase 1E private template upload (Supabase Storage)
+
+- **Status:** Accepted  
+- **Date:** 2026-07-16  
+- **Context:** Parents already have school covers / department packs. Phase 1E is a thin slice: store educator-owned files privately and select one when creating an assessment. School sharing and “generate into uploaded binary” fidelity stay later (Phase 5 / fidelity iterate). No learner PII.  
+- **Decision:**  
+  1. Migration `004_templates_phase1e.sql`: `templates` table (visibility check-constrained to **`private`**), `assessments.template_id` FK (`on delete set null`), private Storage bucket `templates` with object policies on path prefix `auth.uid()`.  
+  2. Upload via authenticated server action (`uploadTemplate`) using the user session — **no service role** in the browser path. Free-tier soft cap: **1** private pack (`MAX_PRIVATE_TEMPLATES`).  
+  3. UI: `/templates` library + upload; wizard Advanced step selects template or AssessMate default; `saveAssessmentWizard` writes `template_id` after ownership check.  
+  4. Export (ADR-014) still builds from `generated_content` with in-code layout packs — linked uploads are stored for the next fidelity step, not injected into DOCX/PDF yet.  
+  5. Compliance: educator-owned materials only; copyright reminder in UI; never store learner names/marks/scripts (COMPLIANCE + threat model).  
+- **Consequences:** Parents can upload Dad’s cover / Mom’s letterhead privately; apply 004 on Supabase before prod upload works; School visibility remains Phase 5.  
+- **Rejected alternatives:** Public bucket; service-role uploads; School sharing in 1E; rewriting export to fill Word binaries in this slice.  
+- **Disciplines consulted:** Tech Architect, DBA, InfoSec, Legal/Compliance, UX, PO.
 
 ## Template for new ADRs
 

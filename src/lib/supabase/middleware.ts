@@ -40,7 +40,9 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith("/auth/forgot-password");
   const isPasswordUpdate = pathname.startsWith("/auth/update-password");
   const isProtected =
-    pathname.startsWith("/dashboard") || pathname.startsWith("/assessments");
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/assessments") ||
+    pathname.startsWith("/templates");
 
   if (isProtected && !user) {
     const url = request.nextUrl.clone();

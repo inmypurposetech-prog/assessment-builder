@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { WizardShell } from "@/components/wizard/wizard-shell";
+import { listTemplates } from "@/lib/actions/templates";
 import { createClient } from "@/lib/supabase/server";
 import type { AssessmentWizardData } from "@/lib/types/assessment";
 import { defaultWizardData } from "@/lib/types/assessment";
@@ -21,7 +22,7 @@ export default async function EditAssessmentWizardPage({
 
   const { data: assessment, error } = await supabase
     .from("assessments")
-    .select("id, wizard_data")
+    .select("id, wizard_data, template_id")
     .eq("id", id)
     .eq("user_id", user.id)
     .single();
@@ -30,10 +31,32 @@ export default async function EditAssessmentWizardPage({
     notFound();
   }
 
+  let templates: Awaited<ReturnType<typeof listTemplates>> = [];
+  try {
+    templates = await listTemplates();
+  } catch {
+    templates = [];
+  }
+
+  const fromWizard = assessment.wizard_data as Partial<AssessmentWizardData>;
+  const templateId =
+    (typeof assessment.template_id === "string"
+      ? assessment.template_id
+      : null) ??
+    fromWizard.templateId ??
+    null;
+
   const initialData = {
     ...defaultWizardData,
-    ...(assessment.wizard_data as Partial<AssessmentWizardData>),
+    ...fromWizard,
+    templateId,
   };
 
-  return <WizardShell assessmentId={id} initialData={initialData} />;
+  return (
+    <WizardShell
+      assessmentId={id}
+      initialData={initialData}
+      templates={templates}
+    />
+  );
 }

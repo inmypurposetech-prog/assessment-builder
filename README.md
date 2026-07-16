@@ -8,7 +8,7 @@ Built for readable, step-by-step workflows (large text, plain language).
 
 - [Next.js 16](https://nextjs.org) (App Router, TypeScript)
 - [Tailwind CSS 4](https://tailwindcss.com)
-- [Supabase](https://supabase.com) — Auth, Postgres, storage (Phase 2+)
+- [Supabase](https://supabase.com) — Auth, Postgres, Storage (private templates, Phase 1E)
 
 ## Getting started
 
@@ -39,6 +39,13 @@ In the Supabase dashboard, open **SQL Editor** and run (in order):
 1. `supabase/migrations/001_initial_schema.sql`
 2. `supabase/migrations/002_question_bank_phase1a.sql`
 3. `supabase/migrations/003_generation_phase1b.sql` — required before `POST /api/generate` can save
+4. `supabase/migrations/004_templates_phase1e.sql` — required before `/templates` upload (private Storage bucket)
+
+Optional CLI (needs `SUPABASE_DB_URL`):
+
+```bash
+npm run db:migrate:004
+```
 
 ### 4. Configure authentication (important)
 
@@ -75,6 +82,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - Drafts saved to Supabase (**Save and finish for now**)
 - Review: Edit / Replace / Delete questions, live marks + taxonomy, proud-to-present bar
 - **Download for moderation:** Maths DOCX ZIP (paper/memo/answer book/cognitive) or Life Sciences PDF (Arial-style 12pt, 1.5 spacing)
+- **My templates:** upload a private school cover / pack (PDF, Word, or ZIP) and select it in wizard Advanced (Free soft-cap: 1 pack). Files are educator-owned — do not upload learner PII. Export still uses AssessMate layout builders until fidelity iterates.
 - Structured generate API: `POST /api/generate` with `{ "assessmentId": "<uuid>", "dryRun": true }` (session required)
 - Export API: `POST /api/export` with `{ "assessmentId": "<uuid>" }` (session required; binary download)
 
@@ -82,18 +90,20 @@ Open [http://localhost:3000](http://localhost:3000).
 
 See [docs/workflow-map.md](docs/workflow-map.md) and [docs/ROADMAP_AND_CHECKLIST.md](docs/ROADMAP_AND_CHECKLIST.md).
 
-1. Template upload thin slice (Phase 1E)
-2. Optional AI gap-fill when provider keys are set
+1. Apply migration `004` on cloud Supabase if not yet run
+2. Export fidelity toward Dad/Mom exemplars (and linked template packs)
 3. Parent pilot (Phase 2)
+4. Optional AI gap-fill when provider keys are set
 
 ## Project structure
 
 ```
 src/
-  app/              # Pages, routes, api/generate, api/export, assessments/[id]/review
+  app/              # Pages, routes, api/generate, api/export, assessments/[id]/review, templates
   components/
     wizard/         # Assessment wizard
     review/         # ReviewShell + generate + export buttons
+    templates/      # Template upload + list
     ui/             # Button, Input, Card
   lib/              # Supabase, content, generation, export, types, actions
 supabase/

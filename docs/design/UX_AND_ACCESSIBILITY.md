@@ -2,7 +2,7 @@
 
 > **Disciplines:** UX/UI Designer · Design System · Frontend · Change (adoption)  
 > **Status:** Active — **follow this file on every UI change** (industry baseline for 50s+ educators)  
-> **Last updated:** 16 July 2026 (auth: show password + forgot password)
+> **Last updated:** 16 July 2026 (Phase 1E template upload)
   
 > **Bar:** WCAG 2.2 Level **AA** where practical; GOV.UK / NHS-style clarity over SaaS density
 
@@ -23,6 +23,7 @@
 | Generate busy | “Building your paper…” until review loads | Keep; never silent fail |
 | Review screen | Edit / Replace / Delete + live totals + proud bar | — |
 | Export | Download Maths ZIP / LS PDF from review | Iterate template pixel fidelity |
+| Templates | `/templates` upload + wizard select (Private) | School share later; fidelity into pack |
 | Empty / loading / error | Partial shared patterns | Shared components Phase 2 |
 | Skip link / SR audit | Not done | Phase 2 |
 
@@ -155,6 +156,15 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - Success message states what the file contains (ZIP parts or PDF sections).  
 - Maths pack: question paper + memo + answer book + CAPS cognitive summary. LS: one PDF, 12pt / 1.5 spacing, lined blanks + Bloom sheet.
 
+### 8. Template upload (Phase 1E)
+
+- Dashboard **My templates** → `/templates` (always-visible secondary button).  
+- Upload form: large file input, plain-language hints, **busy “Uploading…”** until done (`aria-busy` + `role="status"`).  
+- Copyright / POPIA copy on the page: educator-owned materials only; **no learner names, marks, or scripts**; visibility **Private** only.  
+- Empty library explains AssessMate defaults + link from wizard Advanced if none uploaded (never silent).  
+- Wizard Advanced: radio select **AssessMate default** vs private pack; dependent empty-state links to upload.  
+- Delete uses confirm for now (`window.confirm`) — shared accessible dialog still Phase 2 backlog.
+
 ---
 
 ## Key user journeys (UX)
@@ -168,17 +178,19 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 | Generate | Busy → review | Alert + retry; monthly cap message if 429 |
 | Review | Edit / replace / delete → Save review | Alert on save fail; proud bar lists blockers |
 | Export | Download DOCX ZIP (Maths) or PDF (LS) | Alert on fail; empty-paper explanation; proud blockers as caution only |
+| Templates | Upload private pack → select in wizard Advanced | Slot-full / MIME / size errors; migration-missing message |
 
 ### UX notes
 
 - Auth copy: `src/lib/auth/messages.ts`.  
-- Wizard Advanced: subject-aware (Maths CAPS % with guide bullets vs LS Bloom focus from IEB grid pattern).  
+- Wizard Advanced: subject-aware (Maths CAPS % with guide bullets vs LS Bloom focus from IEB grid pattern) + optional private template select (Phase 1E).  
 - Local draft: stable `useSyncExternalStore` snapshot (avoid tab crash).  
 - Phase 1A (11 Jul 2026): invalid Maths totals use `role="alert"`; Bloom radios from `BLOOM_FOCUS_OPTIONS`.  
 - **Parent smoke 11 July 2026:** wizard usable end-to-end; raised link visibility, post-login loading gap, step scroll, dependent options — captured as standards above.  
 - **Phase 1B (14 Jul 2026):** Structured `POST /api/generate` only.  
 - **Phase 1C (14 Jul 2026):** Review at `/assessments/[id]/review`; dashboard **Review paper** / **Build my paper**; wizard primary CTA **Build my paper**.  
-- **Phase 1D (14 Jul 2026):** Review **Download for moderation** → Maths DOCX ZIP / LS PDF (`POST /api/export`).
+- **Phase 1D (14 Jul 2026):** Review **Download for moderation** → Maths DOCX ZIP / LS PDF (`POST /api/export`).  
+- **Phase 1E (16 Jul 2026):** `/templates` private upload; wizard Advanced select; Free soft-cap 1 pack.
 
 ---
 
@@ -190,6 +202,7 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - [x] `supportedCurriculum` matrix + cascading selects  
 - [x] Review shell + proud-to-present + live taxonomy totals  
 - [x] Export download busy + subject-aware CTA labels  
+- [x] Template upload busy + Private / no-PII copy  
 - [ ] Document component API in this file as components grow  
 - [ ] Empty / loading / error pattern components  
 - [ ] Modal / confirm dialog (export, delete) — accessible (review delete uses `window.confirm` for now)  
@@ -202,4 +215,4 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 - Parent UX evidence: [parent-interview-notes.md](../parent-interview-notes.md)  
 - Tokens in code: `src/app/globals.css`  
 - Quality UAT: [TESTING_AND_ANALYTICS.md](../quality/TESTING_AND_ANALYTICS.md)  
-- Roadmap: Phase 1E template upload next; Phase 2 a11y harden  
+- Roadmap: Phase 1E done (thin slice); Phase 2 pilot + a11y harden  

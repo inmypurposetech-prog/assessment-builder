@@ -59,11 +59,11 @@ You are currently **all of these**. Docs must stay complete enough that a specia
 | **Business Architect** | Value streams (create → moderate → export); pricing/capability model | NORTH_STAR (templates/pricing) | Active |
 | **Technical / Systems Architect** | Stack, boundaries, security, evolution Track A→B | architecture/OVERVIEW, DECISIONS | Active |
 | **Business / Systems Analyst** | Requirements from interviews; acceptance criteria | parent-interview-notes, workflow-map, ROADMAP DoD | Active |
-| UX / UI Designer | Wizard + review + export UX for 50s+ educators; WCAG AA patterns | design/UX_AND_ACCESSIBILITY | Active — export download 14 Jul 2026 |
+| UX / UI Designer | Wizard + review + export + template upload UX for 50s+ educators; WCAG AA patterns | design/UX_AND_ACCESSIBILITY | Active — templates upload 16 Jul 2026 |
 | **Design System Team** | Tokens, components (Button/Input/Card), consistency | design/UX_AND_ACCESSIBILITY + `src/components/ui` | Seeded |
-| **Frontend Engineer** | Next.js App Router, wizard, dashboard, review, export CTA | architecture/OVERVIEW, README | Active — export download on review |
-| **Backend Engineer** | Server actions, API routes, auth session (`proxy.ts`) | architecture/OVERVIEW | Active — `/api/generate` + `/api/export` |
-| **Database Analyst / Architect** | Postgres schema, RLS, migrations | architecture/OVERVIEW, `supabase/migrations/` | Active — `003_generation_phase1b` |
+| **Frontend Engineer** | Next.js App Router, wizard, dashboard, review, export CTA, templates | architecture/OVERVIEW, README | Active — `/templates` + wizard select |
+| **Backend Engineer** | Server actions, API routes, auth session (`proxy.ts`), Storage upload | architecture/OVERVIEW | Active — generate/export + template actions |
+| **Database Analyst / Architect** | Postgres schema, RLS, migrations, Storage policies | architecture/OVERVIEW, `supabase/migrations/` | Active — `004_templates_phase1e` |
 | **Quant** | Cognitive % validators; generation cost unit economics | NORTH_STAR pricing; quality/TESTING (metrics); learning RUNBOOK | Active — monthly cap + usage |
 | **Quality / Testing Engineer** | Test strategy, coverage goals, UAT with parents | quality/TESTING_AND_ANALYTICS | Seeded — 1C review smoke notes |
 | **Information Security / Cyber** | Threat model, authz/RLS, secrets, abuse limits; lightweight adversarial checks | quality/SECURITY_AND_THREAT_MODEL · architecture/OVERVIEW | Seeded — Phase 2 checklist 16 Jul 2026 |

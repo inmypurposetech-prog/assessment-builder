@@ -46,6 +46,7 @@ import { GenerateAssessmentButton } from "@/components/review/generate-assessmen
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import type { TemplateRecord } from "@/lib/types/template";
 
 const STORAGE_KEY = "assessmate-wizard-draft";
 
@@ -220,9 +221,15 @@ function RadioOption({
 interface WizardShellProps {
   assessmentId?: string;
   initialData?: AssessmentWizardData;
+  /** Private templates owned by the signed-in educator (Phase 1E). */
+  templates?: TemplateRecord[];
 }
 
-export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
+export function WizardShell({
+  assessmentId,
+  initialData,
+  templates = [],
+}: WizardShellProps) {
   const router = useRouter();
   const headingRef = useRef<HTMLHeadingElement>(null);
   const [step, setStep] = useState(1);
@@ -255,6 +262,16 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
       );
     },
     [localDraft],
+  );
+
+  const selectedTemplateId =
+    data.templateId && templates.some((tpl) => tpl.id === data.templateId)
+      ? data.templateId
+      : null;
+
+  const dataForSave = useMemo(
+    () => ({ ...data, templateId: selectedTemplateId }),
+    [data, selectedTemplateId],
   );
 
   const availableSubjects = useMemo(
@@ -703,6 +720,55 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
             )}
 
             <div className="flex flex-col gap-3">
+              <p className="text-lg font-medium">Template pack (optional)</p>
+              <p className="text-base text-muted-foreground">
+                Choose a private school cover or department pack you uploaded.
+                Export still uses AssessMate layout for now; your selection is
+                saved so we can match your format next. Do not rely on this for
+                learner scripts — templates are educator materials only.
+              </p>
+              {templates.length === 0 ? (
+                <p className="rounded-lg border-2 border-border bg-muted/40 px-4 py-3 text-base text-muted-foreground">
+                  No private templates yet.{" "}
+                  <Link
+                    href="/templates"
+                    className="font-medium text-primary underline"
+                  >
+                    Upload a template
+                  </Link>{" "}
+                  (Private only), or continue with AssessMate defaults.
+                </p>
+              ) : (
+                <div className="flex flex-col gap-3" role="radiogroup" aria-label="Template pack">
+                  <RadioOption
+                    name="templateId"
+                    checked={selectedTemplateId === null}
+                    onChange={() => update({ templateId: null })}
+                    label="AssessMate default"
+                    description="Use the built-in Maths DOCX / Life Sciences PDF layout"
+                  />
+                  {templates.map((tpl) => (
+                    <RadioOption
+                      key={tpl.id}
+                      name="templateId"
+                      checked={selectedTemplateId === tpl.id}
+                      onChange={() => update({ templateId: tpl.id })}
+                      label={tpl.title}
+                      description={[
+                        "Private",
+                        tpl.subject,
+                        tpl.examBody,
+                        tpl.originalFilename,
+                      ]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-3">
               {(
                 [
                   { key: "includeMcq" as const, label: "Include multiple choice questions" },
@@ -763,7 +829,7 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
           <div className="flex w-full flex-col gap-3 sm:items-end">
             <GenerateAssessmentButton
               assessmentId={assessmentId}
-              wizardData={data}
+              wizardData={dataForSave}
               className="w-full sm:w-auto"
               disabled={!canContinue || !mathsTotalValid}
               label="Build my paper"
@@ -782,7 +848,7 @@ export function WizardShell({ assessmentId, initialData }: WizardShellProps) {
                 setSaveError(null);
                 setSaving(true);
                 try {
-                  await saveAssessmentWizard(data, assessmentId);
+                  await saveAssessmentWizard(dataForSave, assessmentId);
                   if (!assessmentId) {
                     clearDraft();
                   }
