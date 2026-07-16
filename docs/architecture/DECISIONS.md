@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical Architect · Business Architect · Product Owner  
 > **How to add:** Copy the template at the bottom; never delete old ADRs — mark `Superseded` if replaced.  
-> **Last updated:** 14 July 2026 (ADR-014)
+> **Last updated:** 16 July 2026 (ADR-015)
 
 ---
 
@@ -24,6 +24,7 @@
 | ADR-012 | Structured generation API: bank-first assemble + memo derive + cost caps | Accepted | 2026-07 |
 | ADR-013 | Review edits mutate generated_content (Edit/Replace/Delete + proud bar) | Accepted | 2026-07 |
 | ADR-014 | Subject-aware DOCX/PDF export from generated_content | Accepted | 2026-07 |
+| ADR-015 | Phase 2 testing: CI + Playwright/Vitest before hosted AI agents (KaneAI deferred) | Accepted | 2026-07 |
 
 ---
 
@@ -155,6 +156,19 @@
 - **Consequences:** Template fidelity improves by editing builders against parent exemplars (gitignored); library deps `docx` / `pdfkit` / `jszip`; `serverExternalPackages` in Next config.  
 - **Rejected alternatives:** One format for both subjects; HTML-print-only; Puppeteer/Chrome PDF (heavier ops); regenerating paper text at export time.  
 - **Disciplines consulted:** Tech Architect, Backend, UX, PO, Design.
+
+## ADR-015 — Phase 2 testing: CI + Playwright/Vitest before hosted AI agents
+
+- **Status:** Accepted  
+- **Date:** 2026-07-16  
+- **Context:** Fast AI-assisted (“vibe”) coding increases hidden-bug risk. Hosted AI test products (e.g. KaneAI / TestMu) promise plain-English cases and self-healing UI tests. AssessMate also needs InfoSec discipline (authz, RLS, secrets) which UI agents alone do not replace. Budget-conscious solo MVP.  
+- **Decision:**  
+  1. **Phase 2 automated bar:** GitHub Actions `lint` + `build`; add **Vitest** for domain validators and **Playwright** for happy-path smoke when we automate E2E.  
+  2. **Defer KaneAI / similar hosted AI test agents** until Playwright maintenance or multi-browser needs justify paid tooling (revisit at closed beta / Teacher tier).  
+  3. Keep **manual parent UAT** as the product-quality gate; keep **SECURITY_AND_THREAT_MODEL** checklist + lightweight adversarial hour for InfoSec (not replaced by UI agents).  
+- **Consequences:** No new vendor cost in Phase 2; CI catches broken AI edits early; security work stays checklist-driven.  
+- **Rejected alternatives:** Adopt KaneAI now as primary QA; skip CI until after pilot; treat UI agent coverage as sufficient for RLS/authz.  
+- **Disciplines consulted:** InfoSec, QA, Tech Architect, PO.
 
 ## Template for new ADRs
 

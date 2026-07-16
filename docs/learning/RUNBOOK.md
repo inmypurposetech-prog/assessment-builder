@@ -2,7 +2,7 @@
 
 > **Purpose:** Your personal engineering & product journey log — processes you’ve done, what you learned, mistakes, and **follow-up courses/resources**. Use it as a runbook when repeating a task or onboarding your future self.  
 > **Update:** After every non-trivial setup or debugging session (Documentation Gate).  
-> **Last updated:** 16 July 2026 (auth password UX + R11)
+> **Last updated:** 16 July 2026 (InfoSec + ADR-015)
 
 ---
 
@@ -63,6 +63,13 @@ Track intentional upskilling. Tick when done; add notes in the log.
 - [ ] POPIA basics for SaaS (educator data, no learner PII in MVP)
 - [ ] PayFast (or chosen) payment integration docs — before Phase 4
 - [ ] NSC vs assessment bodies (DBE/IEB/SACAI) — **done** (see log)
+
+### Security & assurance
+
+- [ ] OWASP Top 10 awareness for web apps (map to AssessMate threat model)
+- [ ] Supabase RLS deep dive (pair with Postgres curriculum item)
+- [ ] Lightweight pen-test mindset (checklists in `quality/SECURITY_AND_THREAT_MODEL.md`) — not a firm yet
+- [ ] Optional later: hosted AI test agents (KaneAI etc.) only if ADR-015 revisited
 
 ---
 
@@ -416,6 +423,14 @@ await fetch('/api/generate', {
 - **Pitfalls:** Reset emails need `/auth/callback` on Supabase redirect allowlist (same as login).  
 - **Follow-up learning:** WCAG G211 (password visibility as accessibility aid).  
 - **Discipline lens:** UX, Support, Frontend.
+
+### 2026-07-16 — InfoSec discipline + KaneAI stance
+
+- **Context:** Missing cyber/info-sec lens; LinkedIn post on vibe coding + KaneAI testing.  
+- **Steps that worked:** Added `quality/SECURITY_AND_THREAT_MODEL.md`, InfoSec row in DOCUMENTATION_INDEX, ADR-015 (CI + Vitest/Playwright before hosted AI agents).  
+- **Decision:** KaneAI deferred — UI agents ≠ RLS/authz; budget-first Phase 2.  
+- **Follow-up learning:** OWASP Top 10 + Supabase RLS; complete Phase 2 InfoSec checklist before closed beta.  
+- **Discipline lens:** InfoSec, QA, Tech Architect, PO.
 
 ---
 

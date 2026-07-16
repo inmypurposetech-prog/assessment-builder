@@ -2,7 +2,7 @@
 
 > **Purpose:** Map of all project docs, which workplace **discipline** owns each concern, and the **Documentation Gate** so docs never become an afterthought.  
 > **Audience:** You (solo) now; future collaborators or readers later.  
-> **Last updated:** 14 July 2026 (Phase 1D)
+> **Last updated:** 16 July 2026 (InfoSec discipline)
 
 ---
 
@@ -42,7 +42,8 @@ Update @docs/learning/RUNBOOK.md with what we just learned and any follow-up cou
 | [architecture/DECISIONS.md](./architecture/DECISIONS.md) | Tech Architect, BA, PO | Architecture Decision Records (ADRs) |
 | [design/UX_AND_ACCESSIBILITY.md](./design/UX_AND_ACCESSIBILITY.md) | UX/UI, Design System, FE | UX rules, a11y, visual language |
 | [quality/TESTING_AND_ANALYTICS.md](./quality/TESTING_AND_ANALYTICS.md) | QA, Data & Insights, Quant | Test strategy, coverage, usage metrics |
-| [learning/RUNBOOK.md](./learning/RUNBOOK.md) | You (engineering journey) | Process learnings, courses, runbook |
+| [quality/SECURITY_AND_THREAT_MODEL.md](./quality/SECURITY_AND_THREAT_MODEL.md) | InfoSec / Cyber, Pen-test mindset, BE, DBA | Threat model, Phase 2 security checklist, tooling stance |
+| [learning/RUNBOOK.md](./learning/RUNBOOK.md) | You (engineering journey) | Learnings, courses, ops runbook |
 | [../README.md](../README.md) | Support, FE/BE | How to run locally / deploy basics |
 
 ---
@@ -64,6 +65,7 @@ You are currently **all of these**. Docs must stay complete enough that a specia
 | **Database Analyst / Architect** | Postgres schema, RLS, migrations | architecture/OVERVIEW, `supabase/migrations/` | Active — `003_generation_phase1b` |
 | **Quant** | Cognitive % validators; generation cost unit economics | NORTH_STAR pricing; quality/TESTING (metrics); learning RUNBOOK | Active — monthly cap + usage |
 | **Quality / Testing Engineer** | Test strategy, coverage goals, UAT with parents | quality/TESTING_AND_ANALYTICS | Seeded — 1C review smoke notes |
+| **Information Security / Cyber** | Threat model, authz/RLS, secrets, abuse limits; lightweight adversarial checks | quality/SECURITY_AND_THREAT_MODEL · architecture/OVERVIEW | Seeded — Phase 2 checklist 16 Jul 2026 |
 | **Data & Insights Engineer** | Usage analytics, funnels, AI cost logs | quality/TESTING_AND_ANALYTICS | Planned |
 | **Change Manager** | Pilot scripts, rollout to school, communication | ROADMAP Phase 2–5 | Seeded |
 | **Support Analyst** | Auth issues, how-to, incident notes | README, learning/RUNBOOK (ops), ROADMAP support playbook | Seeded |
@@ -80,6 +82,7 @@ Complete **before** marking any feature or phase done:
 - [ ] Code + migration if schema changed
 - [ ] **ADR** added/updated if a technical or business choice was made → `architecture/DECISIONS.md`
 - [ ] UX/a11y note if UI changed → `design/UX_AND_ACCESSIBILITY.md` (or confirm “no change”)
+- [ ] **Security** if auth/RLS/API/secrets touched → threat note or tick in `quality/SECURITY_AND_THREAT_MODEL.md`
 - [ ] Test notes (what you tested manually / automated) → `quality/TESTING_AND_ANALYTICS.md` log
 - [ ] **Learning entry** if you learned a process/tool → `learning/RUNBOOK.md`
 - [ ] ROADMAP checklist ticks updated
