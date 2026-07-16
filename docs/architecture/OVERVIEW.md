@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical/Systems Architect · Frontend · Backend · Database Architect  
 > **Status:** Active (MVP Track A)  
-> **Last updated:** 14 July 2026 (Phase 1D export)
+> **Last updated:** 16 July 2026 (InfoSec section)
 
 ---
 
@@ -142,11 +142,15 @@ Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`, `003_gene
 
 ## Security architecture (MVP)
 
-- Auth via Supabase email/password  
-- RLS on user-owned tables  
+See living checklist: [quality/SECURITY_AND_THREAT_MODEL.md](../quality/SECURITY_AND_THREAT_MODEL.md).
+
+- Auth via Supabase email/password (+ reset / show-password UX)  
+- RLS on user-owned tables (re-verify in Phase 2 security pass)  
 - Anon key in client (expected); never commit service role key  
 - No learner PII in MVP  
-- Generation endpoints verify session (`/api/generate` → 401) + monthly cap (429); finer rate limits Phase 2
+- Generation / export endpoints verify session (`401`) + monthly gen cap (`429`); finer rate limits Phase 2  
+- Auth redirect **allowlist** only (localhost + prod callback)  
+- Lightweight adversarial checks (UUID cross-tenant, unauthenticated API) before closed beta — not a full pen-test firm yet  
 
 ---
 

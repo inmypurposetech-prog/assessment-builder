@@ -26,6 +26,7 @@
 | `architecture/DECISIONS.md` | ADRs (technical & business choices) |
 | `design/UX_AND_ACCESSIBILITY.md` | UX, design system, a11y |
 | `quality/TESTING_AND_ANALYTICS.md` | Tests, coverage, usage analytics |
+| `quality/SECURITY_AND_THREAT_MODEL.md` | InfoSec threat model + Phase 2 security checklist |
 | `learning/RUNBOOK.md` | Process learnings, courses, ops runbook |
 | `workflow-map.md` | Teacher journey |
 | `parent-interview-notes.md` | Interview evidence |
@@ -247,11 +248,14 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 - [ ] Error monitoring (e.g. Sentry free tier)
 - [ ] Logging for generation failures (no secrets in logs)
 - [ ] Backup awareness: Supabase backups / export assessments JSON
+- [ ] **InfoSec checklist** — Phase 2 section in [`quality/SECURITY_AND_THREAT_MODEL.md`](./quality/SECURITY_AND_THREAT_MODEL.md) (RLS audit, adversarial hour, rate limits)
+- [ ] CI lint + build on PR (ADR-015) — catch AI-introduced breakages early
 
 ### Engineering hardening
 
 - [ ] CI: `npm run lint` + `npm run build` on PR
-- [ ] Basic tests: cognitive total validator, title builder, auth error messages
+- [ ] Basic tests: cognitive total validator, title builder, auth error messages (Vitest)
+- [ ] Playwright happy-path smoke when automating E2E (KaneAI deferred — ADR-015)
 - [ ] Rate limit generation API
 - [x] Loading / empty / error states reviewed for 50s+ UX (see `design/UX_AND_ACCESSIBILITY.md` standards from Phase 0 smoke)
 - [x] Wizard polish: always-visible back link; scroll+focus on step change; login busy until dashboard
@@ -450,11 +454,13 @@ Safe when the PR is merged: a squash merge keeps the **tree** on `main` even if 
 
 ### Auth & security
 
-- [ ] RLS on user data tables
+- [ ] RLS on user data tables (re-audit — see SECURITY_AND_THREAT_MODEL)
 - [x] Generation API checks session
+- [x] Export API checks session (Phase 1D)
 - [ ] Generation rate limits
 - [ ] POPIA-minded: no learner marks/PII in MVP
-- [ ] Redirect URLs allowlist (localhost + production domain)
+- [ ] Redirect URLs allowlist (localhost + production domain) — re-confirm after auth changes
+- [ ] Lightweight adversarial / pen-test hour before closed beta
 
 ### AI / cost pipeline
 
@@ -493,6 +499,7 @@ Safe when the PR is merged: a squash merge keeps the **tree** on `main` even if 
 | Database Architect | Schema, RLS, migrations | migrations + OVERVIEW |
 | Quant | Cognitive validators; unit economics | NORTH_STAR, quality doc |
 | Quality/Testing | Strategy, coverage, UAT | quality/TESTING_AND_ANALYTICS |
+| InfoSec / Cyber | Threat model, RLS/authz, light adversarial pass | quality/SECURITY_AND_THREAT_MODEL |
 | Data & Insights | Funnels, AI cost logs | quality/TESTING_AND_ANALYTICS |
 | Change Manager | Pilots, school rollout comms | ROADMAP Phase 2–5 |
 | Support Analyst | Auth issues, how-tos | learning/RUNBOOK, README |

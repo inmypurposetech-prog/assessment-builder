@@ -1,8 +1,8 @@
 # AssessMate — Testing, Quality & Analytics
 
-> **Disciplines:** Quality/Testing Engineer · Data & Insights · Quant · Support  
+> **Disciplines:** Quality/Testing Engineer · Data & Insights · Quant · Support · (pair with InfoSec)  
 > **Status:** Seeded (manual testing today; automation Phase 2+)  
-> **Last updated:** 14 July 2026 (Phase 1D)
+> **Last updated:** 16 July 2026 (KaneAI eval + InfoSec pairing)
 
 ---
 
@@ -28,6 +28,18 @@
               Unit  │  Cognitive totals, titles, auth messages, mark validators
                     ▼  Many
 ```
+
+**Vibe coding risk:** AI-assisted speed can hide functional *and* security bugs. Pair this pyramid with [`SECURITY_AND_THREAT_MODEL.md`](./SECURITY_AND_THREAT_MODEL.md). Do not treat UI-only agents as a substitute for RLS/authz checks.
+
+### Automated tooling stance (ADR-015)
+
+| Tool | Phase 2 | Notes |
+|------|---------|-------|
+| CI `lint` + `build` | Yes | Highest ROI after parent UAT |
+| Vitest | Yes (validators / auth messages) | Free, in-repo |
+| Playwright | Yes when E2E automated | Prefer over hosted AI agents for MVP |
+| KaneAI / similar | **No for now** | Paid; revisit if Playwright maintenance hurts |
+| External pen-test | Later | Closed beta / paid tier |
 
 ### Unit (start Phase 1–2)
 
@@ -103,6 +115,7 @@ npm run test:coverage
 | 2026-07-14 | Phase 1C review UX | `npm run lint` + `npm run build`; review route + Edit/Replace/Delete + live totals + proud bar; generate wired from wizard/dashboard | Cursor |
 | 2026-07-14 | Migration `003_generation_phase1b.sql` on cloud Supabase | Applied via SQL Editor — `generated_content` / `generation_usage` ready for prod generate + review save | Tanielle |
 | 2026-07-14 | Phase 1D export (Maths DOCX ZIP / LS PDF) | `npm run lint` + `npm run build`; `POST /api/export` + review download CTA; fidelity iterate vs exemplars | Cursor |
+| 2026-07-16 | InfoSec discipline + KaneAI eval (docs) | SECURITY_AND_THREAT_MODEL + ADR-015: prefer CI/Vitest/Playwright; KaneAI deferred | Cursor |
 
 ---
 
