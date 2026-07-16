@@ -1,0 +1,29 @@
+---
+description: During parent pilot, user testing, or UAT — remind export fidelity expectations and which parent samples to upload.
+alwaysApply: false
+---
+
+# Parent pilot / user-testing reminders
+
+When the user mentions **parent pilot**, **user testing**, **UAT**, **parents test**, or Phase 2 pilot prep, do **all** of the following (do not skip):
+
+## 1. Export fidelity — set expectations
+
+Remind them **before** Dad/Mom judge download quality:
+
+- Phase 1D export is **structure-first**, not a pixel clone of Dad’s Word files.
+- Maths ZIP follows GDE-style sections (paper / memo K/R/C/P / answer book / CAPS sheet) built in code — it does **not** inject the gitignored June 2026 DOCX binaries.
+- Life Sciences PDF follows moderator rules (12pt, 1.5 spacing, lined blanks) with Helvetica as Arial stand-in until a licensed face is embedded.
+- Feedback should split: **content/workflow useful?** vs **formatting fidelity enough?** — fidelity is a tracked iterate item (Phase 6 high / after more exemplars).
+
+Canonical notes: `docs/ROADMAP_AND_CHECKLIST.md` § Phase 2 → Pilot briefings; ADR-014.
+
+## 2. Ask them to upload more samples (expand training data)
+
+Point to `docs/parent-samples/README.md` → **Wanted before / during parent pilot**. Prioritise:
+
+**Dad (Mathematics / CAPS):** cycle-test papers + memos (G12, then G10–11); another Paper 1 or finals pack if available; school cover / letterhead if not only in the June pack; any topic list for “this term”.
+
+**Mom (Life Sciences / IEB):** cycle tests (not only 2023 finals); a paper with **diagram** pain examples; G10–11 if taught; moderator formatting checklist if she has one written.
+
+Process: binaries stay under `docs/parent-samples/` (gitignored) → update that folder’s `MANIFEST.md` → update `docs/NORTH_STAR.md` Artifacts table. Never commit secrets or republish past papers.

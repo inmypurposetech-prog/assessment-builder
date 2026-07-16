@@ -61,8 +61,9 @@
 ### E2E / UAT
 
 - [ ] Manual: signup → wizard → save (today)  
-- [ ] Manual Phase 1: generate → review edit → export  
+- [x] Manual Phase 1: generate → review → export (Maths local UI 16 Jul 2026; LS via offline PDF smoke)  
 - [ ] Playwright smoke (Phase 2+): login + dashboard  
+- [ ] **Parent pilot:** brief export fidelity (structure ≠ Dad DOCX clone) before they judge formatting; chase sample wishlist in `parent-samples/README.md`  
 
 ### Non-functional
 
@@ -115,6 +116,7 @@ npm run test:coverage
 | 2026-07-14 | Phase 1C review UX | `npm run lint` + `npm run build`; review route + Edit/Replace/Delete + live totals + proud bar; generate wired from wizard/dashboard | Cursor |
 | 2026-07-14 | Migration `003_generation_phase1b.sql` on cloud Supabase | Applied via SQL Editor — `generated_content` / `generation_usage` ready for prod generate + review save | Tanielle |
 | 2026-07-14 | Phase 1D export (Maths DOCX ZIP / LS PDF) | `npm run lint` + `npm run build`; `POST /api/export` + review download CTA; fidelity iterate vs exemplars | Cursor |
+| 2026-07-16 | Post-merge export smoke (offline + local UI) | Offline: Maths ZIP 4 DOCX + LS PDF 7p (`scripts/smoke-export-phase1d.ts`); unauth export → 401; local `next start` (not `next dev` — EMFILE). UI: login → wizard Maths G12 cycle → Build → review (13 qs) → **Download Maths pack** → “Download started…” | Cursor |
 | 2026-07-16 | InfoSec discipline + KaneAI eval (docs) | SECURITY_AND_THREAT_MODEL + ADR-015: prefer CI/Vitest/Playwright; KaneAI deferred | Cursor |
 
 ---

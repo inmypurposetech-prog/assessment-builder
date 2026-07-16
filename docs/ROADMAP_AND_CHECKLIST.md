@@ -241,6 +241,21 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 - [ ] 2–3 real assessments each over 2 weeks
 - [ ] Bug bash: login, save, generate failure modes, export on Windows if they use it
 
+### Pilot briefings (say out loud before they download)
+
+**Export fidelity (Tanielle → parents):**
+
+- [ ] Remind: download is **close in structure**, not yet a look-alike of Dad’s Word template / Mom’s exact past-paper layout  
+- [ ] Maths = generated DOCX pack (sections + K/R/C/P + answer book + CAPS sheet), **not** a fill of his June 2026 `.docx` binary  
+- [ ] Ask separately: “Would you use the **workflow** again?” and “Is **formatting** good enough for moderation yet?”  
+- [ ] Capture formatting gaps as a fidelity backlog (do not treat as Phase 1 failure if content is usable)
+
+**Sample uploads (expand data before / during pilot):**
+
+- [ ] Check wishlist in [`parent-samples/README.md`](./parent-samples/README.md) → **Wanted before / during parent pilot**  
+- [ ] After they drop files: update folder `MANIFEST.md` + [`NORTH_STAR.md`](./NORTH_STAR.md) Artifacts table  
+- [ ] Cursor rule: `.cursor/rules/parent-pilot-reminders.mdc` (re-surfaces this in pilot chats)
+
 ### Quality & safety
 
 - [ ] Privacy policy draft (no learner PII in MVP)

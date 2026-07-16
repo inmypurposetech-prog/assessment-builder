@@ -199,11 +199,18 @@ Upload separately anytime; then update this table.
 | Grade 12 IEB Life Sciences final exam 2023 (P1+P2 papers, memos, analysis grids, P2 sources) | Mom | **Received** → `docs/parent-samples/life-sciences/ieb/grade-12/final-exam/2023/` |
 | Grade 12 Maths June 2026 Paper 2 (paper, memo, answer book) + cognitive levels PDF + template exemplars | Dad | **Received** → `docs/parent-samples/mathematics/dbe/grade-12/` |
 | Extra Bloom layout example (if different from analysis grids) | Mom | Optional — analysis grids may cover this |
+| **Cycle tests** (Maths paper+memo; LS paper+memo) | Both | **Wanted before pilot** — see `parent-samples/README.md` wishlist |
+| Maths G10/G11 and/or extra Paper 1 / finals pack | Dad | **Wanted** — broaden bank + export covers |
+| LS diagram-pain paper + G10/G11 if taught | Mom | **Wanted** — diagram backlog + bank |
+| School cover / letterhead (if separate) | Dad (or Mom) | **Wanted** — Phase 1E template upload |
+| Topics taught this term (short list) | Both | **Wanted** — better wizard/scope |
 | More years / grades | Either | Ongoing |
 | Confirm grades taught most | Both | Pending |
 | Confirm Dad’s school is DBE/GDE vs IEB | Dad | **Confirmed:** DBE / **CAPS** (+ GDE-style memo template) — 11 July 2026 |
 
-**Last updated:** 11 July 2026
+**Pilot / UAT reminder:** Export is structure-first (ADR-014) — not a pixel clone of Dad’s DOCX. Say so before they judge formatting. Full checklist: ROADMAP Phase 2 → Pilot briefings; Cursor rule `parent-pilot-reminders`.
+
+**Last updated:** 16 July 2026
 
 ---
 
