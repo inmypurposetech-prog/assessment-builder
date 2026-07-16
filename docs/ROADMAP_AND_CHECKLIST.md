@@ -122,7 +122,7 @@ Same as above, plus:
 
 ```text
 Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
-Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — 1D export on cursor/phase-1d-…
+Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — next: Phase 1E template upload
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
@@ -532,17 +532,17 @@ Cursor is your pair programmer — still **you** own go/no-go, Documentation Gat
 
 Copy-paste to start the next session:
 
-1. **Start Phase 1E (after 1D merged):**  
-   `Continue AssessMate Phase 1E from @docs/ROADMAP_AND_CHECKLIST.md — thin template upload (Storage + select when creating). New cursor/ branch + draft PR.`
+1. **Start Phase 1E:**  
+   `Continue AssessMate Phase 1E from @docs/ROADMAP_AND_CHECKLIST.md @docs/legal/COMPLIANCE.md @docs/quality/SECURITY_AND_THREAT_MODEL.md — thin template upload (Supabase Storage + select when creating; Private only). New cursor/phase-1e-… branch + draft PR. Update ADR + OVERVIEW + UX + ROADMAP. Remind: uploads are educator-owned; no learner PII.`
 
 2. **Improve export fidelity:**  
-   `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, tighten DOCX export toward June 2026 pack. New cursor/ branch. Update design + architecture docs.`
+   `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, tighten DOCX export toward June 2026 pack. New cursor/ branch. Update design + architecture docs. Note structure-first ADR-014 until pixel fidelity improves.`
 
 3. **Learning catch-up:**  
-   `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 1 needs.`
+   `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 1E / InfoSec needs.`
 
-4. **Parent pilot:**  
-   `Draft Phase 2 parent pilot script from @docs/ROADMAP_AND_CHECKLIST.md (Change Manager + QA lenses).`
+4. **Parent pilot prep:**  
+   `Draft Phase 2 parent pilot script from @docs/ROADMAP_AND_CHECKLIST.md (Change Manager + QA + parent-pilot-reminders). Include export-fidelity briefing + sample wishlist.`
 
 ---
 
@@ -560,5 +560,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Start **Phase 1E** (template upload thin slice) or tighten export fidelity vs parent exemplars — new `cursor/…` branch + draft PR. After each merge: clean up the feature branch (local + remote).
+**Next action right now:** Start **Phase 1E** (template upload thin slice) on a new `cursor/phase-1e-…` branch + draft PR. Auth reset + InfoSec docs are on `main`. After each merge: clean up the feature branch (local + remote).
 
