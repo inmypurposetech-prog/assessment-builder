@@ -545,8 +545,8 @@ Copy-paste to start the next session:
 3. **Learning catch-up:**  
    `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 2 InfoSec / Storage needs.`
 
-4. **Parent pilot prep:**  
-   `Draft Phase 2 parent pilot script from @docs/ROADMAP_AND_CHECKLIST.md (Change Manager + QA + parent-pilot-reminders). Include export-fidelity briefing + sample wishlist + private template upload reminder.`
+4. **Smoke templates after merge:**  
+   `Smoke Phase 1E on prod: My templates upload → wizard Advanced select → save. Confirm Storage object under user folder.`
 
 ---
 
