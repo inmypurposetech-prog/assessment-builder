@@ -230,6 +230,16 @@ await fetch('/api/generate', {
 
 **Learned:** Show/Hide password is **good** for accessibility (WCAG 2.2 / technique G211), especially for 50s+ educators — not a violation when the user chooses to reveal it on their device.
 
+### R12 — Private template upload (Phase 1E)
+
+1. Apply `supabase/migrations/004_templates_phase1e.sql` (SQL Editor or `SUPABASE_DB_URL=… npm run db:migrate:004`).
+2. Confirm Storage bucket `templates` exists (private) in Supabase → Storage.
+3. Dashboard → **My templates** → upload PDF/DOCX/ZIP (≤10 MB). Reminder: educator-owned only; **no learner PII**.
+4. Create assessment → Advanced → select the private pack (or AssessMate default).
+5. Free soft-cap: 1 private pack; delete to replace.
+
+**Learned:** Storage RLS uses folder prefix `auth.uid()` — keep uploads under `{user_id}/{template_id}/…`. Export does **not** yet inject the uploaded binary (ADR-016); link is for the next fidelity step. Never use service role in the browser upload path.
+
 ---
 
 ## Learning log
@@ -431,6 +441,22 @@ await fetch('/api/generate', {
 - **Decision:** KaneAI deferred — UI agents ≠ RLS/authz; budget-first Phase 2.  
 - **Follow-up learning:** OWASP Top 10 + Supabase RLS; complete Phase 2 InfoSec checklist before closed beta.  
 - **Discipline lens:** InfoSec, QA, Tech Architect, PO.
+
+### 2026-07-16 — Phase 1E private template upload
+
+- **Context:** Thin slice — store school cover / pack in Supabase Storage; select when creating; Private only; no learner PII.  
+- **Steps that worked:**  
+  1. Branch `cursor/phase-1e-template-upload` from clean `main`.  
+  2. Migration `004_templates_phase1e.sql` (`templates` + private bucket + `assessments.template_id`).  
+  3. `/templates` upload UI + wizard Advanced select; `uploadTemplate` server action (session, no service role).  
+  4. ADR-016 + OVERVIEW + UX §8 + R12 + COMPLIANCE/SECURITY notes.  
+- **Pitfalls:**  
+  - Apply 004 before prod upload works.  
+  - Export still ADR-014 builders — linked file is not injected yet.  
+  - Free soft-cap = 1 private pack (NORTH_STAR Free posture).  
+- **Commands:** `npm run lint && npm run build`; optional `npm run db:migrate:004`.  
+- **Follow-up learning:** Storage RLS folder policies; Phase 5 School visibility.  
+- **Discipline lens:** Tech Architect, DBA, InfoSec, Legal, UX, Support.
 
 ### 2026-07-16 — Extra workplace lenses (Content, Legal, Comms, DevOps)
 

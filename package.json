@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:migrate:002": "node scripts/apply-migration-002.mjs"
+    "db:migrate:002": "node scripts/apply-migration-002.mjs",
+    "db:migrate:004": "node scripts/apply-migration-004.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

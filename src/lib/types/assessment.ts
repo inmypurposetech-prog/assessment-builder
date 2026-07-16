@@ -45,6 +45,11 @@ export interface AssessmentWizardData {
   includeMcq: boolean;
   avoidRepeatedQuestions: boolean;
   notes: string;
+  /**
+   * Phase 1E — optional private template pack id (also stored on assessments.template_id).
+   * Null = AssessMate default layout on export.
+   */
+  templateId: string | null;
 }
 
 export const defaultWizardData: AssessmentWizardData = {
@@ -66,4 +71,5 @@ export const defaultWizardData: AssessmentWizardData = {
   includeMcq: true,
   avoidRepeatedQuestions: true,
   notes: "",
+  templateId: null,
 };

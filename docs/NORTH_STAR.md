@@ -6,7 +6,7 @@
 > **Learning runbook:** [`learning/RUNBOOK.md`](./learning/RUNBOOK.md)  
 > **Use in Cursor:** Referenced by `.cursor/rules/assessmate-context.mdc` (always applied).  
 > **Update when:** Parent interviews, new templates, scope changes, or major architecture decisions — and whenever the Documentation Gate requires it.  
-> **Last updated:** 14 July 2026
+> **Last updated:** 16 July 2026
 
 ---
 
@@ -72,10 +72,11 @@
 
 ```
 Login → Dashboard → Create Assessment → Wizard
+  → (optional) My templates — upload private school cover / pack
   → Build my paper (POST /api/generate → structured paper + memo JSON)
   → Review & Edit (/assessments/[id]/review) → Save review
   → Download for moderation (POST /api/export → Maths DOCX ZIP / LS PDF)
-  → [Phase 1E+] Template upload / Email
+  → [Later] Email moderator / generate into uploaded binary fidelity
 ```
 
 ### Wizard steps (current)
@@ -83,10 +84,10 @@ Login → Dashboard → Create Assessment → Wizard
 1. Assessment type (cycle test, exam, etc.)
 2. Curriculum (DBE CAPS | IEB), subject, grade, term
 3. Scope (topics / term / previous paper / custom mix)
-4. Settings (marks, duration, difficulty)
-5. Advanced — **subject-aware**: Maths cognitive % **or** Life Sciences Bloom focus
+4. Settings (marks, time and difficulty)
+5. Advanced — **subject-aware**: Maths cognitive % **or** Life Sciences Bloom focus; optional **private template** select
 
-Wizard finish offers **Build my paper** (primary) or **Save and finish for now**. Dashboard opens **Review paper** when `generated_content` exists.
+Wizard finish offers **Build my paper** (primary) or **Save and finish for now**. Dashboard opens **Review paper** when `generated_content` exists. Dashboard also links **My templates**.
 
 ---
 

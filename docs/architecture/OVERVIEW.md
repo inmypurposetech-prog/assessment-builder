@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical/Systems Architect · Frontend · Backend · Database Architect  
 > **Status:** Active (MVP Track A)  
-> **Last updated:** 16 July 2026 (InfoSec section)
+> **Last updated:** 16 July 2026 (Phase 1E templates)
 
 ---
 
@@ -50,11 +50,13 @@ src/app/                 # Routes (RSC + client where needed)
 src/app/api/generate/    # Phase 1B structured generation API
 src/app/api/export/      # Phase 1D DOCX/PDF download
 src/app/assessments/[id]/review/  # Phase 1C review UX
+src/app/templates/       # Phase 1E private template library + upload
 src/components/review/   # ReviewShell, GenerateAssessmentButton, ExportDownloadButton
+src/components/templates/ # TemplateUploadForm, TemplateList
 src/components/ui/       # Design-system primitives
 src/components/wizard/   # Assessment wizard
 src/lib/supabase/        # Browser + server + session helpers
-src/lib/actions/         # Server actions
+src/lib/actions/         # Server actions (assessments, templates)
 src/lib/constants/       # Subjects, cognitive levels, Bloom, export defaults
 src/lib/content/         # Template packs, taxonomy patterns, seed question bank
 src/lib/generation/      # Assemble / memo / cost / AI gap-fill hook
@@ -105,6 +107,16 @@ supabase/migrations/     # Source of truth for schema
 | `app/api/export/route.ts` | Session-checked POST → binary download |
 | `ExportDownloadButton` | Save draft → fetch export → browser download (busy until start) |
 
+### Templates layer (Phase 1E)
+
+| Module | Role |
+|--------|------|
+| `templates` table + Storage bucket `templates` | Private metadata + file objects (`{user_id}/{template_id}/…`) |
+| `app/templates` | Library + upload (copyright / no learner PII copy) |
+| `actions/templates.ts` | `listTemplates` / `uploadTemplate` / `deleteTemplate` (session + RLS) |
+| Wizard Advanced | Select private pack or AssessMate default → `assessments.template_id` |
+| Export | Still ADR-014 builders; linked file reserved for fidelity iterate |
+
 ---
 
 ## Data model (current)
@@ -112,16 +124,19 @@ supabase/migrations/     # Source of truth for schema
 | Table | Purpose | RLS |
 |-------|---------|-----|
 | `profiles` | Educator profile (name, school) | Own row |
-| `assessments` | Wizard drafts + status + `wizard_data` + `generated_content` / `generated_at` | Own rows |
+| `assessments` | Wizard drafts + status + `wizard_data` + `generated_content` / `generated_at` + optional `template_id` | Own rows |
+| `templates` | Private template pack metadata (`storage_path`, visibility=`private`) | Own rows |
 | `questions` | Question bank (`cognitive_level`, `bloom_level`, `aim`, `strand`, `visibility`) | Authenticated read |
 | `generation_usage` | Per-generate cost log (model, tokens, source) for monthly caps | Own insert/select |
 
-Triggers: create profile on signup; `updated_at` on profiles/assessments.  
-Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`, `003_generation_phase1b.sql`.
+**Storage:** private bucket `templates` — object policies require first path folder = `auth.uid()`.
+
+Triggers: create profile on signup; `updated_at` on profiles/assessments/templates.  
+Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`, `003_generation_phase1b.sql`, `004_templates_phase1e.sql`.
 
 **App seed vs DB:** Phase 1A/1B assembly reads the in-repo seed bank (ADR-011). Supabase `questions` remains for later multi-device / shared cloud load.
 
-**Planned tables (document when added):** `templates`, `assessment_versions`, `usage_credits` (or expand `generation_usage`), `schools`, `school_memberships`, analytics events.
+**Planned tables (document when added):** `assessment_versions`, `usage_credits` (or expand `generation_usage`), `schools`, `school_memberships`, analytics events; template `visibility` expands to School in Phase 5.
 
 ---
 
@@ -135,7 +150,8 @@ Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`, `003_gene
 | **Migrate** | Paste SQL in Supabase Editor | CLI optional later |
 | **Generate** | `POST /api/generate` → seed bank → structured JSON → validate cognitive/Bloom → derive memo → save + usage (ADR-012) | Provider-backed gap-fill when keys set |
 | **Review** | `/assessments/[id]/review` — edit/replace/delete; live totals; proud bar; save `generated_content` (ADR-013) | — |
-| **Export** | `POST /api/export` → Maths DOCX ZIP / LS PDF from saved JSON (ADR-014) | Higher pixel fidelity vs parent exemplars; embed true Arial |
+| **Export** | `POST /api/export` → Maths DOCX ZIP / LS PDF from saved JSON (ADR-014) | Higher pixel fidelity vs parent exemplars; embed true Arial; optionally honour uploaded pack |
+| **Templates** | Upload private pack to Storage + select on create (ADR-016) | School-shared library (Phase 5); generate/export into uploaded binaries |
 | **Ingest** | Guide/grid distilled into typed content; binaries stay local | Optional OCR + embeddings later |
 
 ---
@@ -145,11 +161,12 @@ Migrations: `001_initial_schema.sql`, `002_question_bank_phase1a.sql`, `003_gene
 See living checklist: [quality/SECURITY_AND_THREAT_MODEL.md](../quality/SECURITY_AND_THREAT_MODEL.md).
 
 - Auth via Supabase email/password (+ reset / show-password UX)  
-- RLS on user-owned tables (re-verify in Phase 2 security pass)  
+- RLS on user-owned tables including `templates` (re-verify in Phase 2 security pass)  
+- Private Storage bucket `templates` — path-scoped to `auth.uid()` (ADR-016)  
 - Anon key in client (expected); never commit service role key  
-- No learner PII in MVP  
+- No learner PII in MVP (template uploads = educator materials only)  
 - Generation / export endpoints verify session (`401`) + monthly gen cap (`429`); finer rate limits Phase 2  
-- Auth redirect **allowlist** only (localhost + prod callback)  
+- Auth redirect **allowlist** only (localhost + prod callback); `/templates` session-protected like dashboard  
 - Lightweight adversarial checks (UUID cross-tenant, unauthenticated API) before closed beta — not a full pen-test firm yet  
 
 ---

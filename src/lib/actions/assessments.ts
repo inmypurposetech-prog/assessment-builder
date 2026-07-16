@@ -21,10 +21,27 @@ export async function saveAssessmentWizard(
   }
 
   const title = buildAssessmentTitle(wizardData);
+  let templateId = wizardData.templateId?.trim() || null;
+
+  if (templateId) {
+    const { data: ownedTemplate, error: templateError } = await supabase
+      .from("templates")
+      .select("id")
+      .eq("id", templateId)
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (templateError) throw new Error(templateError.message);
+    if (!ownedTemplate) {
+      templateId = null;
+    }
+  }
+
   const payload = {
     title,
     status: "draft" as const,
-    wizard_data: wizardData,
+    wizard_data: { ...wizardData, templateId },
+    template_id: templateId,
     updated_at: new Date().toISOString(),
   };
 

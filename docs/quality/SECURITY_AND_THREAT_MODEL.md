@@ -35,6 +35,7 @@ This lens owns:
 | Auth redirects | Open redirect / phishing | Session theft | Supabase redirect **allowlist** only |
 | Parent samples | Accidental publish | Copyright / POPIA-ish risk | Gitignored binaries (ADR-007) |
 | AI provider keys | Leak / runaway spend | Bill shock | Cap + bank-first; keys server-only when added |
+| Private template files | Other users / public bucket misconfig | Cross-tenant leak / copyright exposure | Private bucket; path prefix = `auth.uid()`; visibility=`private` only (ADR-016) |
 
 ---
 
@@ -45,7 +46,8 @@ This lens owns:
 - [x] No learner PII in product scope (NORTH_STAR)  
 - [x] Parent PDF/DOCX gitignored  
 - [x] Forgot password + Show password (WCAG-aligned visibility)  
-- [ ] Re-verify RLS policies on `assessments`, `profiles`, `generation_usage` against migrations (tick after SQL review)
+- [x] Private template Storage + `templates` RLS (Phase 1E / ADR-016) — path-scoped objects  
+- [ ] Re-verify RLS policies on `assessments`, `profiles`, `generation_usage`, `templates` against migrations (tick after SQL review)
 
 ---
 
@@ -65,6 +67,7 @@ Do these **before** non-parent closed beta:
 - [ ] RLS audit: every user-owned table has policies; no “anon read all” on assessments  
 - [ ] Integration note logged: unauthenticated cannot read others’ assessments (`TESTING_AND_ANALYTICS`)  
 - [ ] Export only returns bytes for assessments owned by the session user  
+- [ ] Template objects: User B cannot download User A’s Storage path (adversarial hour)  
 
 ### Abuse & availability
 

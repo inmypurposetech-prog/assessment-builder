@@ -3,7 +3,7 @@
 > **Purpose:** The plan you follow from “bootstrap done” → parents using MVP → public users → iterative features.  
 > **Pair with:** [`NORTH_STAR.md`](./NORTH_STAR.md) · [`DOCUMENTATION_INDEX.md`](./DOCUMENTATION_INDEX.md) · [`learning/RUNBOOK.md`](./learning/RUNBOOK.md)  
 > **In Cursor:** `@docs/ROADMAP_AND_CHECKLIST.md` (+ index / north star) at the start of a new chat.  
-> **Last updated:** 14 July 2026
+> **Last updated:** 16 July 2026
 
 ---
 
@@ -40,14 +40,14 @@
 
 A feature or phase is **not done** until applicable boxes are checked:
 
-- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated — Phase 1D export
-- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-014 + OVERVIEW export layer
-- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — Download for moderation CTA + busy
-- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + export smoke notes
-- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — N/A (on-demand export; no new AI cost)
-- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — R10 export
-- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — README export path
-- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — MVP flow includes export download
+- [x] **PO/BA:** Acceptance criteria met; ROADMAP ticks updated — Phase 1E template upload
+- [x] **Architect:** Stack/data/security choice → ADR in `architecture/DECISIONS.md` (+ OVERVIEW if needed) — ADR-016 + OVERVIEW templates layer
+- [x] **UX/Design:** UI change → `design/UX_AND_ACCESSIBILITY.md` (or note N/A) — `/templates` + wizard select + busy upload
+- [x] **QA:** Tests recorded in `quality/TESTING_AND_ANALYTICS.md` (manual log and/or automated) — lint/build + migration 004 notes
+- [x] **Data/Quant:** Metrics/cost behaviour → analytics/cost section updated (or N/A) — N/A (storage only; Free soft-cap 1 pack)
+- [x] **Learning:** Process/tool learned → `learning/RUNBOOK.md` (+ courses if relevant) — R12 templates
+- [x] **Support/Change:** User-facing or rollout change → README / pilot / support notes — README migration 004 + templates path
+- [x] **NORTH_STAR:** Only if users/scope/pricing/principles changed — MVP flow includes private template upload
 
 **Phase exit also:**
 
@@ -65,10 +65,11 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Run `002_question_bank_phase1a.sql` in Supabase — applied via SQL Editor (13 Jul 2026); DB password reset same day (store in password manager; Connect button for CLI URI if needed)
 - [x] Optional OCR of Mom’s 2023 question papers — local `_extracts/` (gitignored); lined blanks confirmed; see EXTRACT_INDEX.md + `scripts/extract-ieb-ls-2023.py`
 - [x] Run `003_generation_phase1b.sql` in Supabase before prod generate saves (SQL Editor) — applied 14 Jul 2026
+- [ ] Run `004_templates_phase1e.sql` in Supabase before prod template upload (SQL Editor or `npm run db:migrate:004`)
 
 ---
 
-## Current snapshot (as of 14 July 2026)
+## Current snapshot (as of 16 July 2026)
 
 ### Done
 
@@ -86,6 +87,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Phase 1B structured generation API (`POST /api/generate`, migration 003)
 - [x] Phase 1C review UX (`/assessments/[id]/review`)
 - [x] Phase 1D export (`POST /api/export` — Maths DOCX ZIP / LS PDF)
+- [x] Phase 1E template upload thin slice (Storage + select; Private only) — apply migration 004 on cloud
 
 ### Not done yet (blocks “in parents’ hands” for generation)
 
@@ -96,6 +98,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Export into Dad/Mom templates (Phase 1D)
 - [ ] Parent pilot protocol + feedback loop
 - [x] Apply migration `003_generation_phase1b.sql` on cloud Supabase — applied 14 Jul 2026
+- [ ] Apply migration `004_templates_phase1e.sql` on cloud Supabase
 
 ### Definition of “MVP in parents’ hands”
 
@@ -122,7 +125,7 @@ Same as above, plus:
 
 ```text
 Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
-Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — next: Phase 1E template upload
+Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — next: Phase 1 DoD / parent pilot prep
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
@@ -218,9 +221,9 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 ### 1E — Template upload (thin slice)
 
-- [ ] Upload school cover / template pack (store in Supabase Storage)
-- [ ] Select template when creating assessment
-- [ ] Private only (no school sharing yet)
+- [x] Upload school cover / template pack (store in Supabase Storage)
+- [x] Select template when creating assessment
+- [x] Private only (no school sharing yet)
 
 ### Phase 1 Definition of Done
 
@@ -473,8 +476,9 @@ Safe when the PR is merged: a squash merge keeps the **tree** on `main` even if 
 - [ ] RLS on user data tables (re-audit — see SECURITY_AND_THREAT_MODEL)
 - [x] Generation API checks session
 - [x] Export API checks session (Phase 1D)
+- [x] Template upload: session + RLS + private Storage path prefix (Phase 1E / ADR-016)
 - [ ] Generation rate limits
-- [ ] POPIA-minded: no learner marks/PII in MVP
+- [ ] POPIA-minded: no learner marks/PII in MVP (product rule; remind on template upload)
 - [ ] Redirect URLs allowlist (localhost + production domain) — re-confirm after auth changes
 - [ ] Lightweight adversarial / pen-test hour before closed beta
 
@@ -532,17 +536,17 @@ Cursor is your pair programmer — still **you** own go/no-go, Documentation Gat
 
 Copy-paste to start the next session:
 
-1. **Start Phase 1E:**  
-   `Continue AssessMate Phase 1E from @docs/ROADMAP_AND_CHECKLIST.md @docs/legal/COMPLIANCE.md @docs/quality/SECURITY_AND_THREAT_MODEL.md — thin template upload (Supabase Storage + select when creating; Private only). New cursor/phase-1e-… branch + draft PR. Update ADR + OVERVIEW + UX + ROADMAP. Remind: uploads are educator-owned; no learner PII.`
+1. **Improve export fidelity (use uploaded packs next):**  
+   `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/ and Phase 1E linked templates, tighten DOCX export toward June 2026 pack. New cursor/ branch. Update design + architecture docs. Note structure-first ADR-014 until pixel fidelity improves.`
 
-2. **Improve export fidelity:**  
-   `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/, tighten DOCX export toward June 2026 pack. New cursor/ branch. Update design + architecture docs. Note structure-first ADR-014 until pixel fidelity improves.`
+2. **Parent pilot prep:**  
+   `Draft Phase 2 parent pilot script from @docs/ROADMAP_AND_CHECKLIST.md (Change Manager + QA + parent-pilot-reminders). Include export-fidelity briefing + sample wishlist + private template upload reminder.`
 
 3. **Learning catch-up:**  
-   `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 1E / InfoSec needs.`
+   `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 2 InfoSec / Storage needs.`
 
-4. **Parent pilot prep:**  
-   `Draft Phase 2 parent pilot script from @docs/ROADMAP_AND_CHECKLIST.md (Change Manager + QA + parent-pilot-reminders). Include export-fidelity briefing + sample wishlist.`
+4. **Apply migration 004 on cloud:**  
+   `Paste supabase/migrations/004_templates_phase1e.sql in Supabase SQL Editor (or npm run db:migrate:004). Smoke /templates upload + wizard select.`
 
 ---
 
@@ -553,12 +557,12 @@ Tick the highest phase you’ve **exited**:
 - [x] Discovery / north star  
 - [x] Documentation system (disciplines + learning runbook + doc gate)  
 - [x] Phase 0 complete (hygiene + deploy + doc gate) — 11 July 2026  
-- [ ] Phase 1 complete (parent MVP generate+export)  
+- [ ] Phase 1 complete (parent MVP generate+export) — 1A–1E built; DoD = parent “use again?”  
 - [ ] Phase 2 complete (pilot hardened)  
 - [ ] Phase 3 complete (closed beta)  
 - [ ] Phase 4 complete (public users)  
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Start **Phase 1E** (template upload thin slice) on a new `cursor/phase-1e-…` branch + draft PR. Auth reset + InfoSec docs are on `main`. After each merge: clean up the feature branch (local + remote).
+**Next action right now:** Apply **migration 004** on cloud Supabase, then **Phase 1 DoD / parent pilot prep** (or export fidelity). After each merge: clean up the feature branch (local + remote).
 
