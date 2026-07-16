@@ -458,6 +458,13 @@ await fetch('/api/generate', {
 - **Follow-up learning:** Storage RLS folder policies; Phase 5 School visibility.  
 - **Discipline lens:** Tech Architect, DBA, InfoSec, Legal, UX, Support.
 
+### 2026-07-16 — Migration 004 applied (SQL Editor)
+
+- **Context:** Prod `/templates` needs `templates` table + private Storage bucket.  
+- **Steps that worked:** Paste `supabase/migrations/004_templates_phase1e.sql` in Supabase **SQL Editor** → Run.  
+- **Next:** Smoke My templates → upload → wizard Advanced select (local or prod after merge).  
+- **Discipline lens:** DBA, Support.
+
 ### 2026-07-16 — Extra workplace lenses (Content, Legal, Comms, DevOps)
 
 - **Context:** Discipline map felt thin beyond eng/PO; user asked what was missing.  
