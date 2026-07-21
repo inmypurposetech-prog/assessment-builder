@@ -65,7 +65,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Run `002_question_bank_phase1a.sql` in Supabase — applied via SQL Editor (13 Jul 2026); DB password reset same day (store in password manager; Connect button for CLI URI if needed)
 - [x] Optional OCR of Mom’s 2023 question papers — local `_extracts/` (gitignored); lined blanks confirmed; see EXTRACT_INDEX.md + `scripts/extract-ieb-ls-2023.py`
 - [x] Run `003_generation_phase1b.sql` in Supabase before prod generate saves (SQL Editor) — applied 14 Jul 2026
-- [ ] Run `004_templates_phase1e.sql` in Supabase before prod template upload (SQL Editor or `npm run db:migrate:004`)
+- [x] Run `004_templates_phase1e.sql` in Supabase before prod template upload (SQL Editor or `npm run db:migrate:004`) — applied 16 Jul 2026
 
 ---
 
@@ -87,7 +87,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Phase 1B structured generation API (`POST /api/generate`, migration 003)
 - [x] Phase 1C review UX (`/assessments/[id]/review`)
 - [x] Phase 1D export (`POST /api/export` — Maths DOCX ZIP / LS PDF)
-- [x] Phase 1E template upload thin slice (Storage + select; Private only) — apply migration 004 on cloud
+- [x] Phase 1E template upload thin slice (Storage + select; Private only) — migration 004 applied 16 Jul 2026
 
 ### Not done yet (blocks “in parents’ hands” for generation)
 
@@ -98,7 +98,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 - [x] Export into Dad/Mom templates (Phase 1D)
 - [ ] Parent pilot protocol + feedback loop
 - [x] Apply migration `003_generation_phase1b.sql` on cloud Supabase — applied 14 Jul 2026
-- [ ] Apply migration `004_templates_phase1e.sql` on cloud Supabase
+- [x] Apply migration `004_templates_phase1e.sql` on cloud Supabase — applied 16 Jul 2026 (SQL Editor)
 
 ### Definition of “MVP in parents’ hands”
 
@@ -545,8 +545,8 @@ Copy-paste to start the next session:
 3. **Learning catch-up:**  
    `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 2 InfoSec / Storage needs.`
 
-4. **Apply migration 004 on cloud:**  
-   `Paste supabase/migrations/004_templates_phase1e.sql in Supabase SQL Editor (or npm run db:migrate:004). Smoke /templates upload + wizard select.`
+4. **Smoke templates after merge:**  
+   `Smoke Phase 1E on prod: My templates upload → wizard Advanced select → save. Confirm Storage object under user folder.`
 
 ---
 
@@ -564,5 +564,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Apply **migration 004** on cloud Supabase, then **Phase 1 DoD / parent pilot prep** (or export fidelity). After each merge: clean up the feature branch (local + remote).
+**Next action right now:** Merge Phase 1E PR (then delete branch), smoke **/templates** upload + wizard select on prod, then **Phase 1 DoD / parent pilot prep** (or export fidelity). After each merge: clean up the feature branch (local + remote).
 

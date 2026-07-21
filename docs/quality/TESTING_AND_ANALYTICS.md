@@ -119,6 +119,7 @@ npm run test:coverage
 | 2026-07-16 | Post-merge export smoke (offline + local UI) | Offline: Maths ZIP 4 DOCX + LS PDF 7p (`scripts/smoke-export-phase1d.ts`); unauth export → 401; local `next start` (not `next dev` — EMFILE). UI: login → wizard Maths G12 cycle → Build → review (13 qs) → **Download Maths pack** → “Download started…” | Cursor |
 | 2026-07-16 | InfoSec discipline + KaneAI eval (docs) | SECURITY_AND_THREAT_MODEL + ADR-015: prefer CI/Vitest/Playwright; KaneAI deferred | Cursor |
 | 2026-07-16 | Phase 1E private template upload | `npm run lint` + `npm run build`; migration 004 authored (apply on Supabase); `/templates` + wizard select; ADR-016 | Cursor |
+| 2026-07-16 | Migration `004_templates_phase1e.sql` on cloud Supabase | Applied via SQL Editor — private `templates` bucket + table ready for upload | Tanielle |
 
 ---
 

@@ -200,9 +200,12 @@ Upload separately anytime; then update this table.
 | Grade 12 IEB Life Sciences final exam 2023 (P1+P2 papers, memos, analysis grids, P2 sources) | Mom | **Received** → `docs/parent-samples/life-sciences/ieb/grade-12/final-exam/2023/` |
 | Grade 12 Maths June 2026 Paper 2 (paper, memo, answer book) + cognitive levels PDF + template exemplars | Dad | **Received** → `docs/parent-samples/mathematics/dbe/grade-12/` |
 | Extra Bloom layout example (if different from analysis grids) | Mom | Optional — analysis grids may cover this |
-| **Cycle tests** (Maths paper+memo; LS paper+memo) | Both | **Wanted before pilot** — see `parent-samples/README.md` wishlist |
-| Maths G10/G11 and/or extra Paper 1 / finals pack | Dad | **Wanted** — broaden bank + export covers |
-| LS diagram-pain paper + G10/G11 if taught | Mom | **Wanted** — diagram backlog + bank |
+| Maths G12 cycle test Mar 2026 (Finance + Trig) paper + memo | Dad | **Received** → `mathematics/dbe/grade-12/cycle-test/2026/march/` |
+| Maths G11 cycle test Mar 2026 (Exponents/Surds + Euclidean Geometry) paper + memo | Dad | **Received** → `mathematics/dbe/grade-11/cycle-test/2026/march/` |
+| LS G10 June 2019 + midyear 2015; G11 June 2019 (paper + memo) | Mom | **Received** → `life-sciences/ieb/grade-10|11/june-exam/` (confirm IEB) |
+| LS **cycle tests** (shorter than midyear/finals) | Mom | **Still wanted** — see `parent-samples/README.md` wishlist |
+| Maths G10 pack and/or Paper 1 / finals | Dad | **Wanted** — broaden bank + export covers |
+| LS diagram-pain paper (explicit example) | Mom | **Wanted** — diagram backlog |
 | School cover / letterhead (if separate) | Dad (or Mom) | **Wanted** — Phase 1E template upload |
 | Topics taught this term (short list) | Both | **Wanted** — better wizard/scope |
 | More years / grades | Either | Ongoing |
@@ -211,7 +214,7 @@ Upload separately anytime; then update this table.
 
 **Pilot / UAT reminder:** Export is structure-first (ADR-014) — not a pixel clone of Dad’s DOCX. Say so before they judge formatting. Full checklist: ROADMAP Phase 2 → Pilot briefings; Cursor rule `parent-pilot-reminders`.
 
-**Last updated:** 16 July 2026
+**Last updated:** 21 July 2026
 
 ---
 
