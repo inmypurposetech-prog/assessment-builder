@@ -303,7 +303,8 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 - [ ] Support playbook: reset password, confirm email, failed generate
 - [ ] Weekly metrics: signups, generations, exports, errors
-- [ ] Copyright reminder: users upload own materials; don’t redistribute past papers
+- [ ] Copyright reminder: users upload own materials; don’t redistribute past papers  
+- [ ] Before any DBE NSC ingest: clearance via Matric Exams Revision webmaster **012 357 3762 / 3752 / 3799** (COMPLIANCE + `dbe-nsc/MANIFEST`; Cursor rule `dbe-past-paper-copyright`) 
 
 ### Exit criteria
 

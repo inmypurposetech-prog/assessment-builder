@@ -66,7 +66,28 @@ See [mathematics/dbe/grade-12/june-exam/2026/MANIFEST.md](./mathematics/dbe/grad
 | G12 Finance + Trigonometry (paper + memo) | [grade-12/cycle-test/2026/march/](./mathematics/dbe/grade-12/cycle-test/2026/march/) |
 | G11 Exponents & Surds + Euclidean Geometry (paper + memo) | [grade-11/cycle-test/2026/march/](./mathematics/dbe/grade-11/cycle-test/2026/march/) |
 
-Empty folders remain for more years, finals, and grades.
+### DBE NSC Grade 12 corpus (national past papers + SBA) · 2021–2025
+
+Downloaded from the **DBE website** — **not** parent-authored. See copyright stance in [dbe-nsc/MANIFEST.md](./dbe-nsc/MANIFEST.md).
+
+| Corpus | Path |
+|--------|------|
+| Maths + LS SBA guides | `mathematics/dbe/sba-guides/`, `life-sciences/dbe/sba-guides/` |
+| Maths G12 May–June / November packs | `mathematics/dbe/grade-12/{june-exam\|final-exam}/{year}/` |
+| LS G12 May–June / November packs | `life-sciences/dbe/grade-12/{june-exam\|final-exam}/{year}/` |
+
+**Do not** commit PDFs or republish national papers in-product. Layout reference only until clearance is confirmed.
+
+### IEB NSC past-paper corpus (national) · May + NSC exams
+
+Downloaded from the **IEB** website — **not** Mom’s school-authored 2023 pack. See [ieb-nsc/MANIFEST.md](./ieb-nsc/MANIFEST.md).
+
+| Corpus | Path |
+|--------|------|
+| LS May + NSC Examination Papers (≈2020–2026) | `life-sciences/ieb/nsc-past-papers/` |
+| Maths May + NSC Examination Papers (≈2020–2026) | `mathematics/ieb/nsc-past-papers/` |
+
+**Copyright:** same as DBE — local only; clearance before any bank/AI ingest. Mom’s school exemplars remain primary product truth.
 
 ## Wanted before / during parent pilot
 

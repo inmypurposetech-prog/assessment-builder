@@ -1,0 +1,34 @@
+---
+description: When discussing DBE/IEB NSC past papers, bank ingest, or copyright clearance — remind local-only stance + DBE webmaster contact.
+alwaysApply: false
+---
+
+# National past-paper / copyright clearance reminders (DBE + IEB)
+
+When the user mentions **DBE past papers**, **IEB past papers**, **NSC papers**, **matric exams revision**, **copyright clearance**, **past-paper ingest**, **seed bank from exams**, or **redistributing exam PDFs**, do **all** of the following (do not skip):
+
+## 1. Stance (do not soften)
+
+- Assessment-body site downloadability (DBE **or** IEB) ≠ AssessMate redistribution / bank-ingest licence.
+- Binaries stay **local** under `docs/parent-samples/` (**gitignored**). Never commit PDFs or ship national papers in-product.
+- **Allowed now:** layout / structure / answer-book / source-booklet reference for export fidelity.
+- **Not without clearance:** verbatim questions/memos in seed bank, AI prompts shipped to users, or republishing packs.
+
+Canonical:
+- DBE: `docs/parent-samples/dbe-nsc/MANIFEST.md`
+- IEB: `docs/parent-samples/ieb-nsc/MANIFEST.md`
+- `docs/legal/COMPLIANCE.md` · ADR-007
+
+## 2. Remind them who to contact (DBE download enquiries)
+
+From the DBE **Matric Exams Revision** page (NSC previous papers):
+
+> For enquiries regarding downloading the exam papers please contact the webmaster on **012 357 3762 / 3752 / 3799**.
+
+Screenshot: `docs/parent-samples/dbe-nsc/dbe-matric-exams-revision-webmaster-contact.png`
+
+For **IEB** national packs, clearance is still an open COMPLIANCE item — do not invent a licence; remind user to confirm with IEB / their legal path before ingest.
+
+## 3. Prefer parent-authored packs for product truth
+
+Dad/Mom school papers under `parent-samples` (IEB LS 2023 finals Mom set, Maths cycle tests, GDE June pack) remain the primary fidelity exemplars. National DBE/IEB corpora are secondary reference until Legal/PO closes clearance.

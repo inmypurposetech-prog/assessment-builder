@@ -203,6 +203,8 @@ Upload separately anytime; then update this table.
 | Maths G12 cycle test Mar 2026 (Finance + Trig) paper + memo | Dad | **Received** → `mathematics/dbe/grade-12/cycle-test/2026/march/` |
 | Maths G11 cycle test Mar 2026 (Exponents/Surds + Euclidean Geometry) paper + memo | Dad | **Received** → `mathematics/dbe/grade-11/cycle-test/2026/march/` |
 | LS G10 June 2019 + midyear 2015; G11 June 2019 (paper + memo) | Mom | **Received** → `life-sciences/ieb/grade-10|11/june-exam/` (confirm IEB) |
+| DBE NSC Maths + LS G12 packs (May–June / Nov 2021–2025) + SBA guides | DBE website | **Received (local only)** → `docs/parent-samples/dbe-nsc/MANIFEST.md` — **copyright: do not republish**; clearance before any ingest |
+| IEB NSC Maths + LS packs (May + NSC exams ≈2020–2026) | IEB website | **Received (local only)** → `docs/parent-samples/ieb-nsc/MANIFEST.md` — **copyright: do not republish**; clearance before any ingest |
 | LS **cycle tests** (shorter than midyear/finals) | Mom | **Still wanted** — see `parent-samples/README.md` wishlist |
 | Maths G10 pack and/or Paper 1 / finals | Dad | **Wanted** — broaden bank + export covers |
 | LS diagram-pain paper (explicit example) | Mom | **Wanted** — diagram backlog |
@@ -214,7 +216,7 @@ Upload separately anytime; then update this table.
 
 **Pilot / UAT reminder:** Export is structure-first (ADR-014) — not a pixel clone of Dad’s DOCX. Say so before they judge formatting. Full checklist: ROADMAP Phase 2 → Pilot briefings; Cursor rule `parent-pilot-reminders`.
 
-**Last updated:** 21 July 2026
+**Last updated:** 22 July 2026
 
 ---
 
