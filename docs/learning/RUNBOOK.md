@@ -465,6 +465,13 @@ await fetch('/api/generate', {
 - **Next:** Smoke My templates → upload → wizard Advanced select (local or prod after merge).  
 - **Discipline lens:** DBA, Support.
 
+### 2026-07-29 — ADR-017 + Parent Pilot Session One
+
+- **Context:** Colleague ops ideas (containers, DigitalOcean Droplet, N+1, table functions); need a facilitator-ready parent session.  
+- **Steps that worked:** ADR-017 (defer containers/Droplet; query discipline when bank scales); wrote `docs/quality/PARENT_PILOT_SESSION_ONE.md` (links, desktop, Dad/Mom paths, fidelity briefing, feedback).  
+- **Next:** Merge 1E → smoke prod → run Session One with Dad then Mom.  
+- **Discipline lens:** Tech Architect, DevOps, Change, QA, PO.
+
 ### 2026-07-16 — Extra workplace lenses (Content, Legal, Comms, DevOps)
 
 - **Context:** Discipline map felt thin beyond eng/PO; user asked what was missing.  

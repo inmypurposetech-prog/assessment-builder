@@ -214,7 +214,7 @@ Upload separately anytime; then update this table.
 | Confirm grades taught most | Both | Pending |
 | Confirm Dad’s school is DBE/GDE vs IEB | Dad | **Confirmed:** DBE / **CAPS** (+ GDE-style memo template) — 11 July 2026 |
 
-**Pilot / UAT reminder:** Export is structure-first (ADR-014) — not a pixel clone of Dad’s DOCX. Say so before they judge formatting. Full checklist: ROADMAP Phase 2 → Pilot briefings; Cursor rule `parent-pilot-reminders`.
+**Pilot / UAT reminder:** Export is structure-first (ADR-014) — not a pixel clone of Dad’s DOCX. Say so before they judge formatting. Full script: [`quality/PARENT_PILOT_SESSION_ONE.md`](./quality/PARENT_PILOT_SESSION_ONE.md). Also: ROADMAP Phase 2 → Pilot briefings; Cursor rule `parent-pilot-reminders`.
 
 **Last updated:** 22 July 2026
 

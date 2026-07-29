@@ -2,7 +2,7 @@
 
 > **Purpose:** Map of all project docs, which workplace **discipline** owns each concern, and the **Documentation Gate** so docs never become an afterthought.  
 > **Audience:** You (solo) now; future collaborators or readers later.  
-> **Last updated:** 16 July 2026 (InfoSec + Content/Legal/Comms/DevOps lenses)
+> **Last updated:** 29 July 2026 (ADR-017 + parent pilot session-one script)
 
 ---
 
@@ -42,6 +42,7 @@ Update @docs/learning/RUNBOOK.md with what we just learned and any follow-up cou
 | [architecture/DECISIONS.md](./architecture/DECISIONS.md) | Tech Architect, BA, PO | Architecture Decision Records (ADRs) |
 | [design/UX_AND_ACCESSIBILITY.md](./design/UX_AND_ACCESSIBILITY.md) | UX/UI, Design System, FE | UX rules, a11y, visual language |
 | [quality/TESTING_AND_ANALYTICS.md](./quality/TESTING_AND_ANALYTICS.md) | QA, Data & Insights, Quant | Test strategy, coverage, usage metrics |
+| [quality/PARENT_PILOT_SESSION_ONE.md](./quality/PARENT_PILOT_SESSION_ONE.md) | Change, QA, Support, PO | Facilitator script for first Dad/Mom live session |
 | [quality/SECURITY_AND_THREAT_MODEL.md](./quality/SECURITY_AND_THREAT_MODEL.md) | InfoSec / Cyber, Pen-test mindset, BE, DBA | Threat model, Phase 2 security checklist, tooling stance |
 | [legal/COMPLIANCE.md](./legal/COMPLIANCE.md) | Legal / Compliance | POPIA, copyright, terms (stub) |
 | [learning/RUNBOOK.md](./learning/RUNBOOK.md) | You (engineering journey) | Learnings, courses, ops runbook |
@@ -72,7 +73,7 @@ You are currently **all of these**. Docs must stay complete enough that a specia
 | **Product Marketing / Comms** | Landing value prop, pilot invites, plain-language messaging for 50s+ educators | NORTH_STAR · `src/app` landing · Change (pilot scripts) | Seeded — landing live; deepen at Phase 3–4 |
 | **DevOps / SRE** | Deploy reliability, env/secrets, CI, incidents, auth URL allowlists | architecture/OVERVIEW · learning/RUNBOOK (R3–R4) · ROADMAP CI | Active — Vercel + GitHub; CI pending Phase 2 |
 | **Data & Insights Engineer** | Usage analytics, funnels, AI cost logs | quality/TESTING_AND_ANALYTICS | Planned |
-| **Change Manager** | Pilot scripts, rollout to school, communication | ROADMAP Phase 2–5 | Seeded |
+| **Change Manager** | Pilot scripts, rollout to school, communication | ROADMAP Phase 2–5 · `quality/PARENT_PILOT_SESSION_ONE.md` | Active — Session One script 29 Jul 2026 |
 | **Support Analyst** | Auth issues, how-to, incident notes | README, learning/RUNBOOK (ops), ROADMAP support playbook | Seeded |
 
 **Intentionally not separate (yet):** dedicated Sales, HR, Finance ops, Design Research lab — fold into PO / BA / Change until headcount or Phase 4+ demands it.

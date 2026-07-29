@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical Architect · Business Architect · Product Owner  
 > **How to add:** Copy the template at the bottom; never delete old ADRs — mark `Superseded` if replaced.  
-> **Last updated:** 16 July 2026 (ADR-016)
+> **Last updated:** 29 July 2026 (ADR-017)
 
 ---
 
@@ -26,6 +26,7 @@
 | ADR-014 | Subject-aware DOCX/PDF export from generated_content | Accepted | 2026-07 |
 | ADR-015 | Phase 2 testing: CI + Playwright/Vitest before hosted AI agents (KaneAI deferred) | Accepted | 2026-07 |
 | ADR-016 | Phase 1E private template upload (Supabase Storage + select on create) | Accepted | 2026-07 |
+| ADR-017 | Ops feedback deferred: containers/DO Droplet later; N+1 + query discipline when bank scales | Accepted | 2026-07 |
 
 ---
 
@@ -185,6 +186,20 @@
 - **Consequences:** Parents can upload Dad’s cover / Mom’s letterhead privately; apply 004 on Supabase before prod upload works; School visibility remains Phase 5.  
 - **Rejected alternatives:** Public bucket; service-role uploads; School sharing in 1E; rewriting export to fill Word binaries in this slice.  
 - **Disciplines consulted:** Tech Architect, DBA, InfoSec, Legal/Compliance, UX, PO.
+
+## ADR-017 — Ops feedback from colleagues: containers / DigitalOcean deferred; scale DB later
+
+- **Status:** Accepted  
+- **Date:** 2026-07-29  
+- **Context:** Colleagues raised production-hardening topics while AssessMate is still on Track A (Next.js + Supabase + Vercel) and parent MVP validation is incomplete: prefer env files over .NET-style appsettings; containerise API + frontend; DigitalOcean Droplet; N+1 risk as subjects grow; Postgres table functions / optimised Supabase queries; fast retrieval so generation stays quick.  
+- **Decision:**  
+  1. **Config:** Keep Next.js / Vercel **`.env` / project env vars** (equivalent intent to appsettings — secrets out of git). No separate .NET config story on Track A.  
+  2. **Containers + DigitalOcean Droplet:** **Defer** until after parent “use again?” validation (and ideally closed beta pressure). Track A stays Vercel + managed Supabase. Revisit containers / DO **App Platform** (not bare Droplet first) or Azure Track B when ops/cert/B2G needs justify the load.  
+  3. **N+1 + table functions:** Treat as **data-access discipline when the question bank is Postgres-primary** — one filtered select (indexes on subject/grade/exam_body/topic), avoid per-item round-trips; add `rpc`/SQL functions only when a hot path needs them. Today’s bank-first assembly still leans on the **in-repo seed** (ADR-011/012).  
+  4. **Generation speed:** Keep **bank-first → derive memo → optional AI gaps** (ADR-003/012); measure bank fetch vs AI vs export before optimising; do not load national past-paper PDFs into generate.  
+- **Consequences:** Colleague concerns are documented without derailing Phase 1 DoD / pilot; future ADRs when hosting or bank query layer changes.  
+- **Rejected alternatives:** Dockerise now; move to a Droplet for “real” hosting; invent a Postgres functions layer before query pain; rebuild as a split API+SPA for MVP.  
+- **Disciplines consulted:** Tech Architect, DevOps, DBA, PO, Backend.
 
 ## Template for new ADRs
 
