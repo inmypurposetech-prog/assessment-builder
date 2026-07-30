@@ -18,6 +18,9 @@ Remind them **before** Dad/Mom judge download quality:
 
 Canonical notes: `docs/ROADMAP_AND_CHECKLIST.md` § Phase 2 → Pilot briefings; ADR-014.
 
+**Full facilitator script (send link, desktop, Dad/Mom paths, feedback):**  
+`docs/quality/PARENT_PILOT_SESSION_ONE.md`
+
 ## 2. Ask them to upload more samples (expand training data)
 
 Point to `docs/parent-samples/README.md` → **Wanted before / during parent pilot**. Prioritise:

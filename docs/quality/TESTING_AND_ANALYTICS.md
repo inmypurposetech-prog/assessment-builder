@@ -63,7 +63,7 @@
 - [ ] Manual: signup → wizard → save (today)  
 - [x] Manual Phase 1: generate → review → export (Maths local UI 16 Jul 2026; LS via offline PDF smoke)  
 - [ ] Playwright smoke (Phase 2+): login + dashboard  
-- [ ] **Parent pilot:** brief export fidelity (structure ≠ Dad DOCX clone) before they judge formatting; chase sample wishlist in `parent-samples/README.md`  
+- [ ] **Parent pilot:** use [`PARENT_PILOT_SESSION_ONE.md`](./PARENT_PILOT_SESSION_ONE.md); brief export fidelity (structure ≠ Dad DOCX clone) before they judge formatting; chase sample wishlist in `parent-samples/README.md`  
 
 ### Non-functional
 
@@ -120,6 +120,7 @@ npm run test:coverage
 | 2026-07-16 | InfoSec discipline + KaneAI eval (docs) | SECURITY_AND_THREAT_MODEL + ADR-015: prefer CI/Vitest/Playwright; KaneAI deferred | Cursor |
 | 2026-07-16 | Phase 1E private template upload | `npm run lint` + `npm run build`; migration 004 authored (apply on Supabase); `/templates` + wizard select; ADR-016 | Cursor |
 | 2026-07-16 | Migration `004_templates_phase1e.sql` on cloud Supabase | Applied via SQL Editor — private `templates` bucket + table ready for upload | Tanielle |
+| 2026-07-29 | ADR-017 ops feedback + Parent Pilot Session One script | Containers/DO Droplet deferred; N+1/query discipline when bank scales; facilitator guide at `quality/PARENT_PILOT_SESSION_ONE.md` | Cursor |
 
 ---
 

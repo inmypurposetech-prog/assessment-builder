@@ -2,7 +2,7 @@
 
 > **Disciplines:** Technical/Systems Architect · Frontend · Backend · Database Architect  
 > **Status:** Active (MVP Track A)  
-> **Last updated:** 16 July 2026 (Phase 1E templates)
+> **Last updated:** 29 July 2026 (ADR-017)
 
 ---
 
@@ -37,7 +37,7 @@
 | Validation | Zod | Forms / API (`generate`, `export`) |
 | Document export | `docx` + `pdfkit` + `jszip` | Maths ZIP of DOCX; LS single PDF (ADR-014) |
 | Session boundary | `src/proxy.ts` | Next.js 16 `proxy` (not deprecated middleware) |
-| Hosting | Vercel | Hobby → Pro later |
+| Hosting | Vercel | Hobby → Pro later; containers / DO Droplet deferred (ADR-017) |
 | Repo | GitHub `assessment-builder` | |
 | Docs | Markdown in `/docs` | See DOCUMENTATION_INDEX |
 
@@ -191,6 +191,8 @@ See [quality/TESTING_AND_ANALYTICS.md](../quality/TESTING_AND_ANALYTICS.md).
 | AI cost | Caps, mini models, bank-first assembly |
 | EU data residency vs SA users | Document in privacy; Azure SA later if B2G needs |
 | Solo bus factor | This docs set + ADRs |
+| Premature container/Droplet ops | ADR-017 — stay Vercel+Supabase until parent validation |
+| N+1 as subjects/bank grow | Single filtered selects + indexes when Postgres bank is primary (ADR-017) |
 
 ---
 

@@ -240,8 +240,8 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 ### Pilot protocol
 
-- [ ] Written pilot script (15–20 min task per parent)
-- [ ] Feedback form: time saved, quality 1–5, blockers, “use next term?”
+- [x] Written pilot script (15–20 min task per parent) — [`quality/PARENT_PILOT_SESSION_ONE.md`](./quality/PARENT_PILOT_SESSION_ONE.md) (29 Jul 2026)
+- [ ] Feedback form: time saved, quality 1–5, blockers, “use next term?” — embedded in Session One §A5/B3; formal form later
 - [ ] 2–3 real assessments each over 2 weeks
 - [ ] Bug bash: login, save, generate failure modes, export on Windows if they use it
 
@@ -249,16 +249,16 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 **Export fidelity (Tanielle → parents):**
 
-- [ ] Remind: download is **close in structure**, not yet a look-alike of Dad’s Word template / Mom’s exact past-paper layout  
-- [ ] Maths = generated DOCX pack (sections + K/R/C/P + answer book + CAPS sheet), **not** a fill of his June 2026 `.docx` binary  
-- [ ] Ask separately: “Would you use the **workflow** again?” and “Is **formatting** good enough for moderation yet?”  
-- [ ] Capture formatting gaps as a fidelity backlog (do not treat as Phase 1 failure if content is usable)
+- [x] Remind: download is **close in structure**, not yet a look-alike of Dad’s Word template / Mom’s exact past-paper layout — scripted in PARENT_PILOT_SESSION_ONE  
+- [x] Maths = generated DOCX pack (sections + K/R/C/P + answer book + CAPS sheet), **not** a fill of his June 2026 `.docx` binary  
+- [x] Ask separately: “Would you use the **workflow** again?” and “Is **formatting** good enough for moderation yet?”  
+- [x] Capture formatting gaps as a fidelity backlog (do not treat as Phase 1 failure if content is usable)
 
 **Sample uploads (expand data before / during pilot):**
 
-- [ ] Check wishlist in [`parent-samples/README.md`](./parent-samples/README.md) → **Wanted before / during parent pilot**  
+- [x] Check wishlist in [`parent-samples/README.md`](./parent-samples/README.md) → **Wanted before / during parent pilot** — also in Session One §7  
 - [ ] After they drop files: update folder `MANIFEST.md` + [`NORTH_STAR.md`](./NORTH_STAR.md) Artifacts table  
-- [ ] Cursor rule: `.cursor/rules/parent-pilot-reminders.mdc` (re-surfaces this in pilot chats)
+- [x] Cursor rule: `.cursor/rules/parent-pilot-reminders.mdc` (re-surfaces this in pilot chats)
 
 ### Quality & safety
 
@@ -540,8 +540,8 @@ Copy-paste to start the next session:
 1. **Improve export fidelity (use uploaded packs next):**  
    `Using Dad’s files under docs/parent-samples/mathematics/dbe/grade-12/ and Phase 1E linked templates, tighten DOCX export toward June 2026 pack. New cursor/ branch. Update design + architecture docs. Note structure-first ADR-014 until pixel fidelity improves.`
 
-2. **Parent pilot prep:**  
-   `Draft Phase 2 parent pilot script from @docs/ROADMAP_AND_CHECKLIST.md (Change Manager + QA + parent-pilot-reminders). Include export-fidelity briefing + sample wishlist + private template upload reminder.`
+2. **Parent pilot Session One:**  
+   `Facilitate @docs/quality/PARENT_PILOT_SESSION_ONE.md with Dad then Mom. Record answers in TESTING_AND_ANALYTICS. Tick Phase 1 DoD if they would use the workflow again.`
 
 3. **Learning catch-up:**  
    `Review @docs/learning/RUNBOOK.md and suggest the next course module I should study this week based on Phase 2 InfoSec / Storage needs.`
@@ -565,5 +565,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Merge Phase 1E PR (then delete branch), smoke **/templates** upload + wizard select on prod, then **Phase 1 DoD / parent pilot prep** (or export fidelity). After each merge: clean up the feature branch (local + remote).
+**Next action right now:** Merge Phase 1E PR (then delete branch), smoke **/templates** on prod, then run **[`quality/PARENT_PILOT_SESSION_ONE.md`](./quality/PARENT_PILOT_SESSION_ONE.md)** with Dad and Mom. After each merge: clean up the feature branch (local + remote).
 
