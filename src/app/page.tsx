@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
 const features = [
@@ -28,12 +27,10 @@ export default function HomePage() {
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-5">
           <p className="text-2xl font-bold text-primary">AssessMate</p>
           <nav className="flex flex-wrap gap-3">
-            <Link href="/auth/login">
-              <Button variant="ghost">Log in</Button>
-            </Link>
-            <Link href="/auth/signup">
-              <Button>Sign up free</Button>
-            </Link>
+            <ButtonLink href="/auth/login" variant="ghost">
+              Log in
+            </ButtonLink>
+            <ButtonLink href="/auth/signup">Sign up free</ButtonLink>
           </nav>
         </div>
       </header>
@@ -49,14 +46,16 @@ export default function HomePage() {
             teach CAPS or IEB.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <Link href="/auth/signup">
-              <Button className="w-full sm:w-auto">Get started</Button>
-            </Link>
-            <Link href="/auth/login">
-              <Button variant="secondary" className="w-full sm:w-auto">
-                I already have an account
-              </Button>
-            </Link>
+            <ButtonLink href="/auth/signup" className="w-full sm:w-auto">
+              Get started
+            </ButtonLink>
+            <ButtonLink
+              href="/auth/login"
+              variant="secondary"
+              className="w-full sm:w-auto"
+            >
+              I already have an account
+            </ButtonLink>
           </div>
         </section>
 

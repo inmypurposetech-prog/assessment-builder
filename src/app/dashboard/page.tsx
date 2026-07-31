@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { signOut } from "@/lib/actions/assessments";
 import { createClient } from "@/lib/supabase/server";
 import { GenerateAssessmentButton } from "@/components/review/generate-assessment-button";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
 function formatDate(iso: string) {
@@ -72,14 +72,19 @@ export default async function DashboardPage() {
             Create a new assessment or continue where you left off.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Link href="/assessments/new/wizard">
-              <Button className="w-full sm:w-auto">+ Create assessment</Button>
-            </Link>
-            <Link href="/templates">
-              <Button variant="secondary" className="w-full sm:w-auto">
-                My templates
-              </Button>
-            </Link>
+            <ButtonLink
+              href="/assessments/new/wizard"
+              className="w-full sm:w-auto"
+            >
+              + Create assessment
+            </ButtonLink>
+            <ButtonLink
+              href="/templates"
+              variant="secondary"
+              className="w-full sm:w-auto"
+            >
+              My templates
+            </ButtonLink>
           </div>
         </section>
 
@@ -113,22 +118,25 @@ export default async function DashboardPage() {
                       </div>
                       <div className="flex flex-col gap-2 sm:items-end">
                         {hasGenerated ? (
-                          <Link href={`/assessments/${item.id}/review`}>
-                            <Button className="w-full sm:w-auto">
-                              Review paper
-                            </Button>
-                          </Link>
+                          <ButtonLink
+                            href={`/assessments/${item.id}/review`}
+                            className="w-full sm:w-auto"
+                          >
+                            Review paper
+                          </ButtonLink>
                         ) : (
                           <GenerateAssessmentButton
                             assessmentId={item.id}
                             className="w-full sm:w-auto"
                           />
                         )}
-                        <Link href={`/assessments/${item.id}/wizard`}>
-                          <Button variant="secondary" className="w-full sm:w-auto">
-                            Open wizard
-                          </Button>
-                        </Link>
+                        <ButtonLink
+                          href={`/assessments/${item.id}/wizard`}
+                          variant="secondary"
+                          className="w-full sm:w-auto"
+                        >
+                          Open wizard
+                        </ButtonLink>
                       </div>
                     </Card>
                   </li>

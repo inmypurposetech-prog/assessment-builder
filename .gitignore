@@ -44,6 +44,9 @@ next-env.d.ts
 # Local smoke artefacts
 .tmp/
 
+# Local Whisper venv (pilot transcription only)
+.venv-whisper/
+
 # Parent curriculum PDFs (local only — copyright + size). Keep MANIFEST.md / README tracked.
 docs/parent-samples/**/*.pdf
 docs/parent-samples/**/*.docx

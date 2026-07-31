@@ -27,7 +27,7 @@ import type {
   GeneratedAssessment,
 } from "@/lib/generation/types";
 import type { AssessmentWizardData } from "@/lib/types/assessment";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ExportDownloadButton } from "@/components/review/export-download-button";
@@ -203,6 +203,9 @@ export function ReviewShell({
       await saveGeneratedAssessment(assessmentId, draft);
       setSaveOk(true);
       setSaving(false);
+      document
+        .getElementById("export-heading")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch {
       setSaveError(
         "We could not save your changes. Check your connection and try again.",
@@ -237,9 +240,12 @@ export function ReviewShell({
           department template.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <Link href={`/assessments/${assessmentId}/wizard`}>
-            <Button variant="secondary">Edit wizard settings</Button>
-          </Link>
+          <ButtonLink
+            href={`/assessments/${assessmentId}/wizard`}
+            variant="secondary"
+          >
+            Edit wizard settings
+          </ButtonLink>
           <GenerateAssessmentButton
             assessmentId={assessmentId}
             confirmOverwrite
@@ -553,13 +559,35 @@ export function ReviewShell({
 
       <div className="sticky bottom-0 z-10 -mx-4 border-t border-border bg-[var(--background)] px-4 py-4">
         <div className="mx-auto flex max-w-3xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-base text-muted-foreground" role="status" aria-live="polite">
-            {saving
-              ? "Saving…"
-              : saveOk
-                ? "Saved. Download uses this version."
-                : "Remember to save after you edit — or download (it saves first)."}
-          </p>
+          <div className="text-base text-muted-foreground" role="status" aria-live="polite">
+            {saving ? (
+              <p>Saving…</p>
+            ) : saveOk ? (
+              <>
+                <p className="font-medium text-foreground">Saved.</p>
+                <p className="mt-1">
+                  Next:{" "}
+                  <a
+                    href="#export-heading"
+                    className="font-semibold text-primary underline"
+                  >
+                    Download for moderation
+                  </a>
+                  {" · "}
+                  <Link
+                    href="/dashboard"
+                    className="font-semibold text-primary underline"
+                  >
+                    Back to dashboard
+                  </Link>
+                </p>
+              </>
+            ) : (
+              <p>
+                Remember to save after you edit — or download (it saves first).
+              </p>
+            )}
+          </div>
           <Button
             onClick={handleSave}
             disabled={saving}

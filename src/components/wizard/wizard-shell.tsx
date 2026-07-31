@@ -611,7 +611,8 @@ export function WizardShell({
           <div className="flex flex-col gap-6">
             <CardTitle>Advanced options</CardTitle>
             <CardDescription>
-              These are optional. Defaults match what your parents use in their departments.
+              These are optional. Defaults follow department standards for your
+              subject (Maths CAPS cognitive levels or Life Sciences Bloom focus).
             </CardDescription>
 
             {usesMathsCognitiveLevels(data.subject) && (
@@ -722,21 +723,22 @@ export function WizardShell({
             <div className="flex flex-col gap-3">
               <p className="text-lg font-medium">Template pack (optional)</p>
               <p className="text-base text-muted-foreground">
-                Choose a private school cover or department pack you uploaded.
-                Export still uses AssessMate layout for now; your selection is
-                saved so we can match your format next. Do not rely on this for
-                learner scripts — templates are educator materials only.
+                Choose a school cover or department pack you uploaded under My
+                templates. Export still uses AssessMate layout for now; your
+                selection is saved so we can match your format next. Do not rely
+                on this for learner scripts — templates are educator materials
+                only.
               </p>
               {templates.length === 0 ? (
                 <p className="rounded-lg border-2 border-border bg-muted/40 px-4 py-3 text-base text-muted-foreground">
-                  No private templates yet.{" "}
+                  No templates uploaded yet.{" "}
                   <Link
                     href="/templates"
                     className="font-medium text-primary underline"
                   >
                     Upload a template
                   </Link>{" "}
-                  (Private only), or continue with AssessMate defaults.
+                  (visible only to you), or continue with AssessMate defaults.
                 </p>
               ) : (
                 <div className="flex flex-col gap-3" role="radiogroup" aria-label="Template pack">

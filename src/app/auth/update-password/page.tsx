@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { getPasswordUpdateErrorMessage } from "@/lib/auth/messages";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { PasswordField } from "@/components/ui/password-field";
 
@@ -91,9 +91,9 @@ export default function UpdatePasswordPage() {
             expire after a short time.
           </CardDescription>
           <div className="mt-8 flex flex-col gap-3">
-            <Link href="/auth/forgot-password">
-              <Button className="w-full">Request a new reset link</Button>
-            </Link>
+            <ButtonLink href="/auth/forgot-password" className="w-full">
+              Request a new reset link
+            </ButtonLink>
             <Link
               href="/auth/login"
               className="inline-flex min-h-12 items-center justify-center text-lg font-semibold text-primary underline underline-offset-4"

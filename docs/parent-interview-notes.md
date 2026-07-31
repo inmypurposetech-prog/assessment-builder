@@ -119,7 +119,21 @@ The app must **validate mark distribution** against these weights when subject =
 
 ## Open questions for follow-up
 
-- [ ] Dad: share **GDE memo template** file (Word/PDF)
+- [x] Dad: share **GDE memo template** file (Word/PDF) — June 2026 P2 pack under `docs/parent-samples/mathematics/`
 - [ ] Mom: share **example IEB paper + Bloom layout** she gives AI
 - [ ] Both: exact **grades** they teach most (10 / 11 / 12)
-- [ ] Both: **DBE vs IEB** per parent (mom clearly IEB; confirm dad)
+- [ ] Both: **DBE vs IEB** per parent (mom clearly IEB; Dad demo treated as CAPS/GDE — confirm school formally)
+
+---
+
+## Phase 1 Session One — Dad (30 July 2026)
+
+Full write-up: [`quality/DAD_SESSION_ONE_2026-07-30.md`](./quality/DAD_SESSION_ONE_2026-07-30.md).
+
+| Gate | Result |
+|------|--------|
+| Completed draft + Maths DOCX download | Yes |
+| Use workflow again next term? | **Yes** (WIP; keep improving) |
+| Formatting good enough for moderation yet? | **No** (fidelity backlog) |
+
+Highest-signal product changes he asked for: method-mark memos (not answer-only); AI fill when bank is thin; **Match the cognitive levels** preset (20/35/30/15); wizard **subject → exam body → grade → type**; strip geometry instructions when paper has no geometry; confirm buttons on review.
