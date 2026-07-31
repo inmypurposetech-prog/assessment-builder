@@ -63,7 +63,7 @@
 - [ ] Manual: signup → wizard → save (today)  
 - [x] Manual Phase 1: generate → review → export (Maths local UI 16 Jul 2026; LS via offline PDF smoke)  
 - [ ] Playwright smoke (Phase 2+): login + dashboard  
-- [ ] **Parent pilot:** use [`PARENT_PILOT_SESSION_ONE.md`](./PARENT_PILOT_SESSION_ONE.md); brief export fidelity (structure ≠ Dad DOCX clone) before they judge formatting; chase sample wishlist in `parent-samples/README.md`  
+- [x] **Parent pilot (Dad Session One):** 30 Jul 2026 — see [`DAD_SESSION_ONE_2026-07-30.md`](./DAD_SESSION_ONE_2026-07-30.md); Mom Session One still open via [`PARENT_PILOT_SESSION_ONE.md`](./PARENT_PILOT_SESSION_ONE.md); chase sample wishlist in `parent-samples/README.md`  
 
 ### Non-functional
 
@@ -121,6 +121,8 @@ npm run test:coverage
 | 2026-07-16 | Phase 1E private template upload | `npm run lint` + `npm run build`; migration 004 authored (apply on Supabase); `/templates` + wizard select; ADR-016 | Cursor |
 | 2026-07-16 | Migration `004_templates_phase1e.sql` on cloud Supabase | Applied via SQL Editor — private `templates` bucket + table ready for upload | Tanielle |
 | 2026-07-29 | ADR-017 ops feedback + Parent Pilot Session One script | Containers/DO Droplet deferred; N+1/query discipline when bank scales; facilitator guide at `quality/PARENT_PILOT_SESSION_ONE.md` | Cursor |
+| 2026-07-30 | Dad Parent Pilot Session One (live + ~49 min recording) | End-to-end Maths cycle → Build → review → DOCX pack download. **Use workflow again: Yes.** **Formatting for moderation: No yet.** Bank shortfall ~11/50 on chosen topics. Notes: `quality/DAD_SESSION_ONE_2026-07-30.md` | Tanielle + Dad |
+| 2026-07-31 | Dad Session One facilitator UX fixes | `ButtonLink` (Get started / full hit targets); remove “parents” teacher copy; school-cover wording; Save review next-step + scroll to download | Cursor |
 
 ---
 

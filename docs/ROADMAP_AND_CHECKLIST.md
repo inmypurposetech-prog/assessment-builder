@@ -125,7 +125,7 @@ Same as above, plus:
 
 ```text
 Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
-Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — next: Phase 1 DoD / parent pilot prep
+Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — Dad Session One done; next: Mom Session One
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
@@ -227,10 +227,10 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 ### Phase 1 Definition of Done
 
-- [ ] Dad completes one June-style cycle/exam draft and downloads DOCX pack  
+- [x] Dad completes one June-style cycle/exam draft and downloads DOCX pack — Session One 30 Jul 2026 ([`quality/DAD_SESSION_ONE_2026-07-30.md`](./quality/DAD_SESSION_ONE_2026-07-30.md))
 - [ ] Mom completes one LS cycle-test-style draft and downloads PDF  
-- [ ] Both say they would try it again (even if formatting isn’t perfect yet)
-- [ ] **Documentation Gate** complete (ADRs for AI/export choices, RUNBOOK learnings, quality test log, architecture overview updated for generate/export pipelines)
+- [ ] Both say they would try it again (even if formatting isn’t perfect yet) — **Dad: Yes**; Mom: pending Session One
+- [ ] **Documentation Gate** complete (ADRs for AI/export choices, RUNBOOK learnings, quality test log, architecture overview updated for generate/export pipelines) — Dad session logged 30 Jul 2026; Mom + fidelity ADR iterate still open
 
 ---
 
@@ -565,5 +565,5 @@ Tick the highest phase you’ve **exited**:
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Merge Phase 1E PR (then delete branch), smoke **/templates** on prod, then run **[`quality/PARENT_PILOT_SESSION_ONE.md`](./quality/PARENT_PILOT_SESSION_ONE.md)** with Dad and Mom. After each merge: clean up the feature branch (local + remote).
+**Next action right now:** Run **[`quality/PARENT_PILOT_SESSION_ONE.md`](./quality/PARENT_PILOT_SESSION_ONE.md)** Script B with **Mom**. Then tackle Dad backlog in [`quality/DAD_SESSION_ONE_2026-07-30.md`](./quality/DAD_SESSION_ONE_2026-07-30.md) (method-mark memos, bank depth, Match cognitive levels, export fidelity).
 

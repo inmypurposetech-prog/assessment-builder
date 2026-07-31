@@ -5,7 +5,7 @@ import type { GeneratedAssessment } from "@/lib/generation/types";
 import { createClient } from "@/lib/supabase/server";
 import type { AssessmentWizardData } from "@/lib/types/assessment";
 import { defaultWizardData } from "@/lib/types/assessment";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 
@@ -68,11 +68,13 @@ export default async function AssessmentReviewPage({
           </CardDescription>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <GenerateAssessmentButton assessmentId={id} />
-            <Link href={`/assessments/${id}/wizard`}>
-              <Button variant="secondary" className="w-full sm:w-auto">
-                Open wizard
-              </Button>
-            </Link>
+            <ButtonLink
+              href={`/assessments/${id}/wizard`}
+              variant="secondary"
+              className="w-full sm:w-auto"
+            >
+              Open wizard
+            </ButtonLink>
           </div>
         </Card>
       </div>

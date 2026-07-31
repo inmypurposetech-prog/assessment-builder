@@ -2,7 +2,7 @@
 
 > **Disciplines:** UX/UI Designer · Design System · Frontend · Change (adoption)  
 > **Status:** Active — **follow this file on every UI change** (industry baseline for 50s+ educators)  
-> **Last updated:** 16 July 2026 (Phase 1E template upload)
+> **Last updated:** 30 July 2026 (Dad Session One UX backlog)
   
 > **Bar:** WCAG 2.2 Level **AA** where practical; GOV.UK / NHS-style clarity over SaaS density
 
@@ -14,14 +14,14 @@
 
 | Area | Today | Target (best practice) |
 |------|-------|------------------------|
-| Link affordance | Always-underlined back + auth links | Keep; never colour-only / hover-only |
+| Link affordance | Always-underlined back + auth links; nav CTAs use `ButtonLink` (full hit target) | Keep; never colour-only / hover-only; never nest `<button>` inside `<a>` |
 | Auth pending state | Busy until navigation + “Opening your dashboard…” | Keep |
 | Password fields | Show/Hide control (always visible) | Keep — supports WCAG G211 |
 | Forgot password | Email link → set new password | Keep redirect allowlist current |
 | Wizard step change | Scroll to top + focus step `h1` | Keep |
 | Dependent fields | `curriculum-matrix.ts` filters subject/grade | Extend matrix as content grows |
 | Generate busy | “Building your paper…” until review loads | Keep; never silent fail |
-| Review screen | Edit / Replace / Delete + live totals + proud bar | — |
+| Review screen | Edit / Replace / Delete + live totals + proud bar | Add **Confirm** (question + memo); separate memo edit (Dad Session One) |
 | Export | Download Maths ZIP / LS PDF from review | Iterate template pixel fidelity |
 | Templates | `/templates` upload + wizard select (Private) | School share later; fidelity into pack |
 | Empty / loading / error | Partial shared patterns | Shared components Phase 2 |
@@ -108,6 +108,9 @@ Target mindset: **WCAG 2.2 Level AA** where practical for MVP. Inspired by GOV.U
 - [ ] Skip link to main content  
 - [ ] Reduced-motion preference for future animations  
 - [ ] Shared Empty / Loading / Error components  
+- [x] **Dad Session One (30 Jul 2026) — facilitator follow-ups shipping on `cursor/pilot-ux-dad-notes`:** Get started / full hit targets via `ButtonLink`; no “parents” in teacher copy; school cover wording (not “private school”); Save review next-step links + scroll to download  
+- [ ] **Dad Session One (remaining):** wizard order Subject → exam body → grade → type; primary difficulty = **Match the cognitive levels** (show 20/35/30/15); term disabled when implied by exam type; don’t surface bank-shortfall as a normal happy path  
+- [ ] Memo UX: method-mark steps + separate confirm/edit from question stem (see [`DAD_SESSION_ONE_2026-07-30.md`](../quality/DAD_SESSION_ONE_2026-07-30.md))  
 
 ---
 
@@ -212,7 +215,7 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 
 ## Related
 
-- Parent UX evidence: [parent-interview-notes.md](../parent-interview-notes.md)  
+- Parent UX evidence: [parent-interview-notes.md](../parent-interview-notes.md) · [DAD_SESSION_ONE_2026-07-30.md](../quality/DAD_SESSION_ONE_2026-07-30.md)  
 - Tokens in code: `src/app/globals.css`  
 - Quality UAT: [TESTING_AND_ANALYTICS.md](../quality/TESTING_AND_ANALYTICS.md)  
-- Roadmap: Phase 1E done (thin slice); Phase 2 pilot + a11y harden  
+- Roadmap: Phase 1E done (thin slice); Phase 2 pilot + a11y harden — Dad Session One complete; Mom pending  
