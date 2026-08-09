@@ -123,6 +123,7 @@ npm run test:coverage
 | 2026-07-29 | ADR-017 ops feedback + Parent Pilot Session One script | Containers/DO Droplet deferred; N+1/query discipline when bank scales; facilitator guide at `quality/PARENT_PILOT_SESSION_ONE.md` | Cursor |
 | 2026-07-30 | Dad Parent Pilot Session One (live + ~49 min recording) | End-to-end Maths cycle → Build → review → DOCX pack download. **Use workflow again: Yes.** **Formatting for moderation: No yet.** Bank shortfall ~11/50 on chosen topics. Notes: `quality/DAD_SESSION_ONE_2026-07-30.md` | Tanielle + Dad |
 | 2026-07-31 | Dad Session One facilitator UX fixes | `ButtonLink` (Get started / full hit targets); remove “parents” teacher copy; school-cover wording; Save review next-step + scroll to download | Cursor |
+| 2026-08-09 | Primary ButtonLink teal-on-teal (invisible label) | Root: unlayered `a { color }` beat `text-primary-foreground`. Fix: `@layer base` in `globals.css` | Cursor |
 
 ---
 
