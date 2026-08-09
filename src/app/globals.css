@@ -22,22 +22,26 @@
   --font-mono: var(--font-geist-mono);
 }
 
-html {
-  font-size: 18px;
-}
+/* Base layer so Tailwind utilities (e.g. text-primary-foreground on ButtonLink)
+   win over element selectors — unlayered `a { color }` made primary CTAs teal-on-teal. */
+@layer base {
+  html {
+    font-size: 18px;
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  line-height: 1.6;
-}
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    line-height: 1.6;
+  }
 
-a {
-  color: var(--primary);
-}
+  a {
+    color: var(--primary);
+  }
 
-:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
 }

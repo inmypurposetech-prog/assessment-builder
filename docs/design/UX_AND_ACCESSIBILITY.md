@@ -2,7 +2,7 @@
 
 > **Disciplines:** UX/UI Designer · Design System · Frontend · Change (adoption)  
 > **Status:** Active — **follow this file on every UI change** (industry baseline for 50s+ educators)  
-> **Last updated:** 30 July 2026 (Dad Session One UX backlog)
+> **Last updated:** 9 August 2026 (primary ButtonLink contrast fix)
   
 > **Bar:** WCAG 2.2 Level **AA** where practical; GOV.UK / NHS-style clarity over SaaS density
 
@@ -59,6 +59,8 @@
 Primitives: `src/components/ui/{button,input,password-field,card}.tsx` — treat as the seed **design system**.  
 When adding components: reuse tokens, keep variants few (`primary` / `secondary` / `ghost`).
 
+**Cascade rule:** Put element defaults (`a`, `body`, `:focus-visible`) in `@layer base` in `globals.css`. Unlayered `a { color: var(--primary) }` beats Tailwind utilities and turns primary `ButtonLink`s into teal-on-teal (invisible labels).
+
 **Avoid (product rule):** purple-gradient AI clichés; dense dashboards; tiny ghost links as only CTAs.
 
 ### Link & navigation affordance (mandatory)
@@ -109,6 +111,7 @@ Target mindset: **WCAG 2.2 Level AA** where practical for MVP. Inspired by GOV.U
 - [ ] Reduced-motion preference for future animations  
 - [ ] Shared Empty / Loading / Error components  
 - [x] **Dad Session One (30 Jul 2026) — facilitator follow-ups shipping on `cursor/pilot-ux-dad-notes`:** Get started / full hit targets via `ButtonLink`; no “parents” in teacher copy; school cover wording (not “private school”); Save review next-step links + scroll to download  
+- [x] **Primary ButtonLink contrast (9 Aug 2026):** `@layer base` for global `a` colour so `text-primary-foreground` wins (white on teal)  
 - [ ] **Dad Session One (remaining):** wizard order Subject → exam body → grade → type; primary difficulty = **Match the cognitive levels** (show 20/35/30/15); term disabled when implied by exam type; don’t surface bank-shortfall as a normal happy path  
 - [ ] Memo UX: method-mark steps + separate confirm/edit from question stem (see [`DAD_SESSION_ONE_2026-07-30.md`](../quality/DAD_SESSION_ONE_2026-07-30.md))  
 
