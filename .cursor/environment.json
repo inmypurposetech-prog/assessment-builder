@@ -1,6 +1,6 @@
 {
   "name": "AssessMate",
-  "install": "npm ci && node scripts/cloud-agent-setup.mjs",
+  "install": "npm ci && cp -n .env.example .env.local",
   "terminals": [
     {
       "name": "dev",
