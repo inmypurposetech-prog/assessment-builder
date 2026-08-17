@@ -63,7 +63,7 @@
 - [ ] Manual: signup → wizard → save (today)  
 - [x] Manual Phase 1: generate → review → export (Maths local UI 16 Jul 2026; LS via offline PDF smoke)  
 - [ ] Playwright smoke (Phase 2+): login + dashboard  
-- [x] **Parent pilot (Dad Session One):** 30 Jul 2026 — see [`DAD_SESSION_ONE_2026-07-30.md`](./DAD_SESSION_ONE_2026-07-30.md); Mom Session One still open via [`PARENT_PILOT_SESSION_ONE.md`](./PARENT_PILOT_SESSION_ONE.md); chase sample wishlist in `parent-samples/README.md`  
+- [x] **Parent pilot (Dad + Mom Session One):** Dad 30 Jul 2026 ([`DAD_SESSION_ONE_2026-07-30.md`](./DAD_SESSION_ONE_2026-07-30.md)); Mom 9 Aug 2026 ([`MOM_SESSION_ONE_2026-08-09.md`](./MOM_SESSION_ONE_2026-08-09.md)); both **use workflow again = Yes**; chase sample wishlist in `parent-samples/README.md`  
 
 ### Non-functional
 
@@ -124,6 +124,7 @@ npm run test:coverage
 | 2026-07-30 | Dad Parent Pilot Session One (live + ~49 min recording) | End-to-end Maths cycle → Build → review → DOCX pack download. **Use workflow again: Yes.** **Formatting for moderation: No yet.** Bank shortfall ~11/50 on chosen topics. Notes: `quality/DAD_SESSION_ONE_2026-07-30.md` | Tanielle + Dad |
 | 2026-07-31 | Dad Session One facilitator UX fixes | `ButtonLink` (Get started / full hit targets); remove “parents” teacher copy; school-cover wording; Save review next-step + scroll to download | Cursor |
 | 2026-08-09 | Primary ButtonLink teal-on-teal (invisible label) | Root: unlayered `a { color }` beat `text-primary-foreground`. Fix: `@layer base` in `globals.css` | Cursor |
+| 2026-08-09 | Mom Parent Pilot Session One (live + ~35 min recording) | End-to-end LS IEB → Build → review → PDF download. **Use workflow again: Yes.** **Formatting for moderation: No yet.** Bank shortfall ~94/200. Notes: `quality/MOM_SESSION_ONE_2026-08-09.md` | Tanielle + Mom |
 
 ---
 

@@ -6,7 +6,7 @@
 > **Learning runbook:** [`learning/RUNBOOK.md`](./learning/RUNBOOK.md)  
 > **Use in Cursor:** Referenced by `.cursor/rules/assessmate-context.mdc` (always applied).  
 > **Update when:** Parent interviews, new templates, scope changes, or major architecture decisions — and whenever the Documentation Gate requires it.  
-> **Last updated:** 30 July 2026 (Dad Session One — see `quality/DAD_SESSION_ONE_2026-07-30.md`)
+> **Last updated:** 9 August 2026 (Mom Session One — see `quality/MOM_SESSION_ONE_2026-08-09.md`; Dad: `quality/DAD_SESSION_ONE_2026-07-30.md`)
 
 ---
 

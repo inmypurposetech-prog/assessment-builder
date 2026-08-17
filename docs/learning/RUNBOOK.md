@@ -2,7 +2,7 @@
 
 > **Purpose:** Your personal engineering & product journey log — processes you’ve done, what you learned, mistakes, and **follow-up courses/resources**. Use it as a runbook when repeating a task or onboarding your future self.  
 > **Update:** After every non-trivial setup or debugging session (Documentation Gate).  
-> **Last updated:** 16 July 2026 (InfoSec + ADR-015)
+> **Last updated:** 9 August 2026 (Mom Session One write-up / R13)
 
 ---
 
@@ -240,6 +240,21 @@ await fetch('/api/generate', {
 
 **Learned:** Storage RLS uses folder prefix `auth.uid()` — keep uploads under `{user_id}/{template_id}/…`. Export does **not** yet inject the uploaded binary (ADR-016); link is for the next fidelity step. Never use service role in the browser upload path.
 
+### R13 — Parent Session One write-up (from recording)
+
+1. Keep `.m4a` in Downloads (do **not** commit audio).  
+2. Transcribe with local Whisper venv (gitignored `.venv-whisper/`):
+
+```bash
+.venv-whisper/bin/whisper "~/Downloads/<recording>.m4a" \
+  --model base --language en --task transcribe \
+  --output_dir docs/quality/pilot-recordings --output_format txt
+```
+
+3. Write cleaned notes as `docs/quality/{DAD|MOM}_SESSION_ONE_YYYY-MM-DD.md` (Whisper is noisy — do not treat raw txt as source of truth).  
+4. Update: ROADMAP Phase 1 DoD ticks · `TESTING_AND_ANALYTICS` log · `parent-interview-notes` · `DOCUMENTATION_INDEX` · `pilot-recordings/README.md` · NORTH_STAR “Last updated”.  
+5. Soft-ask parent for samples per `parent-samples/README.md` wishlist.
+
 ---
 
 ## Learning log
@@ -464,6 +479,14 @@ await fetch('/api/generate', {
 - **Steps that worked:** Paste `supabase/migrations/004_templates_phase1e.sql` in Supabase **SQL Editor** → Run.  
 - **Next:** Smoke My templates → upload → wizard Advanced select (local or prod after merge).  
 - **Discipline lens:** DBA, Support.
+
+### 2026-08-09 — Mom Parent Pilot Session One
+
+- **Context:** Facilitate Mom’s first live LS IEB path from recording; tick Phase 1 DoD.  
+- **Steps that worked:** Whisper `base` → cleaned notes `MOM_SESSION_ONE_2026-08-09.md`; Doc Gate updates (ROADMAP DoD, test log, index); procedure **R13**.  
+- **Pitfalls:** Raw Whisper mishears product/school names — always rewrite gate answers from context. Recording filename said “Phase 2”; treat as Mom Session One for Phase 1 DoD.  
+- **Shared product signal with Dad:** bank shortfall + “use workflow again / formatting not yet.”  
+- **Discipline lens:** Change, QA, PO, UX.
 
 ### 2026-07-29 — ADR-017 + Parent Pilot Session One
 

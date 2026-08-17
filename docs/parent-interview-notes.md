@@ -137,3 +137,17 @@ Full write-up: [`quality/DAD_SESSION_ONE_2026-07-30.md`](./quality/DAD_SESSION_O
 | Formatting good enough for moderation yet? | **No** (fidelity backlog) |
 
 Highest-signal product changes he asked for: method-mark memos (not answer-only); AI fill when bank is thin; **Match the cognitive levels** preset (20/35/30/15); wizard **subject → exam body → grade → type**; strip geometry instructions when paper has no geometry; confirm buttons on review.
+
+---
+
+## Phase 1 Session One — Mom (9 August 2026)
+
+Full write-up: [`quality/MOM_SESSION_ONE_2026-08-09.md`](./quality/MOM_SESSION_ONE_2026-08-09.md).
+
+| Gate | Result |
+|------|--------|
+| Completed draft + LS PDF download | Yes |
+| Use workflow again next term? | **Yes** (impressed; few tweaks) |
+| Formatting good enough for moderation yet? | **No** (separate docs + IEB structure + template fidelity) |
+
+Highest-signal product changes she asked for: IEB **Q1 objective section** + numbering; memo as **Q+A marking guideline** with mark points beside awards; **separate** paper / memo / Bloom files; wizard **syllabus → subject → grade → term → type**; topics not rigidly term-boxed (IEB); bank fill when short of marks; school templates carry **full** font/spacing rules.
