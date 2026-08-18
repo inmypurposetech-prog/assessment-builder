@@ -125,7 +125,7 @@ Same as above, plus:
 
 ```text
 Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
-Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — Dad Session One done; next: Mom Session One
+Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — Dad + Mom Session One done; fidelity / bank backlog open
 Phase 2  Parent pilot & harden
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
@@ -228,9 +228,9 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 ### Phase 1 Definition of Done
 
 - [x] Dad completes one June-style cycle/exam draft and downloads DOCX pack — Session One 30 Jul 2026 ([`quality/DAD_SESSION_ONE_2026-07-30.md`](./quality/DAD_SESSION_ONE_2026-07-30.md))
-- [ ] Mom completes one LS cycle-test-style draft and downloads PDF  
-- [ ] Both say they would try it again (even if formatting isn’t perfect yet) — **Dad: Yes**; Mom: pending Session One
-- [ ] **Documentation Gate** complete (ADRs for AI/export choices, RUNBOOK learnings, quality test log, architecture overview updated for generate/export pipelines) — Dad session logged 30 Jul 2026; Mom + fidelity ADR iterate still open
+- [x] Mom completes one LS cycle-test-style draft and downloads PDF — Session One 9 Aug 2026 ([`quality/MOM_SESSION_ONE_2026-08-09.md`](./quality/MOM_SESSION_ONE_2026-08-09.md))
+- [x] Both say they would try it again (even if formatting isn’t perfect yet) — **Dad: Yes**; **Mom: Yes**
+- [ ] **Documentation Gate** complete (ADRs for AI/export choices, RUNBOOK learnings, quality test log, architecture overview updated for generate/export pipelines) — Dad + Mom Session One logged; fidelity / bank / IEB structure ADR iterate still open
 
 ---
 

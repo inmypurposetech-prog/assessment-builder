@@ -113,4 +113,4 @@ Binaries → `docs/parent-samples/` (gitignored) → update folder `MANIFEST.md`
 
 ## Mom Session One
 
-Still outstanding. Run [`PARENT_PILOT_SESSION_ONE.md`](./PARENT_PILOT_SESSION_ONE.md) Script B; then tick remaining Phase 1 DoD.
+Done 9 Aug 2026 — [`MOM_SESSION_ONE_2026-08-09.md`](./MOM_SESSION_ONE_2026-08-09.md). **Use workflow again: Yes.** Formatting fidelity still backlog.
