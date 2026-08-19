@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "db:migrate:002": "node scripts/apply-migration-002.mjs",
     "db:migrate:004": "node scripts/apply-migration-004.mjs"
   },
@@ -31,6 +33,7 @@
     "eslint-config-next": "16.2.9",
     "pg": "^8.22.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }

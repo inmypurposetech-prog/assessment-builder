@@ -69,15 +69,10 @@ async function runSubject(label: string, wizard: AssessmentWizardData) {
 
   const magic = pack.body.subarray(0, 4);
   const isZip = magic[0] === 0x50 && magic[1] === 0x4b;
-  const isPdf =
-    magic[0] === 0x25 &&
-    magic[1] === 0x50 &&
-    magic[2] === 0x44 &&
-    magic[3] === 0x46;
 
   const okKind =
     (pack.kind === "maths_zip" && isZip) ||
-    (pack.kind === "life_sciences_pdf" && isPdf);
+    (pack.kind === "life_sciences_zip" && isZip);
 
   console.log(
     JSON.stringify(

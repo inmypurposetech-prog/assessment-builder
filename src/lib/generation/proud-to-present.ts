@@ -1,4 +1,5 @@
 import type { GeneratedAssessment } from "@/lib/generation/types";
+import { questionLabel } from "@/lib/generation/question-label";
 
 export type ProudFlagSeverity = "blocker" | "caution";
 
@@ -55,14 +56,14 @@ export function evaluateProudToPresent(
       flags.push({
         id: `memo-empty-${item.number}`,
         severity: "blocker",
-        message: `Question ${item.number}: marking memo answer is empty.`,
+        message: `Question ${questionLabel(item)}: marking memo answer is empty.`,
       });
     }
     if (!item.markingPoints.length) {
       flags.push({
         id: `points-empty-${item.number}`,
         severity: "blocker",
-        message: `Question ${item.number}: no marking points listed.`,
+        message: `Question ${questionLabel(item)}: no marking points listed.`,
       });
     }
   }
@@ -87,7 +88,7 @@ export function evaluateProudToPresent(
         flags.push({
           id: `bloom-missing-${q.number}`,
           severity: "blocker",
-          message: `Question ${q.number}: Bloom level is missing.`,
+          message: `Question ${questionLabel(q)}: Bloom level is missing.`,
         });
       }
     }
@@ -96,6 +97,8 @@ export function evaluateProudToPresent(
   for (const warning of assessment.warnings) {
     if (
       warning.includes("Bank shortfall") ||
+      warning.includes("marks short") ||
+      warning.includes("Draft questions") ||
       warning.includes("No seed questions") ||
       warning.includes("Could not select")
     ) {

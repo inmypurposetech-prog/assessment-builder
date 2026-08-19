@@ -24,6 +24,7 @@ export function deriveMemoFromQuestions(
     const seed = bankById.get(q.bankId);
     const item: AssembledMemoItem = {
       number: q.number,
+      displayNumber: q.displayNumber,
       bankId: q.bankId,
       marks: q.marks,
       memoAnswer: seed?.memoAnswer ?? "",

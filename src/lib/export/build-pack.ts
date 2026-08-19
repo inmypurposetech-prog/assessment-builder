@@ -1,7 +1,11 @@
 import JSZip from "jszip";
 import type { GeneratedAssessment } from "@/lib/generation/types";
 import { slugifyFilename } from "./filenames";
-import { buildLifeSciencesPdf } from "./life-sciences-pdf";
+import {
+  buildLifeSciencesBloomPdf,
+  buildLifeSciencesMemoPdf,
+  buildLifeSciencesQuestionPaperPdf,
+} from "./life-sciences-pdf";
 import {
   buildMathsAnswerBookDocx,
   buildMathsCognitiveSummaryDocx,
@@ -13,7 +17,7 @@ export type ExportPack = {
   filename: string;
   mimeType: string;
   body: Buffer;
-  kind: "maths_zip" | "life_sciences_pdf";
+  kind: "maths_zip" | "life_sciences_zip";
 };
 
 /** Build subject-aware downloadable pack from locked GeneratedAssessment JSON. */
@@ -49,12 +53,26 @@ export async function buildExportPack(
   }
 
   if (assessment.subject === "Life Sciences") {
-    const body = await buildLifeSciencesPdf(assessment);
+    const zip = new JSZip();
+    const [paper, memo, bloom] = await Promise.all([
+      buildLifeSciencesQuestionPaperPdf(assessment),
+      buildLifeSciencesMemoPdf(assessment),
+      buildLifeSciencesBloomPdf(assessment),
+    ]);
+
+    zip.file("01-question-paper.pdf", paper);
+    zip.file("02-marking-guideline.pdf", memo);
+    zip.file("03-bloom-summary.pdf", bloom);
+
+    const body = Buffer.from(
+      await zip.generateAsync({ type: "uint8array", compression: "DEFLATE" }),
+    );
+
     return {
-      filename: `${base}-life-sciences.pdf`,
-      mimeType: "application/pdf",
+      filename: `${base}-life-sciences-export.zip`,
+      mimeType: "application/zip",
       body,
-      kind: "life_sciences_pdf",
+      kind: "life_sciences_zip",
     };
   }
 

@@ -13,7 +13,7 @@ Remind them **before** Dad/Mom judge download quality:
 
 - Phase 1D export is **structure-first**, not a pixel clone of Dad’s Word files.
 - Maths ZIP follows GDE-style sections (paper / memo K/R/C/P / answer book / CAPS sheet) built in code — it does **not** inject the gitignored June 2026 DOCX binaries.
-- Life Sciences PDF follows moderator rules (12pt, 1.5 spacing, lined blanks) with Helvetica as Arial stand-in until a licensed face is embedded.
+- Life Sciences export is a **ZIP of three PDFs** (paper / marking guideline / Bloom) at 12pt, 1.5 spacing, lined blanks, with Helvetica as Arial stand-in until a licensed face is embedded.
 - Feedback should split: **content/workflow useful?** vs **formatting fidelity enough?** — fidelity is a tracked iterate item (Phase 6 high / after more exemplars).
 
 Canonical notes: `docs/ROADMAP_AND_CHECKLIST.md` § Phase 2 → Pilot briefings; ADR-014.

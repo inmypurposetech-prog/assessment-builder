@@ -43,13 +43,13 @@
 
 ### Unit (start Phase 1–2)
 
-- [ ] `mathsCognitiveTotal` / `isValidMathsCognitiveDistribution`  
-- [ ] `mathsCognitiveDrift`  
-- [ ] `buildAssessmentTitle`  
-- [ ] `getAuthErrorMessage` / signup outcomes  
-- [ ] `getSeedQuestionBankStats` counts (25 Maths + 24 LS)  
-- [ ] `assembleAssessment` mark sum + Maths withinTolerance / LS Bloom attachment  
-- [ ] `evaluateProudToPresent` blockers (memo empty, marks mismatch)  
+- [x] `mathsCognitiveTotal` / `isValidMathsCognitiveDistribution`  
+- [x] `mathsCognitiveDrift`  
+- [x] `buildAssessmentTitle`  
+- [x] `getAuthErrorMessage` / signup outcomes  
+- [x] `getSeedQuestionBankStats` counts (Maths ≥25 + LS ≥24)  
+- [x] `assembleAssessment` mark sum + Maths withinTolerance / LS Bloom attachment  
+- [x] `evaluateProudToPresent` blockers (memo empty, marks mismatch)  
 - [ ] `recomputeGeneratedAssessment` after delete renumbers + mark totals  
 - [ ] Future: memo marks === paper marks always  
 
@@ -82,7 +82,7 @@ npm run test
 npm run test:coverage
 ```
 
-- [ ] Add Vitest (or Jest) + coverage script  
+- [x] Add Vitest (or Jest) + coverage script  
 - [ ] Publish coverage summary in CI artifact or PR comment  
 - [ ] Track coverage % here monthly once enabled:
 
@@ -124,7 +124,7 @@ npm run test:coverage
 | 2026-07-30 | Dad Parent Pilot Session One (live + ~49 min recording) | End-to-end Maths cycle → Build → review → DOCX pack download. **Use workflow again: Yes.** **Formatting for moderation: No yet.** Bank shortfall ~11/50 on chosen topics. Notes: `quality/DAD_SESSION_ONE_2026-07-30.md` | Tanielle + Dad |
 | 2026-07-31 | Dad Session One facilitator UX fixes | `ButtonLink` (Get started / full hit targets); remove “parents” teacher copy; school-cover wording; Save review next-step + scroll to download | Cursor |
 | 2026-08-09 | Primary ButtonLink teal-on-teal (invisible label) | Root: unlayered `a { color }` beat `text-primary-foreground`. Fix: `@layer base` in `globals.css` | Cursor |
-| 2026-08-09 | Mom Parent Pilot Session One (live + ~35 min recording) | End-to-end LS IEB → Build → review → PDF download. **Use workflow again: Yes.** **Formatting for moderation: No yet.** Bank shortfall ~94/200. Notes: `quality/MOM_SESSION_ONE_2026-08-09.md` | Tanielle + Mom |
+| 2026-08-18 | Parent Session One backlog (gap-fill, method memos, IEB Q1, LS ZIP, wizard term↔type, CI/Vitest, /privacy) | `npm run lint` + `npm test` + `npm run build` | Cursor |
 
 ---
 

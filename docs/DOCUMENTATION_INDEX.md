@@ -2,7 +2,7 @@
 
 > **Purpose:** Map of all project docs, which workplace **discipline** owns each concern, and the **Documentation Gate** so docs never become an afterthought.  
 > **Audience:** You (solo) now; future collaborators or readers later.  
-> **Last updated:** 9 August 2026 (Mom Session One notes)
+> **Last updated:** 18 August 2026 (parent Session One backlog)
 
 ---
 

@@ -10,6 +10,8 @@ import type {
 /** Locked paper item after assembly (bank id preserved for edit/replace later). */
 export interface AssembledQuestion {
   number: number;
+  /** Printed number (e.g. "1.1" or "2"). Falls back to `number` in UI/export. */
+  displayNumber?: string;
   bankId: string;
   topic: string;
   marks: number;
@@ -21,11 +23,15 @@ export interface AssembledQuestion {
   bloomLevel?: BloomLevel;
   aim?: IebLifeSciencesAim;
   source: string;
+  itemType?: "mcq" | "terminology" | "matching" | "extended";
+  options?: string[];
+  paperSection?: "A" | "B";
 }
 
 /** Memo rows derived from the same locked bank items — never re-invented separately. */
 export interface AssembledMemoItem {
   number: number;
+  displayNumber?: string;
   bankId: string;
   marks: number;
   memoAnswer: string;
@@ -61,7 +67,7 @@ export interface GenerationCostMeta {
   model: string;
   maxTokens: number;
   tokensUsed: number;
-  source: "question_bank" | "question_bank+ai_gaps";
+  source: "question_bank" | "question_bank+ai_gaps" | "question_bank+draft_gaps";
   monthlyUsed: number;
   monthlyCap: number;
   aiGapFillAttempted: boolean;

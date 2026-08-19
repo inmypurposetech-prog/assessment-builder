@@ -7,9 +7,9 @@ import {
   getGenerationCostConfig,
   generateRequestSchema,
   recordGenerationUsage,
-  shouldAttemptAiGapFill,
   type GenerationCostMeta,
 } from "@/lib/generation";
+import { assertUserRateLimit } from "@/lib/generation/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 import type { AssessmentWizardData } from "@/lib/types/assessment";
 import { defaultWizardData } from "@/lib/types/assessment";
@@ -27,6 +27,16 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json({ error: "Sign in required." }, { status: 401 });
+  }
+
+  try {
+    assertUserRateLimit(user.id, { action: "generate", max: 8, windowMs: 60_000 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Too many requests.";
+    return NextResponse.json(
+      { error: message, code: "RATE_LIMIT" },
+      { status: 429 },
+    );
   }
 
   let body: unknown;
@@ -120,26 +130,27 @@ export async function POST(request: Request) {
   let aiAttempted = false;
   let source: GenerationCostMeta["source"] = "question_bank";
 
-  if (shouldAttemptAiGapFill(costConfig) && shortfall > 0) {
+  if (shortfall > 0) {
     const gaps = generated.warnings.filter((w) =>
-      w.toLowerCase().includes("shortfall"),
+      w.toLowerCase().includes("short"),
     );
-    const ai = await fillGapsWithAi({
+    const fill = await fillGapsWithAi({
       wizard,
       shortfallMarks: shortfall,
       gaps: gaps.length > 0 ? gaps : [`Need ${shortfall} more marks`],
       config: costConfig,
     });
-    aiAttempted = ai.attempted;
-    tokensUsed = ai.tokensUsed;
-    if (ai.questions.length > 0) {
-      source = "question_bank+ai_gaps";
+    aiAttempted = fill.attempted;
+    tokensUsed = fill.tokensUsed;
+    if (fill.questions.length > 0) {
+      source =
+        fill.method === "ai" ? "question_bank+ai_gaps" : "question_bank+draft_gaps";
       generated = assembleAssessment({
         assessmentId: assessment.id,
         title: assessment.title,
         wizard,
         bank: SEED_QUESTION_BANK,
-        aiFilled: ai.questions,
+        aiFilled: fill.questions,
         cost: {
           ...preliminaryCost,
           tokensUsed,
@@ -147,10 +158,6 @@ export async function POST(request: Request) {
           aiGapFillAttempted: aiAttempted,
         },
       });
-    } else if (aiAttempted) {
-      generated.warnings.push(
-        "AI gap-fill is configured but not yet returning items — paper uses bank only.",
-      );
     }
   }
 

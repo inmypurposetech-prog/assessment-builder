@@ -32,6 +32,11 @@ import {
   usesMathsCognitiveLevels,
 } from "@/lib/constants/cognitive-levels";
 import {
+  isAssessmentTypeAllowedForTerm,
+  assessmentTypeTermReason,
+  type WizardTerm,
+} from "@/lib/constants/assessment-term-matrix";
+import {
   getGradesFor,
   getSubjectsForExamBody,
   gradeOptionLabel,
@@ -51,8 +56,8 @@ import type { TemplateRecord } from "@/lib/types/template";
 const STORAGE_KEY = "assessmate-wizard-draft";
 
 const STEPS = [
-  { id: 1, title: "Assessment type", subtitle: "What are you creating?" },
-  { id: 2, title: "Curriculum", subtitle: "CAPS or IEB, subject and grade" },
+  { id: 1, title: "Curriculum", subtitle: "Syllabus, subject, grade and term" },
+  { id: 2, title: "Assessment type", subtitle: "What are you creating?" },
   { id: 3, title: "Scope", subtitle: "Which topics or term?" },
   { id: 4, title: "Settings", subtitle: "Marks, time and difficulty" },
   { id: 5, title: "Advanced", subtitle: "Optional extras" },
@@ -184,19 +189,23 @@ function RadioOption({
   onChange,
   label,
   description,
+  disabled = false,
 }: {
   name: string;
   checked: boolean;
   onChange: () => void;
   label: string;
   description?: string;
+  disabled?: boolean;
 }) {
   return (
     <label
-      className={`flex min-h-14 cursor-pointer items-start gap-4 rounded-xl border-2 p-4 transition-colors ${
-        checked
-          ? "border-primary bg-primary/5"
-          : "border-border hover:border-primary/40"
+      className={`flex min-h-14 items-start gap-4 rounded-xl border-2 p-4 transition-colors ${
+        disabled
+          ? "cursor-not-allowed border-border bg-muted/40 opacity-80"
+          : checked
+            ? "cursor-pointer border-primary bg-primary/5"
+            : "cursor-pointer border-border hover:border-primary/40"
       }`}
     >
       <input
@@ -204,6 +213,7 @@ function RadioOption({
         name={name}
         checked={checked}
         onChange={onChange}
+        disabled={disabled}
         className="mt-1 size-5 shrink-0 accent-[#0d7377]"
       />
       <span>
@@ -320,6 +330,24 @@ export function WizardShell({
       grade: gradeOk ? data.grade : null,
       selectedTopics: [],
       mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE },
+      includeCalculator: subject === "Mathematics",
+      difficulty:
+        subject === "Life Sciences" && data.difficulty === "match_cognitive"
+          ? "balanced"
+          : data.difficulty,
+    });
+  };
+
+  const selectTerm = (term: WizardTerm) => {
+    const typeOk = isAssessmentTypeAllowedForTerm(data.assessmentType, term);
+    setCascadeNote(
+      data.assessmentType && !typeOk
+        ? "We cleared the assessment type because it does not match this term. Choose a type on the next screen."
+        : null,
+    );
+    update({
+      term,
+      assessmentType: typeOk ? data.assessmentType : null,
     });
   };
 
@@ -331,14 +359,17 @@ export function WizardShell({
   const canContinue = useMemo(() => {
     switch (step) {
       case 1:
-        return data.assessmentType !== null;
-      case 2:
         return (
           data.examBody !== null &&
           data.subject !== null &&
           data.grade !== null &&
           data.term !== null &&
           isCurriculumSupported(data.examBody, data.subject, data.grade)
+        );
+      case 2:
+        return (
+          data.assessmentType !== null &&
+          isAssessmentTypeAllowedForTerm(data.assessmentType, data.term)
         );
       case 3:
         if (!data.scopeMode) return false;
@@ -399,25 +430,6 @@ export function WizardShell({
 
       <Card>
         {step === 1 && (
-          <div className="flex flex-col gap-3">
-            <CardTitle>Choose assessment type</CardTitle>
-            <CardDescription>One choice per screen keeps things simple.</CardDescription>
-            <div className="mt-4 flex flex-col gap-3" role="radiogroup" aria-label="Assessment type">
-              {ASSESSMENT_TYPES.map((opt) => (
-                <RadioOption
-                  key={opt.value}
-                  name="assessmentType"
-                  checked={data.assessmentType === opt.value}
-                  onChange={() => update({ assessmentType: opt.value })}
-                  label={opt.label}
-                  description={opt.description}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 2 && (
           <div className="flex flex-col gap-8">
             {cascadeNote ? (
               <p className="rounded-lg border border-border bg-muted px-4 py-3 text-base text-foreground" role="status">
@@ -425,7 +437,10 @@ export function WizardShell({
               </p>
             ) : null}
             <div>
-              <CardTitle>Exam body</CardTitle>
+              <CardTitle>Syllabus (exam body)</CardTitle>
+              <CardDescription>
+                Start here so subject and grade options stay valid for your school.
+              </CardDescription>
               <div className="mt-4 flex flex-col gap-3">
                 {EXAM_BODY_OPTIONS.map((opt) => (
                   <RadioOption
@@ -443,7 +458,7 @@ export function WizardShell({
               <CardTitle>Subject</CardTitle>
               {!data.examBody ? (
                 <p className="mt-4 text-base text-muted-foreground">
-                  Choose an exam body first.
+                  Choose a syllabus first.
                 </p>
               ) : availableSubjects.length === 0 ? (
                 <p className="mt-4 text-base text-muted-foreground" role="status">
@@ -492,18 +507,67 @@ export function WizardShell({
               )}
             </div>
             <div>
-              <CardTitle>Term</CardTitle>
+              <CardTitle>Term or cycle</CardTitle>
+              <p className="mt-1 text-base text-muted-foreground">
+                Some schools say cycle instead of term (about four cycles a year).
+                Choose the matching period.
+              </p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {(["1", "2", "3", "4"] as const).map((term) => (
-                  <RadioOption
-                    key={term}
-                    name="term"
-                    checked={data.term === term}
-                    onChange={() => update({ term })}
-                    label={`Term ${term}`}
-                  />
-                ))}
+                {(["1", "2", "3", "4"] as const).map((term) => {
+                  const allowed = isAssessmentTypeAllowedForTerm(
+                    data.assessmentType,
+                    term,
+                  );
+                  return (
+                    <RadioOption
+                      key={term}
+                      name="term"
+                      checked={data.term === term}
+                      onChange={() => selectTerm(term)}
+                      disabled={!allowed}
+                      label={`Term / cycle ${term}`}
+                      description={
+                        allowed
+                          ? undefined
+                          : data.assessmentType
+                            ? assessmentTypeTermReason(data.assessmentType)
+                            : undefined
+                      }
+                    />
+                  );
+                })}
               </div>
+            </div>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className="flex flex-col gap-3">
+            <CardTitle>Choose assessment type</CardTitle>
+            <CardDescription>
+              Types that do not match your term are shown but turned off, with a
+              short reason.
+            </CardDescription>
+            <div className="mt-4 flex flex-col gap-3" role="radiogroup" aria-label="Assessment type">
+              {ASSESSMENT_TYPES.map((opt) => {
+                const allowed = isAssessmentTypeAllowedForTerm(opt.value, data.term);
+                return (
+                  <RadioOption
+                    key={opt.value}
+                    name="assessmentType"
+                    checked={data.assessmentType === opt.value}
+                    disabled={!allowed}
+                    onChange={() => {
+                      if (!allowed) return;
+                      update({ assessmentType: opt.value });
+                    }}
+                    label={opt.label}
+                    description={
+                      allowed ? opt.description : assessmentTypeTermReason(opt.value)
+                    }
+                  />
+                );
+              })}
             </div>
           </div>
         )}
@@ -582,22 +646,43 @@ export function WizardShell({
               onChange={(e) =>
                 update({ durationMinutes: Number(e.target.value) || 0 })
               }
+              hint="A common school rule is about 50 marks per hour. Class tests are often 40 marks in 45 minutes."
             />
             <div>
               <p className="text-lg font-medium">Difficulty</p>
               <div className="mt-3 flex flex-col gap-3">
-                {(
-                  [
-                    { value: "easy", label: "Easier", description: "More accessible questions" },
-                    { value: "balanced", label: "Balanced", description: "Mix of levels" },
-                    { value: "challenging", label: "Challenging", description: "Stretch learners" },
-                  ] as const
+                {(usesMathsCognitiveLevels(data.subject)
+                  ? ([
+                      {
+                        value: "match_cognitive",
+                        label: "Match the cognitive levels",
+                        description:
+                          "Department standard: Knowledge 20%, Routine 35%, Complex 30%, Problem solving 15%.",
+                      },
+                      { value: "easy", label: "Easier", description: "More accessible questions" },
+                      { value: "balanced", label: "Balanced", description: "Mix of levels" },
+                      { value: "challenging", label: "Challenging", description: "Stretch learners" },
+                    ] as const)
+                  : ([
+                      { value: "balanced", label: "Balanced", description: "Default for formal papers" },
+                      { value: "easy", label: "Easier", description: "More accessible questions" },
+                      { value: "challenging", label: "Challenging", description: "Stretch learners" },
+                    ] as const)
                 ).map((opt) => (
                   <RadioOption
                     key={opt.value}
                     name="difficulty"
                     checked={data.difficulty === opt.value}
-                    onChange={() => update({ difficulty: opt.value as Difficulty })}
+                    onChange={() => {
+                      if (opt.value === "match_cognitive") {
+                        update({
+                          difficulty: opt.value,
+                          mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE },
+                        });
+                        return;
+                      }
+                      update({ difficulty: opt.value as Difficulty });
+                    }}
                     label={opt.label}
                     description={opt.description}
                   />
@@ -648,6 +733,7 @@ export function WizardShell({
                           min={0}
                           max={100}
                           value={data.mathsCognitive[level]}
+                          disabled={data.difficulty === "match_cognitive"}
                           onChange={(e) =>
                             update({
                               mathsCognitive: {
@@ -656,7 +742,7 @@ export function WizardShell({
                               },
                             })
                           }
-                          className="min-h-12 w-24 rounded-lg border-2 border-border px-3 text-lg"
+                          className="min-h-12 w-24 rounded-lg border-2 border-border px-3 text-lg disabled:bg-muted"
                           aria-label={`${MATHS_COGNITIVE_LABELS[level].label} percentage`}
                         />
                         <span className="text-lg">%</span>
@@ -679,16 +765,24 @@ export function WizardShell({
                     ? " — must equal 100% (whole numbers only)"
                     : ""}
                 </p>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="mt-3"
-                  onClick={() =>
-                    update({ mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE } })
-                  }
-                >
-                  Reset to department standard (20 / 35 / 30 / 15)
-                </Button>
+                {data.difficulty === "match_cognitive" ? (
+                  <p className="mt-3 text-base text-muted-foreground">
+                    Percentages are locked to the department standard because you
+                    chose “Match the cognitive levels”. Change difficulty on the
+                    previous screen to edit them.
+                  </p>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="mt-3"
+                    onClick={() =>
+                      update({ mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE } })
+                    }
+                  >
+                    Reset to department standard (20 / 35 / 30 / 15)
+                  </Button>
+                )}
               </div>
             )}
 
@@ -716,7 +810,7 @@ export function WizardShell({
 
             {!data.subject && (
               <p className="text-base text-muted-foreground">
-                Choose a subject in step 2 to see cognitive level options.
+                Choose a subject in step 1 to see cognitive level options.
               </p>
             )}
 
@@ -774,7 +868,14 @@ export function WizardShell({
               {(
                 [
                   { key: "includeMcq" as const, label: "Include multiple choice questions" },
-                  { key: "includeCalculator" as const, label: "Allow calculator where appropriate" },
+                  ...(usesMathsCognitiveLevels(data.subject)
+                    ? [
+                        {
+                          key: "includeCalculator" as const,
+                          label: "Allow calculator where appropriate",
+                        },
+                      ]
+                    : []),
                   {
                     key: "includeDiagrams" as const,
                     label: usesBloomTaxonomy(data.subject)

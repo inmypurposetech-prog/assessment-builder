@@ -201,6 +201,22 @@
 - **Rejected alternatives:** Dockerise now; move to a Droplet for “real” hosting; invent a Postgres functions layer before query pain; rebuild as a split API+SPA for MVP.  
 - **Disciplines consulted:** Tech Architect, DevOps, DBA, PO, Backend.
 
+## ADR-018 — Parent Session One backlog: gap-fill, method memos, IEB Q1, LS ZIP, wizard rules
+
+- **Status:** Accepted  
+- **Date:** 2026-08-18  
+- **Context:** Dad (30 Jul) and Mom (9 Aug) both said they would use the workflow again, but bank shortfall, answer-only memos, a flat LS paper (no IEB Question 1), a single LS PDF blob, and silent term↔type combos blocked trust.  
+- **Decision:**  
+  1. **Gap-fill always runs on mark shortfall** — cheap model when configured; otherwise original **draft** items labelled for teacher review so a thin pack is not a normal state (supersedes ADR-012 “AI hook no-ops until a key is set” for the empty-pack outcome).  
+  2. **Memos are marking guidelines** — ticks + mark awards beside points; question then answer on LS; Maths method steps before a final-answer line.  
+  3. **IEB LS architecture** — objective `itemType` (MCQ / terminology / matching) numbered **1.1, 1.2…**, then longer Question 2+.  
+  4. **Life Sciences export** is a **ZIP of three PDFs** (paper / marking guideline / Bloom), matching Dad’s separate-files pack. ADR-014 single-PDF LS export is superseded for the download CTA.  
+  5. **Wizard:** syllabus → subject → grade → term → type; invalid term↔type combos are disabled with a reason; Maths **Match the cognitive levels** locks 20/35/30/15; hide calculator on Life Sciences.  
+  6. **Phase 2 harden:** GitHub Actions `lint` + `test` + `build`; Vitest for validators; in-memory generate/export rate limit; `/privacy` draft.  
+- **Consequences:** Teachers still must edit drafts; pixel template fidelity remains Phase 6; Sentry and account-delete stay later.  
+- **Rejected alternatives:** Leave shortfall as a caution; keep one LS PDF; silently hide invalid types; wait for an API key before filling marks.  
+- **Disciplines consulted:** PO, UX, QA, Tech Architect, Legal (privacy draft).
+
 ## Template for new ADRs
 
 ```markdown
