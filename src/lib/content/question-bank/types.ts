@@ -23,6 +23,9 @@ export interface SeedQuestion {
   source: string;
   assessmentType: string;
   language: "en";
+  /** Life Sciences paper architecture (IEB Q1 objective items). */
+  itemType?: "mcq" | "terminology" | "matching" | "extended";
+  options?: string[];
 }
 
 export function filterSeedQuestions(

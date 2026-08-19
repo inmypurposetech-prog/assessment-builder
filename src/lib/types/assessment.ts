@@ -18,7 +18,7 @@ export type AssessmentType =
 
 export type ScopeMode = "topics" | "term" | "previous_paper" | "custom_mix";
 
-export type Difficulty = "easy" | "balanced" | "challenging";
+export type Difficulty = "easy" | "balanced" | "challenging" | "match_cognitive";
 
 export type BloomFocus = "balanced" | "higher_order" | "application" | "knowledge";
 
@@ -63,7 +63,7 @@ export const defaultWizardData: AssessmentWizardData = {
   previousPaperRef: "",
   totalMarks: 50,
   durationMinutes: 60,
-  difficulty: "balanced",
+  difficulty: "match_cognitive",
   bloomFocus: "balanced",
   mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE },
   includeDiagrams: false,

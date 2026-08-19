@@ -8,6 +8,7 @@ export const SUBJECT_LABELS: Record<Subject, string> = {
 export const TOPICS_BY_SUBJECT: Record<Subject, string[]> = {
   Mathematics: [
     "Algebra and equations",
+    "Equations and inequalities",
     "Functions and graphs",
     "Finance and growth",
     "Probability",
@@ -27,6 +28,7 @@ export const TOPICS_BY_SUBJECT: Record<Subject, string[]> = {
     "Photosynthesis and respiration",
     "DNA and genetics",
     "Evolution",
+    "Human reproduction",
     "Human impact on the environment",
     "Endocrine and nervous systems",
   ],

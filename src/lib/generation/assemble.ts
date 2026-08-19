@@ -26,11 +26,13 @@ import type {
   GenerationCostMeta,
   MathsTaxonomyReport,
 } from "@/lib/generation/types";
+import { applyPaperNumbering } from "@/lib/generation/paper-numbering";
 import type { AssessmentWizardData } from "@/lib/types/assessment";
 
 const DIFFICULTY_RANK: Record<AssessmentWizardData["difficulty"], number> = {
   easy: 0,
   balanced: 1,
+  match_cognitive: 1,
   challenging: 2,
 };
 
@@ -49,6 +51,7 @@ function toAssembled(
 ): AssembledQuestion[] {
   return seeds.map((seed, index) => ({
     number: index + 1,
+    displayNumber: String(index + 1),
     bankId: seed.id,
     topic: seed.topic,
     marks: seed.marks,
@@ -58,6 +61,8 @@ function toAssembled(
     bloomLevel: seed.bloomLevel,
     aim: seed.aim,
     source: seed.source,
+    itemType: seed.itemType,
+    options: seed.options,
   }));
 }
 
@@ -193,10 +198,6 @@ function selectMathsQuestions(
 
   if (selected.length === 0) {
     warnings.push("Could not select any Mathematics questions from the bank.");
-  } else if (marksSoFar < targetTotal) {
-    warnings.push(
-      `Bank shortfall: assembled ${marksSoFar} of ${targetTotal} marks (AI gap-fill not applied).`,
-    );
   }
 
   return { selected, warnings };
@@ -211,8 +212,13 @@ function selectLifeSciencesQuestions(
   const sorted = sortByDifficultyPreference(pool, wizard.difficulty);
 
   const preferredFirst = [
-    ...sorted.filter((q) => q.bloomLevel && preferred.has(q.bloomLevel)),
-    ...sorted.filter((q) => !q.bloomLevel || !preferred.has(q.bloomLevel)),
+    ...sorted.filter((q) => q.itemType && q.itemType !== "extended"),
+    ...sorted.filter((q) => q.bloomLevel && preferred.has(q.bloomLevel) && (!q.itemType || q.itemType === "extended")),
+    ...sorted.filter(
+      (q) =>
+        (!q.itemType || q.itemType === "extended") &&
+        (!q.bloomLevel || !preferred.has(q.bloomLevel)),
+    ),
   ];
 
   const selected: SeedQuestion[] = [];
@@ -235,10 +241,6 @@ function selectLifeSciencesQuestions(
 
   if (selected.length === 0) {
     warnings.push("Could not select any Life Sciences questions from the bank.");
-  } else if (marksSoFar < targetTotal) {
-    warnings.push(
-      `Bank shortfall: assembled ${marksSoFar} of ${targetTotal} marks (AI gap-fill not applied).`,
-    );
   }
 
   const missingBloom = selected.filter((q) => !q.bloomLevel);
@@ -309,7 +311,11 @@ export interface AssembleInput {
  * Memo is always derived from the locked selection.
  */
 export function assembleAssessment(input: AssembleInput): GeneratedAssessment {
-  const { assessmentId, title, wizard, bank, cost } = input;
+  const { assessmentId, title, bank, cost } = input;
+  const wizard =
+    input.wizard.difficulty === "match_cognitive"
+      ? { ...input.wizard, mathsCognitive: { ...DEFAULT_MATHS_COGNITIVE } }
+      : input.wizard;
   const warnings: string[] = [];
 
   if (!wizard.subject || !wizard.grade || !wizard.examBody) {
@@ -332,16 +338,43 @@ export function assembleAssessment(input: AssembleInput): GeneratedAssessment {
 
   if (input.aiFilled && input.aiFilled.length > 0) {
     const used = new Set(selected.map((q) => q.id));
+    let marksSoFar = sumMarks(selected);
+    const targetTotal = wizard.totalMarks;
     for (const q of input.aiFilled) {
       if (used.has(q.id)) continue;
+      if (marksSoFar >= targetTotal) break;
+      if (marksSoFar + q.marks > targetTotal + 3) continue;
       selected.push(q);
       used.add(q.id);
+      marksSoFar += q.marks;
     }
   }
 
-  const questions = toAssembled(selected);
+  const questions = applyPaperNumbering(toAssembled(selected), wizard.subject);
   const memoItems = deriveMemoFromQuestions(questions, bankMap([...bank, ...selected]));
   const totalMarksActual = sumMarks(questions);
+
+  if (selected.some((q) => q.source.startsWith("Draft gap-fill"))) {
+    warnings.push(
+      "Draft questions were added so the paper meets your mark total. Review and edit them before you take this to a moderator.",
+    );
+  }
+
+  if (questions.length > 0) {
+    const filtered = warnings.filter(
+      (w) =>
+        !w.startsWith("Could not select") &&
+        !w.startsWith("No seed questions"),
+    );
+    warnings.length = 0;
+    warnings.push(...filtered);
+  }
+
+  if (questions.length > 0 && totalMarksActual < wizard.totalMarks) {
+    warnings.push(
+      `Still ${wizard.totalMarks - totalMarksActual} marks short of your ${wizard.totalMarks}-mark target after gap-fill.`,
+    );
+  }
 
   const taxonomy =
     wizard.subject === "Mathematics"

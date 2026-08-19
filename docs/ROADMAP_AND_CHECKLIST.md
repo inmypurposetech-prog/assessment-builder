@@ -3,7 +3,7 @@
 > **Purpose:** The plan you follow from “bootstrap done” → parents using MVP → public users → iterative features.  
 > **Pair with:** [`NORTH_STAR.md`](./NORTH_STAR.md) · [`DOCUMENTATION_INDEX.md`](./DOCUMENTATION_INDEX.md) · [`learning/RUNBOOK.md`](./learning/RUNBOOK.md)  
 > **In Cursor:** `@docs/ROADMAP_AND_CHECKLIST.md` (+ index / north star) at the start of a new chat.  
-> **Last updated:** 16 July 2026
+> **Last updated:** 18 August 2026
 
 ---
 
@@ -58,7 +58,7 @@ A feature or phase is **not done** until applicable boxes are checked:
 
 - [x] Commit/push documentation system + outstanding app changes to GitHub
 - [ ] Vitest + coverage reporting (Phase 2); link from quality doc
-- [ ] Privacy policy page (Phase 2–4)
+- [x] Privacy policy page (Phase 2–4) — draft at `/privacy`
 - [ ] ADR when enabling product analytics
 - [x] Production smoke / Auth path documented (optional: re-confirm Table Editor row + LS save)
 - [x] Branch-first + draft PR standard (ADR-010)
@@ -125,8 +125,8 @@ Same as above, plus:
 
 ```text
 Phase 0  Foundation & hygiene          ← EXITED 11 July 2026
-Phase 1  Parent MVP (generate+export)  ← IN PROGRESS — Dad + Mom Session One done; fidelity / bank backlog open
-Phase 2  Parent pilot & harden
+Phase 1  Parent MVP (generate+export)  ← EXITED 18 Aug 2026 — Session One DoD met; fidelity iterate in Phase 6
+Phase 2  Parent pilot & harden         ← IN PROGRESS — CI/Vitest/privacy/rate-limit shipped; 2–3 more real papers still open
 Phase 3  Closed beta (other educators)
 Phase 4  Public launch (Teacher tier)
 Phase 5  School templates & sharing
@@ -230,7 +230,7 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 - [x] Dad completes one June-style cycle/exam draft and downloads DOCX pack — Session One 30 Jul 2026 ([`quality/DAD_SESSION_ONE_2026-07-30.md`](./quality/DAD_SESSION_ONE_2026-07-30.md))
 - [x] Mom completes one LS cycle-test-style draft and downloads PDF — Session One 9 Aug 2026 ([`quality/MOM_SESSION_ONE_2026-08-09.md`](./quality/MOM_SESSION_ONE_2026-08-09.md))
 - [x] Both say they would try it again (even if formatting isn’t perfect yet) — **Dad: Yes**; **Mom: Yes**
-- [ ] **Documentation Gate** complete (ADRs for AI/export choices, RUNBOOK learnings, quality test log, architecture overview updated for generate/export pipelines) — Dad + Mom Session One logged; fidelity / bank / IEB structure ADR iterate still open
+- [x] **Documentation Gate** complete (ADRs for AI/export choices, RUNBOOK learnings, quality test log, architecture overview updated for generate/export pipelines) — ADR-018 parent Session One backlog; fidelity iterate still open (Phase 6)
 
 ---
 
@@ -262,20 +262,20 @@ Full script: [`quality/TESTING_AND_ANALYTICS.md`](./quality/TESTING_AND_ANALYTIC
 
 ### Quality & safety
 
-- [ ] Privacy policy draft (no learner PII in MVP)
+- [x] Privacy policy draft (no learner PII in MVP) — `/privacy` + COMPLIANCE
 - [ ] Account delete path
 - [ ] Error monitoring (e.g. Sentry free tier)
 - [ ] Logging for generation failures (no secrets in logs)
 - [ ] Backup awareness: Supabase backups / export assessments JSON
 - [ ] **InfoSec checklist** — Phase 2 section in [`quality/SECURITY_AND_THREAT_MODEL.md`](./quality/SECURITY_AND_THREAT_MODEL.md) (RLS audit, adversarial hour, rate limits)
-- [ ] CI lint + build on PR (ADR-015) — catch AI-introduced breakages early
+- [x] CI lint + build on PR (ADR-015) — catch AI-introduced breakages early
 
 ### Engineering hardening
 
-- [ ] CI: `npm run lint` + `npm run build` on PR
-- [ ] Basic tests: cognitive total validator, title builder, auth error messages (Vitest)
+- [x] CI: `npm run lint` + `npm run build` on PR
+- [x] Basic tests: cognitive total validator, title builder, auth error messages (Vitest)
 - [ ] Playwright happy-path smoke when automating E2E (KaneAI deferred — ADR-015)
-- [ ] Rate limit generation API
+- [x] Rate limit generation API
 - [x] Loading / empty / error states reviewed for 50s+ UX (see `design/UX_AND_ACCESSIBILITY.md` standards from Phase 0 smoke)
 - [x] Wizard polish: always-visible back link; scroll+focus on step change; login busy until dashboard
 - [x] Curriculum cascade matrix (exam body → subject → grade availability)
@@ -461,7 +461,7 @@ Safe when the PR is merged: a squash merge keeps the **tree** on `main` even if 
 
 ### CI/CD (add in Phase 2)
 
-- [ ] GitHub Action: install → lint → build on pull request
+- [x] GitHub Action: install → lint → build on pull request
 - [x] Vercel auto-deploy `main`
 - [ ] Protect `main` (optional): require CI green
 
@@ -478,7 +478,7 @@ Safe when the PR is merged: a squash merge keeps the **tree** on `main` even if 
 - [x] Generation API checks session
 - [x] Export API checks session (Phase 1D)
 - [x] Template upload: session + RLS + private Storage path prefix (Phase 1E / ADR-016)
-- [ ] Generation rate limits
+- [x] Generation rate limits
 - [ ] POPIA-minded: no learner marks/PII in MVP (product rule; remind on template upload)
 - [ ] Redirect URLs allowlist (localhost + production domain) — re-confirm after auth changes
 - [ ] Lightweight adversarial / pen-test hour before closed beta
@@ -558,12 +558,12 @@ Tick the highest phase you’ve **exited**:
 - [x] Discovery / north star  
 - [x] Documentation system (disciplines + learning runbook + doc gate)  
 - [x] Phase 0 complete (hygiene + deploy + doc gate) — 11 July 2026  
-- [ ] Phase 1 complete (parent MVP generate+export) — 1A–1E built; DoD = parent “use again?”  
+- [x] Phase 1 complete (parent MVP generate+export) — 18 Aug 2026; DoD = parent “use again?”  
 - [ ] Phase 2 complete (pilot hardened)  
 - [ ] Phase 3 complete (closed beta)  
 - [ ] Phase 4 complete (public users)  
 - [ ] Phase 5 complete (school templates)  
 - [ ] Phase 6 ongoing (iteration)
 
-**Next action right now:** Run **[`quality/PARENT_PILOT_SESSION_ONE.md`](./quality/PARENT_PILOT_SESSION_ONE.md)** Script B with **Mom**. Then tackle Dad backlog in [`quality/DAD_SESSION_ONE_2026-07-30.md`](./quality/DAD_SESSION_ONE_2026-07-30.md) (method-mark memos, bank depth, Match cognitive levels, export fidelity).
+**Next action right now:** Run two more real papers with Dad and Mom (Phase 2 protocol). Chase sample wishlist in `parent-samples/README.md`. Pixel template fidelity stays Phase 6.
 

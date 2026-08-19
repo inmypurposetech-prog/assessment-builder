@@ -4,6 +4,7 @@ import {
   exportRequestSchema,
   isGeneratedAssessment,
 } from "@/lib/export";
+import { assertUserRateLimit } from "@/lib/generation/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
@@ -16,6 +17,16 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json({ error: "Sign in required." }, { status: 401 });
+  }
+
+  try {
+    assertUserRateLimit(user.id, { action: "export", max: 12, windowMs: 60_000 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Too many requests.";
+    return NextResponse.json(
+      { error: message, code: "RATE_LIMIT" },
+      { status: 429 },
+    );
   }
 
   let body: unknown;

@@ -60,7 +60,7 @@ src/lib/actions/         # Server actions (assessments, templates)
 src/lib/constants/       # Subjects, cognitive levels, Bloom, export defaults
 src/lib/content/         # Template packs, taxonomy patterns, seed question bank
 src/lib/generation/      # Assemble / memo / cost / AI gap-fill hook
-src/lib/export/          # Maths DOCX pack + Life Sciences PDF builders
+src/lib/export/          # Maths DOCX pack + Life Sciences PDF ZIP builders
 src/lib/types/           # Domain types
 src/proxy.ts             # Auth refresh + route protection
 supabase/migrations/     # Source of truth for schema
@@ -74,7 +74,7 @@ supabase/migrations/     # Source of truth for schema
 | `constants/bloom-levels.ts` | LS Bloom + IEB AIM targets from analysis grids |
 | `content/template-packs/maths-gde-june-p2.ts` | Dad June P2 pack layout notes (paper / memo / answer book) |
 | `content/taxonomy/ieb-ls-analysis-grid.ts` | Mom IEB grid column model + target % |
-| `content/question-bank/` | Original seed items (25 Maths + 24 LS) for assembly |
+| `content/question-bank/` | Original seed items (Maths + LS, including IEB Q1 objective items) for assembly |
 
 ### Generation layer (Phase 1B)
 
@@ -102,8 +102,8 @@ supabase/migrations/     # Source of truth for schema
 | Module | Role |
 |--------|------|
 | `export/maths-docx.ts` | Dad-style DOCX: paper, memo (K/R/C/P), answer book, CAPS summary |
-| `export/life-sciences-pdf.ts` | Mom-style PDF: 12pt, 1.5 spacing, lined blanks, Bloom sheet |
-| `export/build-pack.ts` | Subject → ZIP (Maths) or PDF (LS) |
+| `export/life-sciences-pdf.ts` | Mom-style PDFs: 12pt, 1.5 spacing, lined blanks, Bloom sheet |
+| `export/build-pack.ts` | Subject → ZIP (Maths DOCX pack or LS three PDFs) |
 | `app/api/export/route.ts` | Session-checked POST → binary download |
 | `ExportDownloadButton` | Save draft → fetch export → browser download (busy until start) |
 

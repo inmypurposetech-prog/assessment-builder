@@ -33,7 +33,7 @@ This is **not** legal advice. When in doubt (especially school contracts or paid
 
 ### Phase 2 (parent pilot)
 
-- [ ] Privacy policy **draft** (what we store, Supabase/Vercel regions, no learner PII)  
+- [x] Privacy policy **draft** (what we store, Supabase/Vercel regions, no learner PII) — `/privacy`  
 - [ ] Account delete / data erase path (Support-operable)  
 - [ ] Remind parents: do not upload learner-identifying scripts into notes fields  
 

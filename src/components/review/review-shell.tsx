@@ -19,6 +19,7 @@ import {
 } from "@/lib/content/question-bank";
 import {
   evaluateProudToPresent,
+  questionLabel,
   recomputeGeneratedAssessment,
 } from "@/lib/generation";
 import type {
@@ -52,6 +53,7 @@ type EditDraft = {
 function seedToAssembled(seed: SeedQuestion, number: number): AssembledQuestion {
   return {
     number,
+    displayNumber: String(number),
     bankId: seed.id,
     topic: seed.topic,
     marks: seed.marks,
@@ -61,6 +63,8 @@ function seedToAssembled(seed: SeedQuestion, number: number): AssembledQuestion 
     bloomLevel: seed.bloomLevel,
     aim: seed.aim,
     source: seed.source,
+    itemType: seed.itemType,
+    options: seed.options,
   };
 }
 
@@ -284,7 +288,7 @@ export function ReviewShell({
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <CardTitle className="text-xl">
-                      Question {q.number}{" "}
+                      Question {questionLabel(q)}{" "}
                       <span className="font-normal text-muted-foreground">
                         ({q.marks} marks)
                       </span>
@@ -332,18 +336,25 @@ export function ReviewShell({
                     <p className="whitespace-pre-wrap text-lg leading-relaxed">
                       {q.questionText}
                     </p>
+                    {q.options && q.options.length > 0 ? (
+                      <ul className="list-none space-y-1 pl-1 text-lg">
+                        {q.options.map((option) => (
+                          <li key={option}>{option}</li>
+                        ))}
+                      </ul>
+                    ) : null}
                     {memo ? (
                       <div className="rounded-lg border border-border bg-white/60 p-4">
-                        <p className="text-base font-semibold">Marking memo</p>
-                        <p className="mt-2 whitespace-pre-wrap text-base">
-                          {memo.memoAnswer || (
-                            <span className="text-red-700">Missing answer</span>
-                          )}
+                        <p className="text-base font-semibold">Marking guideline</p>
+                        <p className="mt-2 text-base text-muted-foreground">
+                          Ticks are method / mark points. Award beside each tick.
                         </p>
                         {memo.markingPoints.length > 0 ? (
-                          <ul className="mt-3 list-disc space-y-1 pl-5 text-base">
+                          <ul className="mt-3 list-none space-y-1 text-base">
                             {memo.markingPoints.map((point) => (
-                              <li key={point}>{point}</li>
+                              <li key={point}>
+                                {point.startsWith("✓") ? point : `✓ ${point}`}
+                              </li>
                             ))}
                           </ul>
                         ) : (
@@ -351,6 +362,12 @@ export function ReviewShell({
                             No marking points
                           </p>
                         )}
+                        <p className="mt-3 whitespace-pre-wrap text-base">
+                          <span className="font-semibold">Final answer: </span>
+                          {memo.memoAnswer || (
+                            <span className="text-red-700">Missing answer</span>
+                          )}
+                        </p>
                       </div>
                     ) : null}
                   </>
@@ -631,8 +648,8 @@ function ExportSection({
       </h2>
       <p className="mt-2 text-lg text-muted-foreground">
         {isMaths
-          ? "Mathematics downloads a ZIP shaped like a GDE-style department pack: question paper, memorandum (K/R/C/P codes), answer book, and CAPS cognitive summary."
-          : "Life Sciences downloads one PDF: question paper with lined answer space, memorandum, and Bloom summary — Arial-style 12pt, 1.5 line spacing."}
+          ? "Mathematics downloads a ZIP shaped like a GDE-style department pack: question paper, memorandum (K/R/C/P method marks), answer book, and CAPS cognitive summary."
+          : "Life Sciences downloads a ZIP of three PDFs: question paper with lined answer space, marking guideline (question then answer), and Bloom analysis — Arial-style 12pt, 1.5 line spacing."}
       </p>
       {!proudReady ? (
         <p className="mt-3 text-base text-amber-950" role="status">

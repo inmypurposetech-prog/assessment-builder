@@ -17,6 +17,11 @@ import {
   MATHS_COGNITIVE_LEVEL_ORDER,
 } from "@/lib/constants/cognitive-levels";
 import type { GeneratedAssessment, MathsTaxonomyReport } from "@/lib/generation/types";
+import {
+  formatMarkingGuidelineLine,
+  paperHasGeometry,
+  questionLabel,
+} from "@/lib/generation/question-label";
 
 const thinBorder = {
   style: BorderStyle.SINGLE,
@@ -92,7 +97,7 @@ export async function buildMathsQuestionPaperDocx(
           new TableCell({
             borders: cellBorders,
             width: { size: 4500, type: WidthType.DXA },
-            children: [body(`Question ${q.number}`)],
+            children: [body(`Question ${questionLabel(q)}`)],
           }),
           new TableCell({
             borders: cellBorders,
@@ -155,7 +160,7 @@ export async function buildMathsQuestionPaperDocx(
           new Paragraph({ spacing: { after: 300 }, children: [] }),
           heading("Questions", HeadingLevel.HEADING_2),
           ...assessment.paper.questions.flatMap((q) => [
-            body(`QUESTION ${q.number}  [${q.marks} marks]`, { bold: true, after: 80 }),
+            body(`QUESTION ${questionLabel(q)}  [${q.marks} marks]`, { bold: true, after: 80 }),
             body(`Topic: ${q.topic}`, { after: 80 }),
             body(q.questionText, { after: 200 }),
           ]),
@@ -181,19 +186,32 @@ export async function buildMathsMemoDocx(
           body("Cognitive codes: K = Knowledge, R = Routine, C = Complex, P = Problem solving", {
             after: 80,
           }),
-          ...pack.memoConventions.notes.map((n) => body(`• ${n}`)),
+          ...pack.memoConventions.notes
+            .filter(
+              (n) =>
+                !n.toLowerCase().startsWith("geometry:") ||
+                paperHasGeometry(assessment.paper.questions),
+            )
+            .map((n) => body(`• ${n}`)),
           new Paragraph({ spacing: { after: 200 }, children: [] }),
           ...assessment.memo.items.flatMap((item) => {
             const q = assessment.paper.questions.find((x) => x.number === item.number);
             return [
               body(
-                `QUESTION ${item.number}  [${item.marks}]  ${item.cognitiveMemoCode ? `(${item.cognitiveMemoCode})` : ""}`,
+                `QUESTION ${questionLabel(item)}  [${item.marks}]  ${item.cognitiveMemoCode ? `(${item.cognitiveMemoCode})` : ""}`,
                 { bold: true, after: 80 },
               ),
-              body(item.memoAnswer || "(No memo answer yet)", { after: 80 }),
-              ...item.markingPoints.map((p, i) =>
-                body(`  ${i + 1}. ${p}${item.cognitiveMemoCode ? `  [${item.cognitiveMemoCode}]` : ""}`),
+              ...(q?.questionText ? [body(q.questionText, { after: 80 })] : []),
+              ...item.markingPoints.map((p) =>
+                body(
+                  formatMarkingGuidelineLine(p, {
+                    bloomOrCognitiveCode: item.cognitiveMemoCode,
+                  }),
+                ),
               ),
+              body(`Final answer: ${item.memoAnswer || "(check method ticks above)"}`, {
+                after: 80,
+              }),
               ...(q?.cognitiveLevel
                 ? [
                     body(
@@ -239,8 +257,8 @@ export async function buildMathsAnswerBookDocx(
           body("Signature: _______________________  Date: ________"),
           new Paragraph({ spacing: { after: 300 }, children: [] }),
           ...assessment.paper.questions.flatMap((q) => [
-            body(`QUESTION ${q.number}  [${q.marks} marks]`, { bold: true, after: 100 }),
-            ...Array.from({ length: Math.min(8, Math.max(3, q.marks)) }, () =>
+            body(`QUESTION ${questionLabel(q)}  [${q.marks} marks]`, { bold: true, after: 100 }),
+            ...Array.from({ length: Math.min(14, Math.max(6, q.marks + 4) ) }, () =>
               blankLine(),
             ),
             body("Marks: ______ / " + q.marks, { after: 240 }),
@@ -331,7 +349,7 @@ export async function buildMathsCognitiveSummaryDocx(
           heading("Per question", HeadingLevel.HEADING_2),
           ...assessment.paper.questions.map((q) =>
             body(
-              `Q${q.number}: ${q.marks} marks · ${
+              `Q${questionLabel(q)}: ${q.marks} marks · ${
                 q.cognitiveLevel
                   ? MATHS_COGNITIVE_LABELS[q.cognitiveLevel].label
                   : "Not set"

@@ -17,7 +17,7 @@ export const SEED_MATHS_QUESTIONS: SeedQuestion[] = [
     questionText:
       "Write down the discriminant formula used to determine the nature of the roots of a quadratic equation ax² + bx + c = 0.",
     memoAnswer: "Δ = b² − 4ac",
-    markingPoints: ["Correct discriminant formula"],
+    markingPoints: ["✓ Correct discriminant formula Δ = b² − 4ac (2)"],
     source: "AssessMate seed bank v1",
     assessmentType: "cycle_test",
     language: "en",
@@ -33,7 +33,10 @@ export const SEED_MATHS_QUESTIONS: SeedQuestion[] = [
     cognitiveLevel: "routine_procedure",
     questionText: "Solve for x: 2x² − 5x − 3 = 0.",
     memoAnswer: "x = 3 or x = −1/2",
-    markingPoints: ["Correct factorisation or quadratic formula", "Both roots"],
+    markingPoints: [
+      "✓ Correct factorisation or substitution into the quadratic formula (2)",
+      "✓ Both roots (1 each if method is shown)",
+    ],
     source: "AssessMate seed bank v1",
     assessmentType: "cycle_test",
     language: "en",

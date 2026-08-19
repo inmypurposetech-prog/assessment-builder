@@ -6,7 +6,7 @@
 > **Learning runbook:** [`learning/RUNBOOK.md`](./learning/RUNBOOK.md)  
 > **Use in Cursor:** Referenced by `.cursor/rules/assessmate-context.mdc` (always applied).  
 > **Update when:** Parent interviews, new templates, scope changes, or major architecture decisions — and whenever the Documentation Gate requires it.  
-> **Last updated:** 9 August 2026 (Mom Session One — see `quality/MOM_SESSION_ONE_2026-08-09.md`; Dad: `quality/DAD_SESSION_ONE_2026-07-30.md`)
+> **Last updated:** 18 August 2026 (parent Session One backlog — gap-fill, IEB Q1, LS ZIP, wizard rules)
 
 ---
 
@@ -75,17 +75,17 @@ Login → Dashboard → Create Assessment → Wizard
   → (optional) My templates — upload private school cover / pack
   → Build my paper (POST /api/generate → structured paper + memo JSON)
   → Review & Edit (/assessments/[id]/review) → Save review
-  → Download for moderation (POST /api/export → Maths DOCX ZIP / LS PDF)
+  → Download for moderation (POST /api/export → Maths DOCX ZIP / LS PDF ZIP)
   → [Later] Email moderator / generate into uploaded binary fidelity
 ```
 
 ### Wizard steps (current)
 
-1. Assessment type (cycle test, exam, etc.)
-2. Curriculum (DBE CAPS | IEB), subject, grade, term
+1. Curriculum (syllabus / exam body, subject, grade, term or cycle)
+2. Assessment type (filtered by term — invalid combos disabled with a reason)
 3. Scope (topics / term / previous paper / custom mix)
-4. Settings (marks, time and difficulty)
-5. Advanced — **subject-aware**: Maths cognitive % **or** Life Sciences Bloom focus; optional **private template** select
+4. Settings (marks, time and difficulty — Maths can **Match the cognitive levels**)
+5. Advanced — **subject-aware**: Maths cognitive % **or** Life Sciences Bloom focus; optional **private template** select; calculator hidden for Life Sciences
 
 Wizard finish offers **Build my paper** (primary) or **Save and finish for now**. Dashboard opens **Review paper** when `generated_content` exists. Dashboard also links **My templates**.
 

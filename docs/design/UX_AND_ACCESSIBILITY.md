@@ -112,8 +112,9 @@ Target mindset: **WCAG 2.2 Level AA** where practical for MVP. Inspired by GOV.U
 - [ ] Shared Empty / Loading / Error components  
 - [x] **Dad Session One (30 Jul 2026) — facilitator follow-ups shipping on `cursor/pilot-ux-dad-notes`:** Get started / full hit targets via `ButtonLink`; no “parents” in teacher copy; school cover wording (not “private school”); Save review next-step links + scroll to download  
 - [x] **Primary ButtonLink contrast (9 Aug 2026):** `@layer base` for global `a` colour so `text-primary-foreground` wins (white on teal)  
-- [ ] **Dad Session One (remaining):** wizard order Subject → exam body → grade → type; primary difficulty = **Match the cognitive levels** (show 20/35/30/15); term disabled when implied by exam type; don’t surface bank-shortfall as a normal happy path  
-- [ ] Memo UX: method-mark steps + separate confirm/edit from question stem (see [`DAD_SESSION_ONE_2026-07-30.md`](../quality/DAD_SESSION_ONE_2026-07-30.md))  
+- [x] **Dad Session One (remaining):** wizard order Subject → exam body → grade → type; primary difficulty = **Match the cognitive levels** (show 20/35/30/15); term disabled when implied by exam type; don’t surface bank-shortfall as a normal happy path  
+- [x] Memo UX: method-mark steps on review + export (confirm-each-question still later — see [`DAD_SESSION_ONE_2026-07-30.md`](../quality/DAD_SESSION_ONE_2026-07-30.md))  
+- [x] **Mom Session One (9 Aug 2026):** LS ZIP of paper / marking guideline / Bloom; IEB Q1 objective numbering; syllabus-first wizard; hide calculator on LS  
 
 ---
 
@@ -129,7 +130,7 @@ Target mindset: **WCAG 2.2 Level AA** where practical for MVP. Inspired by GOV.U
 
 ### 3. Dependent options / empty combinations
 
-**Implemented:** `src/lib/constants/curriculum-matrix.ts` drives subject/grade lists. Changing exam body or subject clears invalid children and shows a plain-language `cascadeNote`. Empty states explain when nothing is available.
+**Implemented:** `src/lib/constants/curriculum-matrix.ts` drives subject/grade lists. `src/lib/constants/assessment-term-matrix.ts` disables invalid term ↔ assessment-type combos with a plain-language reason. Changing exam body or subject clears invalid children and shows a `cascadeNote`. Empty states explain when nothing is available.
 
 To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported options clickable).
 
@@ -155,7 +156,7 @@ To restrict a combo later, edit `SUPPORTED_CURRICULUM` (do not leave unsupported
 
 **Implemented** on the review screen (**Download for moderation**):
 
-- Primary CTA label is subject-aware: **Download Maths pack (DOCX ZIP)** or **Download Life Sciences PDF**.  
+- Primary CTA label is subject-aware: **Download Maths pack (DOCX ZIP)** or **Download Life Sciences pack (PDF ZIP)**.  
 - Button stays `aria-busy` with plain-language status until the browser download starts (save first, then `POST /api/export`).  
 - Proud blockers **warn** but do not hard-block download (teachers stay in control).  
 - Empty paper disables download with an explanation.  

@@ -23,7 +23,7 @@ function filenameFromDisposition(header: string | null, fallback: string): strin
 }
 
 /**
- * Saves the review draft, then downloads Maths ZIP (DOCX pack) or LS PDF.
+ * Saves the review draft, then downloads Maths ZIP (DOCX pack) or LS ZIP (three PDFs).
  * Busy until the file download starts (50s+ UX).
  */
 export function ExportDownloadButton({
@@ -42,11 +42,11 @@ export function ExportDownloadButton({
   const label =
     subject === "Mathematics"
       ? "Download Maths pack (DOCX ZIP)"
-      : "Download Life Sciences PDF";
+      : "Download Life Sciences pack (PDF ZIP)";
   const busyLabel =
     subject === "Mathematics"
       ? "Preparing Maths pack…"
-      : "Preparing PDF…";
+      : "Preparing Life Sciences pack…";
 
   async function handleClick() {
     setError(null);
@@ -81,7 +81,7 @@ export function ExportDownloadButton({
       const fallbackName =
         subject === "Mathematics"
           ? "assessmate-maths-export.zip"
-          : "assessmate-life-sciences.pdf";
+          : "assessmate-life-sciences-export.zip";
       const filename = filenameFromDisposition(
         response.headers.get("Content-Disposition"),
         fallbackName,
@@ -100,7 +100,7 @@ export function ExportDownloadButton({
       setOkMessage(
         subject === "Mathematics"
           ? "Download started — ZIP with question paper, memo, answer book, and cognitive summary."
-          : "Download started — PDF with paper, memo, and Bloom summary (Arial-style 12pt, 1.5 spacing).",
+          : "Download started — ZIP with question paper, marking guideline, and Bloom analysis (Arial-style 12pt, 1.5 spacing).",
       );
       onExported?.();
       setBusy(false);

@@ -77,11 +77,12 @@ Open [http://localhost:3000](http://localhost:3000).
 - Landing page
 - Sign up / log in (Show password; Forgot password → email reset → set new password)
 - Dashboard with saved assessments (**Review paper** or **Build my paper**)
-- 5-step assessment wizard (type → curriculum → scope → settings → advanced)
+- 5-step assessment wizard (curriculum → type → scope → settings → advanced)
 - **Build my paper** → structured generate → review screen
 - Drafts saved to Supabase (**Save and finish for now**)
 - Review: Edit / Replace / Delete questions, live marks + taxonomy, proud-to-present bar
-- **Download for moderation:** Maths DOCX ZIP (paper/memo/answer book/cognitive) or Life Sciences PDF (Arial-style 12pt, 1.5 spacing)
+- **Download for moderation:** Maths DOCX ZIP (paper/memo/answer book/cognitive) or Life Sciences PDF ZIP (paper / marking guideline / Bloom)
+- **Privacy (draft):** `/privacy` — no learner PII in MVP
 - **My templates:** upload a private school cover / pack (PDF, Word, or ZIP) and select it in wizard Advanced (Free soft-cap: 1 pack). Files are educator-owned — do not upload learner PII. Export still uses AssessMate layout builders until fidelity iterates.
 - Structured generate API: `POST /api/generate` with `{ "assessmentId": "<uuid>", "dryRun": true }` (session required)
 - Export API: `POST /api/export` with `{ "assessmentId": "<uuid>" }` (session required; binary download)
@@ -93,7 +94,7 @@ See [docs/workflow-map.md](docs/workflow-map.md) and [docs/ROADMAP_AND_CHECKLIST
 1. Apply migration `004` on cloud Supabase if not yet run
 2. Export fidelity toward Dad/Mom exemplars (and linked template packs)
 3. Parent pilot (Phase 2)
-4. Optional AI gap-fill when provider keys are set
+4. Optional provider AI gap-fill when keys are set (draft fill already covers mark shortfalls)
 
 ## Project structure
 

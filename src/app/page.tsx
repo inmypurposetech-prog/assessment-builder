@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
@@ -77,7 +78,12 @@ export default function HomePage() {
       </main>
 
       <footer className="border-t border-border bg-white py-8 text-center text-base text-muted-foreground">
-        Made for teachers in their 50s and beyond — readable, calm, and clear.
+        <p>Made for teachers in their 50s and beyond — readable, calm, and clear.</p>
+        <p className="mt-2">
+          <Link href="/privacy" className="font-semibold text-primary underline underline-offset-4">
+            Privacy (draft)
+          </Link>
+        </p>
       </footer>
     </div>
   );

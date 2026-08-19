@@ -7,6 +7,7 @@ import {
   deriveMemoFromQuestions,
   sumMarks,
 } from "@/lib/generation/memo";
+import { applyPaperNumbering } from "@/lib/generation/paper-numbering";
 import type {
   AssembledMemoItem,
   AssembledQuestion,
@@ -20,8 +21,10 @@ function bankMap() {
 
 function renumberQuestions(
   questions: AssembledQuestion[],
+  subject: GeneratedAssessment["subject"],
 ): AssembledQuestion[] {
-  return questions.map((q, index) => ({ ...q, number: index + 1 }));
+  const sequential = questions.map((q, index) => ({ ...q, number: index + 1 }));
+  return applyPaperNumbering(sequential, subject);
 }
 
 /**
@@ -38,7 +41,7 @@ export function recomputeGeneratedAssessment(
     memoOverrides?: AssembledMemoItem[];
   },
 ): GeneratedAssessment {
-  const questions = renumberQuestions(draft.paper.questions);
+  const questions = renumberQuestions(draft.paper.questions, draft.subject);
   const totalMarksActual = sumMarks(questions);
 
   let memoItems: AssembledMemoItem[];
@@ -55,6 +58,7 @@ export function recomputeGeneratedAssessment(
         return {
           ...prior,
           number: q.number,
+          displayNumber: q.displayNumber,
           marks: q.marks,
           bankId: q.bankId,
           cognitiveMemoCode: q.cognitiveLevel
@@ -74,6 +78,7 @@ export function recomputeGeneratedAssessment(
     return {
       ...item,
       number: q.number,
+      displayNumber: q.displayNumber,
       marks: q.marks,
       cognitiveMemoCode: derived.cognitiveMemoCode,
       bloomShortCode: derived.bloomShortCode,

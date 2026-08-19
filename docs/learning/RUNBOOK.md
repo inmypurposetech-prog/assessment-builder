@@ -2,7 +2,7 @@
 
 > **Purpose:** Your personal engineering & product journey log — processes you’ve done, what you learned, mistakes, and **follow-up courses/resources**. Use it as a runbook when repeating a task or onboarding your future self.  
 > **Update:** After every non-trivial setup or debugging session (Documentation Gate).  
-> **Last updated:** 9 August 2026 (Mom Session One write-up / R13)
+> **Last updated:** 18 August 2026 (parent Session One backlog / R14)
 
 ---
 
@@ -255,6 +255,13 @@ await fetch('/api/generate', {
 4. Update: ROADMAP Phase 1 DoD ticks · `TESTING_AND_ANALYTICS` log · `parent-interview-notes` · `DOCUMENTATION_INDEX` · `pilot-recordings/README.md` · NORTH_STAR “Last updated”.  
 5. Soft-ask parent for samples per `parent-samples/README.md` wishlist.
 
+### R14 — Gap-fill, export ZIP, CI
+
+1. Generate always fills mark shortfall (draft items if no API key) — teachers must review drafts.  
+2. Life Sciences download is a ZIP of three PDFs (paper / marking guideline / Bloom).  
+3. CI: `.github/workflows/ci.yml` runs `lint`, `test`, `build` (dummy Supabase env on GitHub).  
+4. Local: `npm test` (Vitest).  
+
 ---
 
 ## Learning log
@@ -487,6 +494,13 @@ await fetch('/api/generate', {
 - **Pitfalls:** Raw Whisper mishears product/school names — always rewrite gate answers from context. Recording filename said “Phase 2”; treat as Mom Session One for Phase 1 DoD.  
 - **Shared product signal with Dad:** bank shortfall + “use workflow again / formatting not yet.”  
 - **Discipline lens:** Change, QA, PO, UX.
+
+### 2026-08-18 — Parent Session One product backlog
+
+- **Context:** Both parents would use the workflow; P0s were thin packs, answer-only memos, missing IEB Q1, one LS PDF, wizard term/type.  
+- **Steps that worked:** Draft gap-fill to mark total; method-mark ticks; LS ZIP of three PDFs; term matrix; Vitest + GitHub Actions; `/privacy` draft.  
+- **Pitfalls:** Do not treat draft-filled questions as moderation-ready. Pixel fidelity still Phase 6.  
+- **Discipline lens:** PO, UX, QA, Backend, DevOps.
 
 ### 2026-07-29 — ADR-017 + Parent Pilot Session One
 
